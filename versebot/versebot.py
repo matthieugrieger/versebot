@@ -6,9 +6,14 @@
 import pickle
 import praw
 import time
+import configloader
 
-file = open('kjv.pk1', 'rb')
+configloader.startup()
+
+print('Loading Bible translation...')
+file = open(configloader.getPickle(), 'rb')
 bible = pickle.load(file)
+print('Bible translation successfully loaded!')
 
 def verseReply(book = False, chapter = False, verse = False, com = False):
     verseText = ""
@@ -21,21 +26,22 @@ def verseReply(book = False, chapter = False, verse = False, com = False):
         if com != False:
             com.reply('**' + book + ' ' + str(chapter) + ':' + str(verse) + '**'
                       + '\n>' + verseText)
-            print('Comment posted on ' + time.ctime() + '.')
+            print('\tComment posted on ' + time.ctime() + '.')
             already_done.add(comment.id)
         else:
-            print('No comment was provided.')
+            print('\tNo comment was provided.')
     else:
         return False
 
 r = praw.Reddit(user_agent='VerseBot by /u/mgrieger')
-r.login('bot-username', 'bot-password')
+r.login(configloader.getBotUsername(), configloader.getBotPassword())
 
 already_done = set()
 
 while True:
-    subreddit = r.get_subreddit('desired-subreddit')
-    for submission in subreddit.get_hot(limit = 10):
+    print('Starting next scan...')
+    subreddit = r.get_subreddit(configloader.getSubreddits())
+    for submission in subreddit.get_hot(limit = int(configloader.getScanLimit())):
         flat_comments = praw.helpers.flatten_tree(submission.comments)
         for comment in flat_comments:
             if 'VerseBot:' in comment.body:
