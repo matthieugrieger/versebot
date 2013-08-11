@@ -46,4 +46,4 @@ while True:
                     commenter.constructComment(versesToFind, comment, bible)
                     already_done.add(comment.id)
                 
-    time.sleep(60) # Waits 60 seconds between scans
+    time.sleep(configloader.getScanDelay()) # Waits 60 seconds between scans by default
