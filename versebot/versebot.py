@@ -1,40 +1,36 @@
 #---------------------#
-# VerseBot for Reddit #
+# VerseBot for reddit #
 # By Matthieu Grieger #
 #---------------------#
 
 import pickle
 import praw
-import time
 import configloader
+import commenter
+import time
+import warnings
+from sys import exit
+import re
 
 configloader.startup()
+warnings.filterwarnings("ignore", category=DeprecationWarning) # Ignores DeprecationWarnings caused by PRAW
 
 print('Loading Bible translation...')
-file = open(configloader.getPickle(), 'rb')
-bible = pickle.load(file)
-print('Bible translation successfully loaded!')
+try:
+    file = open(configloader.getPickle(), 'rb')
+    bible = pickle.load(file)
+    print('Bible translation successfully loaded!')
+except:
+    print('Error while loading Bible translation. Make sure config.ini points to a valid .pk1 file.')
+    sys.exit()
 
-def verseReply(book = False, chapter = False, verse = False, com = False):
-    verseText = ""
-    if book and chapter:
-        if verse:
-            verseText = bible[book][chapter][verse]
-        else:
-            for ver in bible[book][chapter]:
-                verseText += (bible[book][chapter][ver] + " ")
-        if com != False:
-            com.reply('**' + book + ' ' + str(chapter) + ':' + str(verse) + '**'
-                      + '\n>' + verseText)
-            print('\tComment posted on ' + time.ctime() + '.')
-            already_done.add(comment.id)
-        else:
-            print('\tNo comment was provided.')
-    else:
-        return False
-
-r = praw.Reddit(user_agent='VerseBot by /u/mgrieger')
-r.login(configloader.getBotUsername(), configloader.getBotPassword())
+print('Connecting to reddit...')
+try:
+    r = praw.Reddit(user_agent='VerseBot by /u/mgrieger. Github: https://github.com/matthieugrieger/versebot')
+    r.login(configloader.getBotUsername(), configloader.getBotPassword())
+    print('Connected!')
+except:
+    print('Connection to reddit failed. Either reddit is down at the moment, or something in the config is incorrect.')
 
 already_done = set()
 
@@ -44,17 +40,10 @@ while True:
     for submission in subreddit.get_hot(limit = int(configloader.getScanLimit())):
         flat_comments = praw.helpers.flatten_tree(submission.comments)
         for comment in flat_comments:
-            if 'VerseBot:' in comment.body:
-                if comment.id not in already_done:
-                    bookBegin = comment.body.find('VerseBot: ') + 10
-                    bookEnd = comment.body.find(' ', bookBegin)
-                    desiredBook = comment.body[bookBegin : bookEnd]
-                    chapterEnd = comment.body.find(':', bookEnd + 1)
-                    desiredChapter = int(comment.body[(bookEnd + 1) : chapterEnd])
-                    desiredVerse = None
-                    if comment.body[chapterEnd + 1] == '.':
-                        desiredVerse = False
-                    else:
-                        desiredVerse = int(comment.body[chapterEnd + 1 : comment.body.find('.', chapterEnd + 1)])
-                    verseReply(book = desiredBook, chapter = desiredChapter, verse = desiredVerse, com = comment)
-    time.sleep(10)
+            if comment.id not in already_done:
+                versesToFind = re.findall(r'(?:\d\s)?\w+\s\d+:?\d*', comment.body) # I love regex.
+                if (len(versesToFind) != 0):
+                    commenter.constructComment(versesToFind, comment, bible)
+                    already_done.add(comment.id)
+                
+    time.sleep(60) # Waits 60 seconds between scans

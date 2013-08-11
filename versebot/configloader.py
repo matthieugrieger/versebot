@@ -1,11 +1,16 @@
 import configparser
+from sys import exit
 
 config = configparser.ConfigParser()
 
 def startup():    
     print('Loading config file...')
-    config.read('config.ini')
-    print('Config file loaded!')
+    try:
+        config.read('config.ini')
+        print('Config file loaded!')
+    except:
+        print('Error while loading config.ini')
+        sys.exit()
 
 def ConfigSectionMap(section):
     dict = {}

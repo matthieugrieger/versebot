@@ -10,12 +10,12 @@ Once PRAW is installed, just load up the .py file in a text editor and make the 
 
 Next, you will want to edit the options for the bot by editing `config.ini`.
 
-Once that's done, run versebot.py and it should be running fine!
+Once that's done, run `versebot.py` and it should be running fine!
 
 ### Triggering the bot
-The correct syntax at the moment for triggering the bot in a Reddit comment is as follows:
-`VerseBot: <desired book of Bible> <desired chapter>:<desired verse>.`
-The syntax will likely be changed a bit in the future.
+The syntax is now less strict than it was in the previous versions. Now, to trigger the bot all you have to do is post the verse in this format:
+
+`<desired book> <desired chapter>:<(optional) desired verse>`
 
 ## Authors
 Matthieu Grieger
