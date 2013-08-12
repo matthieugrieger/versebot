@@ -38,7 +38,7 @@ def getSubreddits():
     return ConfigSectionMap('Options')['subreddits']
 
 def getScanLimit():
-    return ConfigSectionMap('Options')['scan-limit']
+    return int(ConfigSectionMap('Options')['scan-limit'])
 
 def getScanDelay():
-    return ConfigSectionMap('Options')['scan-delay']
+    return int(ConfigSectionMap('Options')['scan-delay'])

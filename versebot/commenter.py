@@ -41,12 +41,12 @@ def lookupPassage(book = False, chapter = False, verse = False, bible = False):
                 startingVerse = verse.partition('-')[0]
                 endingVerse = verse.partition('-')[2]
                 for ver in range(int(startingVerse), int(endingVerse) + 1):
-                    verseText += '[*' + str(ver) + '*] ' + (bible[book][int(chapter)][ver] + ' ')
+                    verseText += '[**' + str(ver) + '**] ' + (bible[book][int(chapter)][ver] + ' ')
             else:
-                verseText = '[*' + verse + '*] ' + bible[book][int(chapter)][int(verse)]
+                verseText = '[**' + verse + '**] ' + bible[book][int(chapter)][int(verse)]
         else:
             for ver in bible[book][int(chapter)]:
-                verseText += '[*' + str(ver) + '*] ' + (bible[book][int(chapter)][ver] + ' ')
+                verseText += '[**' + str(ver) + '**] ' + (bible[book][int(chapter)][ver] + ' ')
         currentComment += verseText
         return True
     else:

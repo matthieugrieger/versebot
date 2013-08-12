@@ -31,13 +31,14 @@ try:
     print('Connected!')
 except:
     print('Connection to reddit failed. Either reddit is down at the moment, or something in the config is incorrect.')
+    sys.exit()
 
 already_done = set()
 
 while True:
     print('Starting next scan...')
     subreddit = r.get_subreddit(configloader.getSubreddits())
-    for submission in subreddit.get_hot(limit = int(configloader.getScanLimit())):
+    for submission in subreddit.get_hot(limit = configloader.getScanLimit()):
         flat_comments = praw.helpers.flatten_tree(submission.comments)
         for comment in flat_comments:
             if comment.id not in already_done:
@@ -47,4 +48,4 @@ while True:
                     already_done.add(comment.id)
                     already_done.add(nextComment)
                 
-    time.sleep(int(configloader.getScanDelay())) # Waits 60 seconds between scans by default
+    time.sleep(configloader.getScanDelay()) # Waits 60 seconds between scans by default
