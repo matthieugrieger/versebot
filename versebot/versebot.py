@@ -41,9 +41,10 @@ while True:
         flat_comments = praw.helpers.flatten_tree(submission.comments)
         for comment in flat_comments:
             if comment.id not in already_done:
-                versesToFind = re.findall(r'(?:\d\s)?\w+\s\d+:?\d*', comment.body) # I love regex.
+                versesToFind = re.findall(r'(?:\d\s)?\w+\s\d+:?\d*-?\d*', comment.body) # I love regex.
                 if (len(versesToFind) != 0):
-                    commenter.constructComment(versesToFind, comment, bible)
+                    nextComment = commenter.constructComment(versesToFind, comment, bible)
                     already_done.add(comment.id)
+                    already_done.add(nextComment)
                 
-    time.sleep(configloader.getScanDelay()) # Waits 60 seconds between scans by default
+    time.sleep(int(configloader.getScanDelay())) # Waits 60 seconds between scans by default
