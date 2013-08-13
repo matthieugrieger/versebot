@@ -1,6 +1,5 @@
 import praw
-import time
-from sys import exit
+from time import ctime
 
 currentComment = ''
 
@@ -12,7 +11,7 @@ def constructComment(commands, comment, bible):
         parseCommand(command, bible)
         currentComment += ' \n\n'
     newComment = comment.reply(currentComment).id
-    print('\tComment posted on ' + time.ctime() + '.')
+    print('\tComment posted on ' + ctime() + '.')
     
     return newComment # Returns comment id of reply to keep bot from replying to itself
 

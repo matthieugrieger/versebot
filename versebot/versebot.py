@@ -6,14 +6,16 @@
 import pickle
 import praw
 import configloader
-import commenter
-import time
-import warnings
+import os
 from sys import exit
-import re
+from warnings import filterwarnings
+from commenter import constructComment
+from time import sleep
+from re import findall
 
 configloader.startup()
-warnings.filterwarnings("ignore", category=DeprecationWarning) # Ignores DeprecationWarnings caused by PRAW
+filterwarnings("ignore", category=DeprecationWarning) # Ignores DeprecationWarnings caused by PRAW
+filterwarnings("ignore", category=ResourceWarning) # Ignores ResourceWarnings when using pickle files. May need to look into this later, but it seems to work fine.
 
 print('Loading Bible translation...')
 try:
@@ -21,8 +23,8 @@ try:
     bible = pickle.load(file)
     print('Bible translation successfully loaded!')
 except:
-    print('Error while loading Bible translation. Make sure config.ini points to a valid .pk1 file.')
-    sys.exit()
+    print('Error while loading Bible translation. Make sure config.ini points to a valid pickle file.')
+    exit()
 
 print('Connecting to reddit...')
 try:
@@ -31,9 +33,14 @@ try:
     print('Connected!')
 except:
     print('Connection to reddit failed. Either reddit is down at the moment, or something in the config is incorrect.')
-    sys.exit()
+    exit()
 
-already_done = set()
+if not os.path.exists('data'): # Makes data folder if it doesn't already exist
+    os.makedirs('data')
+try:
+    comment_ids = pickle.load(open('data/commentids.p', 'rb'))
+except EOFError:
+    comment_ids = set()
 
 while True:
     print('Starting next scan...')
@@ -41,11 +48,12 @@ while True:
     for submission in subreddit.get_hot(limit = configloader.getScanLimit()):
         flat_comments = praw.helpers.flatten_tree(submission.comments)
         for comment in flat_comments:
-            if comment.id not in already_done:
-                versesToFind = re.findall(r'(?:\d\s)?\w+\s\d+:?\d*-?\d*', comment.body) # I love regex.
+            if comment.id not in comment_ids:
+                versesToFind = findall(r'(?:\d\s)?\w+\s\d+:?\d*-?\d*', comment.body) # Uses regex to find verses in comment body
                 if (len(versesToFind) != 0):
-                    nextComment = commenter.constructComment(versesToFind, comment, bible)
-                    already_done.add(comment.id)
-                    already_done.add(nextComment)
+                    nextComment = constructComment(versesToFind, comment, bible)
+                    comment_ids.add(comment.id)
+                    comment_ids.add(nextComment)
+                    pickle.dump(comment_ids, open('data/commentids.p', 'wb')) # Dumps new comment ids to file
                 
-    time.sleep(configloader.getScanDelay()) # Waits 60 seconds between scans by default
+    sleep(configloader.getScanDelay()) # Waits 60 seconds between scans by default

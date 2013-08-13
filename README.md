@@ -1,7 +1,5 @@
 # VerseBot
-
-## What is VerseBot?
-VerseBot is a Reddit bot that quotes Bible verses when asked.
+A reddit bot that is triggered by Bible verse references in reddit comments. It posts the contents of the verse selection as a reply to the comment with the Bible verse reference.
 
 ## Usage
 ### Installation
@@ -13,9 +11,12 @@ Next, you will want to edit the options for the bot by editing `config.ini`.
 Once that's done, run `versebot.py` and it should be running fine!
 
 ### Triggering the bot
-The syntax is now less strict than it was in the previous versions. Now, to trigger the bot all you have to do is post the verse in this format:
+The syntax is now less strict than it was in the previous versions. Here's some examples of ways to trigger the bot:
+* Bible chapter reference (ex. `Psalms 23`)
+* Bible verse range reference (ex. `John 3:16-17`)
+* Bible verse reference (ex. `John 3:16`)
 
-`<desired book> <desired chapter>:<(optional) desired verse>`
+The bot will scan for verse references that follow the form outlined above.
 
 ## Authors
 Matthieu Grieger
