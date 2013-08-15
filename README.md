@@ -6,9 +6,17 @@ A reddit bot that is triggered by Bible verse references in reddit comments. It 
 First, you will want to install PRAW ([Python Reddit API Wrapper](https://github.com/praw-dev/praw)).
 Once PRAW is installed, just load up the .py file in a text editor and make the following changes:
 
-Next, you will want to edit the options for the bot by editing `config.ini`.
+In order to run the bot as-is, you must use [Heroku](https://www.heroku.com/). In order to use Heroku, you must register for an account and install [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
-Once that's done, run `versebot.py` and it should be running fine!
+Once the bot is deployed to Heroku, you must set your environment variables. Below are the required variables that need to be set:
+
+`BIBLE`: File path to your desired Bible pickle file
+`USERNAME`: reddit username of the account you want the bot to run on
+`PASSWORD`: Password of aforementioned reddit account
+`SUBREDDITS`: List of subreddits you want the bot to run on (multiple subreddits can be added if they are separated with + signs)
+
+Refer to the [Heroku config vars documentation](https://devcenter.heroku.com/articles/config-vars) to learn how to set the environment variables.
+
 
 ### Triggering the bot
 The syntax is now less strict than it was in the previous versions. Here's some examples of ways to trigger the bot:
