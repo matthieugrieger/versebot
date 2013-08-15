@@ -13,12 +13,13 @@ from commenter import constructComment
 from time import sleep
 from re import findall
 
+configloader.startup()
 filterwarnings("ignore", category=DeprecationWarning) # Ignores DeprecationWarnings caused by PRAW
 filterwarnings("ignore", category=ResourceWarning) # Ignores ResourceWarnings when using pickle files. May need to look into this later, but it seems to work fine.
 
 print('Loading Bible translation...')
 try:
-    file = open(configloader.getBible(), 'rb')
+    file = open(configloader.getPickle(), 'rb')
     bible = pickle.load(file)
     print('Bible translation successfully loaded!')
 except:
@@ -36,17 +37,15 @@ except:
 
 if not os.path.exists('data'): # Makes data folder if it doesn't already exist
     os.makedirs('data')
-
-comment_ids = None
 try:
-    comment_ids = pickle.load(open(configloader.getCommentIdFile(), 'rb'))
+    comment_ids = pickle.load(open('data/commentids.p', 'rb'))
 except EOFError:
     comment_ids = set()
 
 while True:
     print('Starting next scan...')
     subreddit = r.get_subreddit(configloader.getSubreddits())
-    for submission in subreddit.get_hot(limit = 10):
+    for submission in subreddit.get_hot(limit = configloader.getScanLimit()):
         flat_comments = praw.helpers.flatten_tree(submission.comments)
         for comment in flat_comments:
             if comment.id not in comment_ids:
@@ -55,7 +54,6 @@ while True:
                     nextComment = constructComment(versesToFind, comment, bible)
                     comment_ids.add(comment.id)
                     comment_ids.add(nextComment)
-                    print('Dumping new comment ids to file...')
-                    pickle.dump(comment_ids, open(configloader.getCommentIdFile(), 'wb')) # Dumps new comment ids to file
+                    pickle.dump(comment_ids, open('data/commentids.p', 'wb')) # Dumps new comment ids to file
                 
-    sleep(30) # Waits 30 seconds between scans by default
+    sleep(configloader.getScanDelay()) # Waits 60 seconds between scans by default
