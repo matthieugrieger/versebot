@@ -14,10 +14,16 @@ Once the bot is deployed to Heroku, you must set your environment variables. Bel
 * `USERNAME`: reddit username of the account you want the bot to run on
 * `PASSWORD`: Password of aforementioned reddit account
 * `SUBREDDITS`: List of subreddits you want the bot to run on (multiple subreddits can be added if they are separated with + signs)
-* `COMMENTFILE`: Set this var to `versebot/data/commentids.p`. This is the path to the file where comment ids are dumped.
 
 Refer to the [Heroku config vars documentation](https://devcenter.heroku.com/articles/config-vars) to learn how to set the environment variables.
 
+Lastly, you must setup a Heroku Postgres database for storing comment ids. Go to the [Heroku Postgres addon page](https://addons.heroku.com/heroku-postgresql), choose a plan (dev plan works fine), and add it to your Heroku app.
+
+To setup the database, simply execute this command in GIT Bash:
+
+`$ cat createtable.sql | heroku pg:psql DATABASE_URL`
+
+For the above command to work, you must have [PostgreSQL](http://www.postgresql.org/download/) installed on your computer. Also, you may have to change DATABASE_URL to the environment variable specific to your database. To find it, just type `heroku config` in Git Bash.
 
 ### Triggering the bot
 The syntax is now less strict than it was in the previous versions. Here's some examples of ways to trigger the bot:
