@@ -6,17 +6,15 @@ A reddit bot that is triggered by Bible verse references in reddit comments. It 
 First, you will want to install PRAW ([Python Reddit API Wrapper](https://github.com/praw-dev/praw)).
 Once PRAW is installed, just load up the .py file in a text editor and make the following changes:
 
-In order to run the bot as-is, you must use [Heroku](https://www.heroku.com/). In order to use Heroku, you must register for an account and install [Heroku Toolbelt](https://toolbelt.heroku.com/).
+In order to run the bot as-is, you must use [Heroku](https://www.heroku.com/). In order to use Heroku, you must register an account and install [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
 Once the bot is deployed to Heroku, you must set your environment variables. Below are the required variables that need to be set:
 
-`BIBLE`: File path to your desired Bible pickle file
-
-`USERNAME`: reddit username of the account you want the bot to run on
-
-`PASSWORD`: Password of aforementioned reddit account
-
-`SUBREDDITS`: List of subreddits you want the bot to run on (multiple subreddits can be added if they are separated with + signs)
+* `BIBLE`: File path to your desired Bible pickle file
+* `USERNAME`: reddit username of the account you want the bot to run on
+* `PASSWORD`: Password of aforementioned reddit account
+* `SUBREDDITS`: List of subreddits you want the bot to run on (multiple subreddits can be added if they are separated with + signs)
+* `COMMENTFILE`: Set this var to `versebot/data/commentids.p`. This is the path to the file where comment ids are dumped.
 
 Refer to the [Heroku config vars documentation](https://devcenter.heroku.com/articles/config-vars) to learn how to set the environment variables.
 
