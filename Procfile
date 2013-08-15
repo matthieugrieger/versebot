@@ -1,1 +1,1 @@
-web: python versebot/versebot.py
+worker: python versebot/versebot.py
