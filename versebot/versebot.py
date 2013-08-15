@@ -68,9 +68,15 @@ while True:
                 versesToFind = findall(r'(?:\d\s)?\w+\s\d+:?\d*-?\d*', comment.body) # Uses regex to find verses in comment body
                 if (len(versesToFind) != 0):
                     nextComment = constructComment(versesToFind, comment, bible)
-                    print('Inserting new comment ids to database...')
-                    cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,))
-                    cur.execute("""INSERT INTO commentids VALUES (%s);""", (nextComment,))
-                    conn.commit()
-                    commentsAdded = True
+                    if nextComment != False:
+                        print('Inserting new comment ids to database...')
+                        cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,))
+                        cur.execute("""INSERT INTO commentids VALUES (%s);""", (nextComment,))
+                        conn.commit()
+                        commentsAdded = True
+                    else:
+                        print('Inserting comment id of comment with invalid command...')
+                        cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,)) # Adds comment id with invalid command so it is ignored in the future
+                        conn.commit()
+                        commentsAdded = True
     sleep(30) # Waits 30 seconds between scans by default

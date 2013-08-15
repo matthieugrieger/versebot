@@ -6,19 +6,26 @@ currentComment = ''
 def constructComment(commands, comment, bible):
     global currentComment
     currentComment = ''
+    commentFooter = '\n[[Source Code](https://github.com/matthieugrieger/versebot)] [[Feedback](https://github.com/matthieugrieger/versebot/issues)] [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)]'
     for command in commands:
-        currentComment += ('**' + command.title() + ' (*KJV*)**\n>')
-        parseCommand(command, bible)
-        currentComment += ' \n\n'
-    currentComment += "\n[[Source Code](https://github.com/matthieugrieger/versebot)] [[Feedback](https://github.com/matthieugrieger/versebot/issues)] [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)]"
-    newComment = comment.reply(currentComment).id
-    print('Comment posted on ' + ctime() + '.')
-    
-    return newComment # Returns comment id of reply to keep bot from replying to itself
+        nextCommand = parseCommand(command, bible)
+        if nextCommand != False:
+            currentComment += ('**' + command.title() + ' (*KJV*)**\n>' + nextCommand)
+            currentComment += ' \n\n'
+    currentComment += commentFooter
+    if currentComment != commentFooter:
+        newComment = comment.reply(currentComment).id
+        print('Comment posted on ' + ctime() + '.')
+        return newComment # Returns comment id of reply to keep bot from replying to itself
+    else:
+        return False
 
 def parseCommand(command, bible):
+    global currentComment
     currentChapter = '0'
     currentVerse = '0'
+    validComment = True
+
     if command[0].isdigit():
         currentBook = command[0 : find_nth(command, ' ', 2)].title()
     else:
@@ -31,15 +38,22 @@ def parseCommand(command, bible):
         currentVerse = command[command.find(':') + 1 :]
     else:
         currentChapter = command[command.find(' ') :]
-
     if currentVerse != '0':
-        lookupPassage(currentBook, currentChapter, currentVerse, bible)
+        try:
+            validComment = lookupPassage(currentBook, currentChapter, currentVerse, bible)
+        except KeyError:
+            validComment = False
     else:
-        lookupPassage(currentBook, currentChapter, False, bible)
+        try:
+            validComment = lookupPassage(currentBook, currentChapter, False, bible)
+        except KeyError:
+            validComment = False
+    
+    return validComment
 
 def lookupPassage(book = False, chapter = False, verse = False, bible = False):
     verseText = ''
-    global currentComment
+    currentSelection = ''
 
     if book and chapter:
         if verse:
@@ -53,10 +67,8 @@ def lookupPassage(book = False, chapter = False, verse = False, bible = False):
         else:
             for ver in bible[book][int(chapter)]:
                 verseText += '[**' + str(ver) + '**] ' + (bible[book][int(chapter)][ver] + ' ')
-        currentComment += verseText
-        return True
-    else:
-        return False
+        currentSelection += verseText
+        return currentSelection
 
 def find_nth(str, search, n):
     start = str.find(search)
