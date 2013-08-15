@@ -1,44 +1,25 @@
-import configparser
-from sys import exit
+from os import environ
 
-config = configparser.ConfigParser()
+#global bible, username, password, subreddits, commentfile
 
-def startup():    
-    print('Loading config file...')
-    try:
-        config.read('config.ini')
-        print('Config file loaded!')
-    except:
-        print('Error while loading config.ini')
-        sys.exit()
+#def getEnvVariables(): # Reduces load on Heroku a tiny bit (loads environment variables just once)
+#    bible = environ['BIBLE']
+#    username = environ['USERNAME']
+#    password = environ['PASSWORD']
+#    subreddits = environ['SUBREDDITS']
+#    commentfile = environ['COMMENTFILE']
 
-def ConfigSectionMap(section):
-    dict = {}
-    options = config.options(section)
-    for option in options:
-        try:
-            dict[option] = config.get(section, option)
-            if dict[option] == -1:
-                DebugPrint('Skip: %s' % option)
-        except:
-            print('Exception on %s!' % option)
-            dict[option] = None
-    return dict
-
-def getPickle():
-    return ConfigSectionMap('Options')['pickle']
+def getBible():
+    return environ['BIBLE']
 
 def getBotUsername():
-    return ConfigSectionMap('Options')['bot-username']
+    return environ['USERNAME']
 
 def getBotPassword():
-    return ConfigSectionMap('Options')['bot-password']
+    return environ['PASSWORD']
 
 def getSubreddits():
-    return ConfigSectionMap('Options')['subreddits']
+    return environ['SUBREDDITS']
 
-def getScanLimit():
-    return int(ConfigSectionMap('Options')['scan-limit'])
-
-def getScanDelay():
-    return int(ConfigSectionMap('Options')['scan-delay'])
+def getCommentIdFile():
+    return environ['COMMENTFILE']
