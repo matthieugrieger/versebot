@@ -7,11 +7,14 @@ import pickle
 import praw
 import configloader
 import os
+import psycopg2
+import urllib.parse
 from sys import exit
 from warnings import filterwarnings
 from commenter import constructComment
 from time import sleep
 from re import findall
+from os import environ
 
 filterwarnings("ignore", category=DeprecationWarning) # Ignores DeprecationWarnings caused by PRAW
 filterwarnings("ignore", category=ResourceWarning) # Ignores ResourceWarnings when using pickle files. May need to look into this later, but it seems to work fine.
@@ -34,28 +37,40 @@ except:
     print('Connection to reddit failed. Either reddit is down at the moment, or something in the config is incorrect.')
     exit()
 
-if not os.path.exists('data'): # Makes data folder if it doesn't already exist
-    os.makedirs('data')
+print('Connecting to database...')
+urllib.parse.uses_netloc.append('postgres')
+url = urllib.parse.urlparse(environ['HEROKU_POSTGRESQL_ONYX_URL'])
+conn = psycopg2.connect(
+    database = url.path[1:],
+    user = url.username,
+    password = url.password,
+    host = url.hostname,
+    port = url.port
+)
+cur = conn.cursor()
 
-comment_ids = None
-try:
-    comment_ids = pickle.load(open(configloader.getCommentIdFile(), 'rb'))
-except EOFError:
-    comment_ids = set()
+io = open('tmp.txt', 'w')
+cur.copy_to(io, 'commentids', sep='|')
+io.close()
+commentsAdded = False
 
 while True:
+    if commentsAdded:
+        io = open('tmp.txt', 'w')
+        cur.copy_to(io, 'commentids', sep='|')
+        io.close()
     print('Starting next scan...')
     subreddit = r.get_subreddit(configloader.getSubreddits())
     for submission in subreddit.get_hot(limit = 10):
         flat_comments = praw.helpers.flatten_tree(submission.comments)
         for comment in flat_comments:
-            if comment.id not in comment_ids:
+            if comment.id not in open('tmp.txt').read():
                 versesToFind = findall(r'(?:\d\s)?\w+\s\d+:?\d*-?\d*', comment.body) # Uses regex to find verses in comment body
                 if (len(versesToFind) != 0):
                     nextComment = constructComment(versesToFind, comment, bible)
-                    comment_ids.add(comment.id)
-                    comment_ids.add(nextComment)
-                    print('Dumping new comment ids to file...')
-                    pickle.dump(comment_ids, open(configloader.getCommentIdFile(), 'wb')) # Dumps new comment ids to file
-                
+                    print('Inserting new comment ids to database...')
+                    cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,))
+                    cur.execute("""INSERT INTO commentids VALUES (%s);""", (nextComment,))
+                    conn.commit()
+                    commentsAdded = True
     sleep(30) # Waits 30 seconds between scans by default
