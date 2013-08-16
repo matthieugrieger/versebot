@@ -1,7 +1,16 @@
 from os import environ
 
-def getBible():
-    return environ['BIBLE']
+def getNIV():
+    return environ['NIVBIBLE']
+
+def getESV():
+    return environ['ESVBIBLE']
+
+def getKJV():
+    return environ['KJVBIBLE']
+
+def getNRSV():
+    return environ['NRSVBIBLE']
 
 def getBotUsername():
     return environ['USERNAME']

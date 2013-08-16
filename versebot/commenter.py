@@ -3,14 +3,14 @@ from time import ctime
 
 currentComment = ''
 
-def constructComment(commands, comment, bible):
+def constructComment(commands, comment, bible, translation):
     global currentComment
     currentComment = ''
     commentFooter = '\n[[Source Code](https://github.com/matthieugrieger/versebot)] [[Feedback](https://github.com/matthieugrieger/versebot/issues)] [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)]'
     for command in commands:
         nextCommand = parseCommand(command, bible)
         if nextCommand != False:
-            currentComment += ('**' + command.title() + ' (*KJV*)**\n>' + nextCommand)
+            currentComment += ('**' + command.title() + ' (*' + translation + '*)**\n>' + nextCommand)
             currentComment += ' \n\n'
     currentComment += commentFooter
     if currentComment != commentFooter:

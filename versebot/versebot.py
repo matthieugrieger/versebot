@@ -19,13 +19,19 @@ from os import environ
 filterwarnings("ignore", category=DeprecationWarning) # Ignores DeprecationWarnings caused by PRAW
 filterwarnings("ignore", category=ResourceWarning) # Ignores ResourceWarnings when using pickle files. May need to look into this later, but it seems to work fine.
 
-print('Loading Bible translation...')
+print('Loading Bible translations...')
 try:
-    file = open(configloader.getBible(), 'rb')
-    bible = pickle.load(file)
-    print('Bible translation successfully loaded!')
+    nivfile = open(configloader.getNIV(), 'rb')
+    nivbible = pickle.load(nivfile)
+    esvfile = open(configloader.getESV(), 'rb')
+    esvbible = pickle.load(esvfile)
+    kjvfile = open(configloader.getKJV(), 'rb')
+    kjvbible = pickle.load(kjvfile)
+    nrsvfile = open(configloader.getNRSV(), 'rb')
+    nrsvbible = pickle.load(nrsvfile)
+    print('Bible translations successfully loaded!')
 except:
-    print('Error while loading Bible translation. Make sure config.ini points to a valid pickle file.')
+    print('Error while loading Bible translations. Make sure the environment vars point to correct paths.')
     exit()
 
 print('Connecting to reddit...')
@@ -54,6 +60,18 @@ cur.copy_to(io, 'commentids', sep='|')
 io.close()
 commentsAdded = False
 
+def findTranslation(commentText):
+    if 'niv' in commentText:
+        return nivbible, 'NIV'
+    elif 'esv' in commentText:
+        return esvbible, 'ESV'
+    elif 'kjv' in commentText:
+        return kjvbible, 'KJV'
+    elif 'nrsv' in commentText:
+        return nrsvbible, 'NRSV'
+    else:
+        return esvbible, 'ESV'
+
 while True:
     if commentsAdded:
         io = open('tmp.txt', 'w')
@@ -64,10 +82,12 @@ while True:
     for submission in subreddit.get_hot(limit = 10):
         flat_comments = praw.helpers.flatten_tree(submission.comments)
         for comment in flat_comments:
-            if comment.id not in open('tmp.txt').read():
+            if comment.id not in open('tmp.txt').read() and 'vb' in comment.body.lower():
                 versesToFind = findall(r'(?:\d\s)?\w+\s\d+:?\d*-?\d*', comment.body) # Uses regex to find verses in comment body
                 if (len(versesToFind) != 0):
-                    nextComment = constructComment(versesToFind, comment, bible)
+                    bible = findTranslation(comment.body.lower())[0]
+                    translation = findTranslation(comment.body.lower())[1]
+                    nextComment = constructComment(versesToFind, comment, bible, translation)
                     if nextComment != False:
                         print('Inserting new comment ids to database...')
                         cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,))
