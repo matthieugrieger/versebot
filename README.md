@@ -10,7 +10,10 @@ In order to run the bot as-is, you must use [Heroku](https://www.heroku.com/). I
 
 Once the bot is deployed to Heroku, you must set your environment variables. Below are the required variables that need to be set:
 
-* `BIBLE`: File path to your desired Bible pickle file
+* `NIVBIBLE`: File path to niv.pk1
+* `ESVBIBLE`: File path to esv.pk1
+* `KJVBIBLE`: File path to kjv.pk1
+* `NRSVBIBLE`: File path to nrsv.pk1
 * `USERNAME`: reddit username of the account you want the bot to run on
 * `PASSWORD`: Password of aforementioned reddit account
 * `SUBREDDITS`: List of subreddits you want the bot to run on (multiple subreddits can be added if they are separated with + signs)
