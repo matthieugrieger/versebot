@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### August 22, 2013
+* Added 'mat' (Matthew) to the list of accepted Bible names/abbreviations.
+
 ### August 21, 2013
 * Bot now scans new subreddit comments instead of comments from the top ten hot threads.
 * Bot is now triggered by verse quotations within brackets.
