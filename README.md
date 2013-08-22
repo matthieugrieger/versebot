@@ -1,6 +1,8 @@
 # VerseBot
 A reddit bot that is triggered by Bible verse references in reddit comments. It posts the contents of the verse selection as a reply to the comment with the Bible verse reference.
 
+[See the bot in action!](http://www.reddit.com/user/VerseBot)
+
 ## Usage
 ### Installation
 First, you will want to install PRAW ([Python Reddit API Wrapper](https://github.com/praw-dev/praw)).
