@@ -21,7 +21,7 @@ def constructComment(commands, comment, niv, esv, kjv, nrsv):
     nrsvbible = nrsv
 
     currentComment = ''
-    commentFooter = '\n[[Source Code](https://github.com/matthieugrieger/versebot)] [[Feedback](https://github.com/matthieugrieger/versebot/issues)] [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)]'
+    commentFooter = '\n[[Source Code](https://github.com/matthieugrieger/versebot)] [[Feedback](https://github.com/matthieugrieger/versebot/issues)] [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)] [[What is this/how do I use it?](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq)]'
     for command in commands:
         bookNumber = booknames.getBookNumber(command.lower())
         if bookNumber != False:
