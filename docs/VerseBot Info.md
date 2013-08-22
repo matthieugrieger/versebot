@@ -32,7 +32,7 @@ Here are some examples of _incorrect_ usage of the bot:
 * `[nrsv John 3:16, Genesis 1:1]` (Two verses are being quoted in one bracket pair)
 * `John 3:16` (There are no brackets surrounding the verse)
 
-_Remember, the verse quotation can be located __ANYWHERE__ in your comment!_
+_Remember, the verse quotation can be located **ANYWHERE** in your comment!_
 
 ### What translations of the Bible are supported?
 Currently, VerseBot supports the following translations:
