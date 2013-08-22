@@ -1,55 +1,90 @@
 import praw
 from time import ctime
+from re import findall
+import booknames
+from collections import OrderedDict
 
 currentComment = ''
+bookNumber = 0
 
-def constructComment(commands, comment, bible, translation):
-    global currentComment
+nivbible = OrderedDict()
+esvbible = OrderedDict()
+kjvbible = OrderedDict()
+nrsvbible = OrderedDict()
+
+def constructComment(commands, comment, niv, esv, kjv, nrsv):
+    global currentComment, bookNumber, nivbible, esvbible, kjvbible, nrsvbible
+
+    nivbible = niv
+    esvbible = esv
+    kjvbible = kjv
+    nrsvbible = nrsv
+
     currentComment = ''
     commentFooter = '\n[[Source Code](https://github.com/matthieugrieger/versebot)] [[Feedback](https://github.com/matthieugrieger/versebot/issues)] [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)]'
     for command in commands:
-        nextCommand = parseCommand(command, bible)
-        if nextCommand != False:
-            currentComment += ('**' + command.title() + ' (*' + translation + '*)**\n>' + nextCommand)
-            currentComment += ' \n\n'
+        bookNumber = booknames.getBookNumber(command.lower())
+        if bookNumber != False:
+            nextCommand = parseCommand(command.lower())
+            if nextCommand[0] != False:
+                if nextCommand[2] != '0':
+                    currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ':' + str(nextCommand[2]) + ' (*' + 
+                                       getBibleTranslation(command.lower())[1] + '*)**\n>' + nextCommand[0]) + '\n\n'
+                else:
+                    currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ' (*' + getBibleTranslation(command.lower())[1] +
+                                       '*)**\n>' + nextCommand[0]) + '\n\n'
     currentComment += commentFooter
     if currentComment != commentFooter:
-        newComment = comment.reply(currentComment).id
+        if len(currentComment) <= 2000: # Only posts generated response if it is less than or equal to 2000 characters in length
+            newComment = comment.reply(currentComment).id
+        else:
+            errorMessage = 'Oops! It seems that the verses you tried to quote were too long. Instead, here are links to the verses on BibleGateway!\n\n'
+            for command in commands:
+                linkVerse = '0'
+                linkBook = booknames.getBookTitle(booknames.getBookNumber(command.lower()))
+                linkCommand = parseCommand(command.lower(), True)
+                linkChapter = str(linkCommand[1])
+                linkVerse = str(linkCommand[2])
+                linkTranslation = getBibleTranslation(command.lower())[1]
+                if linkVerse != '0':
+                    errorLink = ('http://www.biblegateway.com/passage/?search=' + linkBook + '%20' + linkChapter + ':' + linkVerse + '&version=' + linkTranslation).replace(' ', '%20')
+                    errorMessage += ('- [' + linkBook + ' ' + linkChapter + ':' + linkVerse + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+                else:
+                    errorLink = ('http://www.biblegateway.com/passage/?search=' + linkBook + '%20' + linkChapter + '&version=' + linkTranslation).replace(' ', '%20')
+                    errorMessage += ('- [' + linkBook + ' ' + linkChapter + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+            errorMessage += commentFooter
+            newComment = comment.reply(errorMessage).id
         print('Comment posted on ' + ctime() + '.')
         return newComment # Returns comment id of reply to keep bot from replying to itself
     else:
         return False
 
-def parseCommand(command, bible):
+def parseCommand(command, error = False):
     global currentComment
     currentChapter = '0'
     currentVerse = '0'
     validComment = True
 
-    if command[0].isdigit():
-        currentBook = command[0 : find_nth(command, ' ', 2)].title()
-    else:
-        currentBook = command[0 : command.find(' ')].title()
     if ':' in command:
-        if command[0].isdigit():
-            currentChapter = command[find_nth(command, ' ', 2) : command.find(':')]
+        chapterAndVerse = str(findall(r'\d+:\d*(?:-\d+)?', command))
+        currentChapter = (chapterAndVerse.partition(':')[0])[2:]
+        currentVerse = (chapterAndVerse.partition(':')[2])[:-2]
+    else:
+        currentChapter = str(findall(r'\s\d+', command)).lstrip(' ')
+        currentChapter = currentChapter[3:-2]
+    if not error:    
+        if currentVerse != '0' and currentVerse != None:
+            try:
+                validComment = lookupPassage(booknames.getBookNumber(command.lower()), currentChapter, currentVerse, getBibleTranslation(command.lower())[0])
+            except KeyError:
+                validComment = False
         else:
-            currentChapter = command[command.find(' ') : command.find(':')]
-        currentVerse = command[command.find(':') + 1 :]
-    else:
-        currentChapter = command[command.find(' ') :]
-    if currentVerse != '0':
-        try:
-            validComment = lookupPassage(currentBook, currentChapter, currentVerse, bible)
-        except KeyError:
-            validComment = False
-    else:
-        try:
-            validComment = lookupPassage(currentBook, currentChapter, False, bible)
-        except KeyError:
-            validComment = False
+            try:
+                validComment = lookupPassage(booknames.getBookNumber(command.lower()), currentChapter, False, getBibleTranslation(command.lower())[0])
+            except KeyError:
+                validComment = False
     
-    return validComment
+    return validComment, currentChapter, currentVerse
 
 def lookupPassage(book = False, chapter = False, verse = False, bible = False):
     verseText = ''
@@ -61,18 +96,24 @@ def lookupPassage(book = False, chapter = False, verse = False, bible = False):
                 startingVerse = verse.partition('-')[0]
                 endingVerse = verse.partition('-')[2]
                 for ver in range(int(startingVerse), int(endingVerse) + 1):
-                    verseText += '[**' + str(ver) + '**] ' + (bible[book][int(chapter)][ver] + ' ')
+                    verseText += '[**' + str(ver) + '**] ' + (bible[str(book)][int(chapter)][ver] + ' ')
             else:
-                verseText = '[**' + verse + '**] ' + bible[book][int(chapter)][int(verse)]
+                verseText = '[**' + verse + '**] ' + bible[str(book)][int(chapter)][int(verse)]
         else:
-            for ver in bible[book][int(chapter)]:
-                verseText += '[**' + str(ver) + '**] ' + (bible[book][int(chapter)][ver] + ' ')
+            for ver in bible[str(book)][int(chapter)]:
+                verseText += '[**' + str(ver) + '**] ' + (bible[str(book)][int(chapter)][ver] + ' ')
         currentSelection += verseText
         return currentSelection
 
-def find_nth(str, search, n):
-    start = str.find(search)
-    while start >= 0 and n > 1:
-        start = str.find(search, start+len(search))
-        n -= 1
-    return start
+def getBibleTranslation(commentText):
+    global nivbible, esvbible, kjvbible, nrsvbible
+    if 'niv' in commentText:
+        return nivbible, 'NIV'
+    elif 'esv' in commentText:
+        return esvbible, 'ESV'
+    elif 'kjv' in commentText:
+        return kjvbible, 'KJV'
+    elif 'nrsv' in commentText:
+        return nrsvbible, 'NRSV'
+    else: # Defaults to ESV if no translation is specified
+        return esvbible, 'ESV'
