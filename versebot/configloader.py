@@ -20,6 +20,3 @@ def getBotPassword():
 
 def getSubreddits():
     return environ['SUBREDDITS']
-
-def getCommentIdFile():
-    return environ['COMMENTFILE']
