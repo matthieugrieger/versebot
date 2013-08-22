@@ -43,7 +43,7 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Malachi__ -- Malachi, Mal
 
 ### New Testament
-* __Matthew__ -- Matthew, Matt, Mt
+* __Matthew__ -- Matthew, Matt, Mat, Mt
 * __Mark__ -- Mark, Mk
 * __Luke__ -- Luke, Lk
 * __John__ -- John, Jn
