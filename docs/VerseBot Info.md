@@ -11,7 +11,7 @@ VerseBot is currently running on [/r/Christianity](http://www.reddit.com/r/chris
 ### How do I use it?
 If you want VerseBot to quote a Bible verse from your comment, simply surround it in brackets ([]). That's it! However, there are some small rules that your Bible quotation must follow:
 
-* When specifying which book your verse comes from, you must use a name from [this list](ADD LINK LATER).
+* When specifying which book your verse comes from, you must use a name from [this list](https://github.com/matthieugrieger/versebot/blob/master/docs/Accepted%20Bible%20Book%20Names.md).
 * You must put a space between the book name and the chapter number.
 * You must only ask for one verse quotation per bracket pair. However, you can have as many bracket pairs as you want!
 
