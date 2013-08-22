@@ -23,6 +23,7 @@ Definitely! Here are some examples of _correct_ usage of the bot:
 * `[John 3:16]`
 * `[john 3:16 niv]`
 * `[NRSV jn 3:16]`
+* `[John 3:16-17]`
 
 Here are some examples of _incorrect_ usage of the bot:
 
