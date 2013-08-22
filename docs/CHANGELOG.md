@@ -2,6 +2,7 @@
 
 ### August 22, 2013
 * Added 'mat' (Matthew) to the list of accepted Bible names/abbreviations.
+* Changed character limit from 2000 to 3000 (still experimenting with this).
 
 ### August 21, 2013
 * Bot now scans new subreddit comments instead of comments from the top ten hot threads.
