@@ -31,12 +31,7 @@ To setup the database, simply execute this command in GIT Bash:
 For the above command to work, you must have [PostgreSQL](http://www.postgresql.org/download/) installed on your computer. Also, you may have to change DATABASE_URL to the environment variable specific to your database. To find it, just type `heroku config` in Git Bash.
 
 ### Triggering the bot
-The syntax is now less strict than it was in the previous versions. Here's some examples of ways to trigger the bot:
-* Bible chapter reference (ex. `Psalms 23`)
-* Bible verse range reference (ex. `John 3:16-17`)
-* Bible verse reference (ex. `John 3:16`)
-
-The bot will scan for verse references that follow the form outlined above.
+[Refer to the VerseBot FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq).
 
 ## Authors
 Matthieu Grieger
