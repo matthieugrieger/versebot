@@ -32,7 +32,7 @@ Here are some examples of _incorrect_ usage of the bot:
 * `[Song niv of Songs 1:1]` (Translation is in the middle of a book name)
 * `[nrsv John 3:16, Genesis 1:1]` (Two verses are being quoted in one bracket pair)
 * `John 3:16` (There are no brackets surrounding the verse)
-* `John 3 : 16` (Spaces between chapter, :, and verse. Only put a space between the book name and chapter!)
+* `[John 3 : 16]` (Spaces between chapter, :, and verse. Only put a space between the book name and chapter!)
 
 _Remember, the verse quotation can be located **ANYWHERE** in your comment!_
 
