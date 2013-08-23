@@ -2,6 +2,7 @@
 
 ### August 23, 2013
 * Altered message that is displayed when quoted verses exceed the character limit.
+* Fixed bot replying to links when not directly called upon.
 
 ### August 22, 2013
 * Added 'mat' (Matthew) to the list of accepted Bible names/abbreviations.
