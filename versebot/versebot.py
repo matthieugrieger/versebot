@@ -88,7 +88,6 @@ while True:
                     lookupList.add(str(nextVer))
 
                 if len(lookupList) != 0:
-                    # nextComment = False when only chapter is specified, needs to be fixed
                     nextComment = constructComment(lookupList, comment, nivbible, esvbible, kjvbible, nrsvbible)
                 else:
                     nextComment = False
