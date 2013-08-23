@@ -60,4 +60,4 @@ Matthieu Grieger
 	THE SOFTWARE.
 
 ## Thanks
-[Jeffrey Ness](https://github.com/jness) for the Pickle file included in this project.
+[Jeffrey Ness](https://github.com/jness) for [this blog post](http://blog.flip-edesign.com/_rst/Using_a_KJV_Bible_with_Pickle_and_Python.html).
