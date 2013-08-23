@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### August 23, 2013
+* Altered message that is displayed when quoted verses exceed the character limit.
+
 ### August 22, 2013
 * Added 'mat' (Matthew) to the list of accepted Bible names/abbreviations.
 * Changed character limit from 2000 to 3000 (still experimenting with this).

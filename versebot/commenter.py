@@ -38,7 +38,7 @@ def constructComment(commands, comment, niv, esv, kjv, nrsv):
         if len(currentComment) <= 3000: # Only posts generated response if it is less than or equal to 3000 characters in length
             newComment = comment.reply(currentComment).id
         else:
-            errorMessage = 'Oops! It seems that the verses you tried to quote were too long. Instead, here are links to the verses on BibleGateway!\n\n'
+            errorMessage = 'It seems that the verses you tried to quote were too long (over 3000 characters). Instead, here are links to the verses on BibleGateway!\n\n'
             for command in commands:
                 linkVerse = '0'
                 linkBook = booknames.getBookTitle(booknames.getBookNumber(command.lower()))
