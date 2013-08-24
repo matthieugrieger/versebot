@@ -10,12 +10,12 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Joshua__ -- Joshua, Josh
 * __Judges__ -- Judges, Judg, Jgs
 * __Ruth__ -- Ruth, Ru
-* __1 Samuel__ -- 1 Samuel, 1 Sam, 1 Sm
-* __2 Samuel__ -- 2 Samuel, 2 Sam, 2 Sm
-* __1 Kings__ -- 1 Kings, 1 Kgs
-* __2 Kings__ -- 2 Kings, 2 Kgs
-* __1 Chronicles__ -- 1 Chronicles, 1 Chron, 1 Chr
-* __2 Chronicles__ -- 2 Chronicles, 2 Chron, 2 Chr
+* __1 Samuel__ -- 1 Samuel, 1Samuel, 1 Sam, 1Sam, 1 Sm, 1Sm
+* __2 Samuel__ -- 2 Samuel, 2Samuel, 2 Sam, 2Sam, 2 Sm, 2Sm
+* __1 Kings__ -- 1 Kings, 1Kings, 1 Kgs, 1Kgs
+* __2 Kings__ -- 2 Kings, 2Kings, 2 Kgs, 2Kgs
+* __1 Chronicles__ -- 1 Chronicles, 1Chronicles, 1 Chron, 1Chron, 1 Chr, 1Chr
+* __2 Chronicles__ -- 2 Chronicles, 2Chronicles, 2 Chron, 2Chron, 2 Chr, 2Chr
 * __Ezra__ -- Ezra, Ezr
 * __Nehemiah__ -- Nehemiah, Neh
 * __Esther__ -- Esther, Est
@@ -49,25 +49,25 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __John__ -- John, Jn
 * __Acts__ -- Acts, Acts of the Apostles
 * __Romans__ -- Romans, Rom
-* __1 Corinthians__ -- 1 Corinthians, 1 Cor
-* __2 Corinthians__ -- 2 Corinthians, 2 Cor
+* __1 Corinthians__ -- 1 Corinthians, 1Corinthians, 1 Cor, 1Cor
+* __2 Corinthians__ -- 2 Corinthians, 2Corinthians, 2 Cor, 2Cor
 * __Galatians__ -- Galatians, Gal
 * __Ephesians__ -- Ephesians
 * __Philippians__ -- Philippians, Phil
 * __Colossians__ -- Colossians, Col
-* __1 Thessalonians__ -- 1 Thessalonians, 1 Thess, 1 Thes
-* __2 Thessalonians__ -- 2 Thessalonians, 2 Thess, 2 Thes
-* __1 Timothy__ -- 1 Timothy, 1 Tim, 1 Tm
-* __2 Timothy__ -- 2 Timothy, 2 Tim, 2 Tm
+* __1 Thessalonians__ -- 1 Thessalonians, 1Thessalonians, 1 Thess, 1Thess, 1 Thes, 1Thes
+* __2 Thessalonians__ -- 2 Thessalonians, 2Thessalonians, 2 Thess, 2Thess, 2 Thes, 2Thes
+* __1 Timothy__ -- 1 Timothy, 1Timothy, 1 Tim, 1Tim, 1 Tm, 1Tm
+* __2 Timothy__ -- 2 Timothy, 2Timothy, 2 Tim, 2Tim, 2 Tm, 2Tm
 * __Titus__ -- Titus, Ti
 * __Philemon__ -- Philemon, Philem, Phlm
 * __Hebrews__ -- Hebrews, Heb
 * __James__ -- James, Jas
-* __1 Peter__ -- 1 Peter, 1 Pet, 1 Pt
-* __2 Peter__ -- 2 Peter, 2 Pet, 2 Pt
-* __1 John__ -- 1 John, 1 Jn
-* __2 John__ -- 2 John, 2 Jn
-* __3 John__ -- 3 John, 3 Jn
+* __1 Peter__ -- 1 Peter, 1Peter, 1 Pet, 1Pet, 1 Pt, 1Pt
+* __2 Peter__ -- 2 Peter, 2Peter, 2 Pet, 2Pet, 2 Pt, 2Pt
+* __1 John__ -- 1 John, 1John, 1 Jn, 1Jn
+* __2 John__ -- 2 John, 2John, 2 Jn, 2Jn
+* __3 John__ -- 3 John, 3John, 3 Jn, 3Jn
 * __Jude__ -- Jude
 * __Revelation__ -- Revelation, Revelations, Rev, Rv
 

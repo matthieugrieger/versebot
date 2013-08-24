@@ -3,6 +3,7 @@
 ### August 24, 2013
 * Fixed replies with multiple verse quotations outputting the desired verses in random order.
 * Updated PRAW in requirements.txt to 2.1.5.
+* Added the following Bible abbreviations to booknames.py: 1Samuel, 1Sam, 1Sm, 2Samuel, 2Sam, 2Sm, 1Kings, 1Kgs, 2Kings, 2Kgs, 1Chronicles, 1Chron, 1Chr, 2Chronicles, 2Chron, 2Chr, 1Corinthians, 1Cor, 2Corinthians, 2Cor, 1Thessalonians, 1Thess, 1Thes, 2Thessalonians, 2Thess, 2Thes, 1Timothy, 1Tim, 1Tm, 2Timothy, 2Tim, 2Tm, 1Peter, 1Pet, 1Pt, 2Peter, 2Pet, 2Pt, 1John, 1Jn, 2John, 2Jn, 3John, 3Jn.
 
 ### August 23, 2013
 * Altered message that is displayed when quoted verses exceed the character limit.
