@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### August 24, 2013
+* Fixed replies with multiple verse quotations outputting the desired verses in random order.
+* Updated PRAW in requirements.txt to 2.1.5.
+
 ### August 23, 2013
 * Altered message that is displayed when quoted verses exceed the character limit.
 * Fixed bot replying to links when not directly called upon.

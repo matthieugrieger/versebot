@@ -68,7 +68,7 @@ cur.copy_to(io, 'commentids', sep='|')
 io.close()
 
 commentsAdded = False
-lookupList = set()
+lookupList = list()
 
 while True:
 
@@ -85,7 +85,7 @@ while True:
             if (len(versesToFind) != 0):
                 for ver in versesToFind:
                     nextVer = findall(r'(?:\d\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+)?', ver) # Regex to find valid commands in brackets. Looks really ugly, can probably be made better.
-                    lookupList.add(str(nextVer))
+                    lookupList.append(str(nextVer))
 
                 if len(lookupList) != 0:
                     nextComment = constructComment(lookupList, comment, nivbible, esvbible, kjvbible, nrsvbible)
