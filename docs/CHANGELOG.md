@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### August 26, 2013
+* Now correctly handles case where the starting verse is greater than the ending verse (e.g. John 3:17-16).
+
 ### August 24, 2013
 * Fixed replies with multiple verse quotations outputting the desired verses in random order.
 * Updated PRAW in requirements.txt to 2.1.5.
