@@ -95,7 +95,7 @@ def lookupPassage(book = False, chapter = False, verse = False, bible = False):
             if '-' in verse:
                 startingVerse = verse.partition('-')[0]
                 endingVerse = verse.partition('-')[2]
-                if startingVerse < endingVerse + 1:
+                if int(startingVerse) < int(endingVerse) + 1:
                     for ver in range(int(startingVerse), int(endingVerse) + 1):
                         verseText += '[**' + str(ver) + '**] ' + (bible[str(book)][int(chapter)][ver] + ' ')
                 else:
