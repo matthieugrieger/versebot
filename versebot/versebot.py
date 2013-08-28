@@ -30,18 +30,6 @@ except:
     print('Error while loading Bible translations. Make sure the environment vars point to correct paths.')
     exit()
 
-def getNIVBible():
-    return nivbible
-
-def getESVBible():
-    return esvbible
-
-def getKJVBible():
-    return kjvbible
-
-def getNRSVBible():
-    return nrsvbible
-
 print('Connecting to reddit...')
 try:
     r = praw.Reddit(user_agent='VerseBot by /u/mgrieger. Github: https://github.com/matthieugrieger/versebot')

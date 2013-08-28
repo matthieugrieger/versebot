@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### August 28, 2013
+* Removed old, unused code.
+
 ### August 26, 2013
 * Now correctly handles case where the starting verse is greater than the ending verse (e.g. John 3:17-16).
 
