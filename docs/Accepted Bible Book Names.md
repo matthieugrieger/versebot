@@ -71,4 +71,20 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Jude__ -- Jude
 * __Revelation__ -- Revelation, Revelations, Rev, Rv
 
+### Apocrypha
+* __1 Esdras__ -- 1 Esdras, 1Esdras, 1 Esd, 1Esd
+* __2 Esdras__ -- 2 Esdras, 2Esdras, 2 Esd, 2Esd
+* __Tobit__ -- Tobit, Tob
+* __Judith__ -- Judith, Judeth, Jdt
+* __Additions to Esther__ -- Additions to Esther, Rest of Esther, AddEsth
+* __Wisdom of Solomon__ -- Wisdom of Solomon, Wisdom, Wis
+* __Ecclesiasticus__ -- Ecclesiasticus, Sirach, Sir
+* __Baruch__ -- Baruch, Bar
+* __Prayer of Azariah__ -- Prayer of Azariah, Rest of Daniel, Additions to Daniel, AddDan, Song of the Three Children
+* __Susanna__ -- Susanna, Sus, Story of Susanna
+* __Bel and the Dragon__ -- Bel and the Dragon, Bel
+* __Prayer of Manasseh__ -- Prayer of Manasseh, Manasseh, Prayer of Manasses, Manasses, PrMan
+* __1 Maccabees__ -- 1 Maccabees, 1Maccabees, 1Macc, 1Mac
+* __2 Maccabees__ -- 2 Maccabees, 1Maccabees, 1Macc, 1Mac
+
 Want an abbreviation added? Let me know!

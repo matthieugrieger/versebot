@@ -1,5 +1,10 @@
 # VerseBot Changelog
 
+### September 5, 2013
+* Added KJV Apocrypha to the bot
+* Changed .pk1 file extensions to .p
+* kjv.pk1 is now kjvapocrypha.p (still includes books not in the apocrypha)
+
 ### August 28, 2013
 * Removed old, unused code.
 

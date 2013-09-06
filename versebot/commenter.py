@@ -29,29 +29,16 @@ def constructComment(commands, comment, niv, esv, kjv, nrsv):
             if nextCommand[0] != False:
                 if nextCommand[2] != '0':
                     currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ':' + str(nextCommand[2]) + ' (*' + 
-                                       getBibleTranslation(command.lower())[1] + '*)**\n>' + nextCommand[0]) + '\n\n'
+                                       getBibleTranslation(command.lower(), bookNumber)[1] + '*)**\n>' + nextCommand[0]) + '\n\n'
                 else:
-                    currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ' (*' + getBibleTranslation(command.lower())[1] +
+                    currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ' (*' + getBibleTranslation(command.lower(), bookNumber)[1] +
                                        '*)**\n>' + nextCommand[0]) + '\n\n'
     currentComment += commentFooter
     if currentComment != commentFooter:
         if len(currentComment) <= 3000: # Only posts generated response if it is less than or equal to 3000 characters in length
             newComment = comment.reply(currentComment).id
         else:
-            errorMessage = 'It seems that the verses you tried to quote were too long (over 3000 characters). Instead, here are links to the verses on BibleGateway!\n\n'
-            for command in commands:
-                linkVerse = '0'
-                linkBook = booknames.getBookTitle(booknames.getBookNumber(command.lower()))
-                linkCommand = parseCommand(command.lower(), True)
-                linkChapter = str(linkCommand[1])
-                linkVerse = str(linkCommand[2])
-                linkTranslation = getBibleTranslation(command.lower())[1]
-                if linkVerse != '0':
-                    errorLink = ('http://www.biblegateway.com/passage/?search=' + linkBook + '%20' + linkChapter + ':' + linkVerse + '&version=' + linkTranslation).replace(' ', '%20')
-                    errorMessage += ('- [' + linkBook + ' ' + linkChapter + ':' + linkVerse + ' (' + linkTranslation + ')](' + errorLink + ')\n')
-                else:
-                    errorLink = ('http://www.biblegateway.com/passage/?search=' + linkBook + '%20' + linkChapter + '&version=' + linkTranslation).replace(' ', '%20')
-                    errorMessage += ('- [' + linkBook + ' ' + linkChapter + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+            errorMessage = constructErrorMessage(commands)
             errorMessage += commentFooter
             newComment = comment.reply(errorMessage).id
         print('Comment posted on ' + ctime() + '.')
@@ -73,14 +60,15 @@ def parseCommand(command, error = False):
         currentChapter = str(findall(r'\s\d+', command)).lstrip(' ')
         currentChapter = currentChapter[3:-2]
     if not error:    
+        bookNumber = booknames.getBookNumber(command.lower())
         if currentVerse != '0' and currentVerse != None:
             try:
-                validComment = lookupPassage(booknames.getBookNumber(command.lower()), currentChapter, currentVerse, getBibleTranslation(command.lower())[0])
+                validComment = lookupPassage(bookNumber, currentChapter, currentVerse, getBibleTranslation(command.lower(), bookNumber)[0])
             except KeyError:
                 validComment = False
         else:
             try:
-                validComment = lookupPassage(booknames.getBookNumber(command.lower()), currentChapter, False, getBibleTranslation(command.lower())[0])
+                validComment = lookupPassage(bookNumber, currentChapter, False, getBibleTranslation(command.lower(), bookNumber)[0])
             except KeyError:
                 validComment = False
     
@@ -108,15 +96,45 @@ def lookupPassage(book = False, chapter = False, verse = False, bible = False):
         currentSelection += verseText
         return currentSelection
 
-def getBibleTranslation(commentText):
+def getBibleTranslation(commentText, bookNum):
     global nivbible, esvbible, kjvbible, nrsvbible
-    if 'niv' in commentText:
-        return nivbible, 'NIV'
-    elif 'esv' in commentText:
-        return esvbible, 'ESV'
-    elif 'kjv' in commentText:
-        return kjvbible, 'KJV'
-    elif 'nrsv' in commentText:
-        return nrsvbible, 'NRSV'
-    else: # Defaults to ESV if no translation is specified
-        return esvbible, 'ESV'
+    if 67 <= bookNum <= 88: # Uses KJV bible if an Apocrypha chapter is selected
+        return kjvbible, 'KJV Apocrypha'
+    else:
+        if 'niv' in commentText:
+            return nivbible, 'NIV'
+        elif 'esv' in commentText:
+            return esvbible, 'ESV'
+        elif 'kjv' in commentText:
+            return kjvbible, 'KJV'
+        elif 'nrsv' in commentText:
+            return nrsvbible, 'NRSV'
+        else: # Defaults to ESV if no translation is specified
+            return esvbible, 'ESV'
+
+def constructErrorMessage(commands):
+    msg = 'It seems that the verses you tried to quote were too long (over 3000 characters). Instead, here are links to the verses!\n\n'
+    for command in commands:
+        linkVerse = '0'
+        bookNum = booknames.getBookNumber(command.lower())
+        linkBook = booknames.getBookTitle(bookNum)
+        linkCommand = parseCommand(command.lower(), True)
+        linkChapter = str(linkCommand[1])
+        linkVerse = str(linkCommand[2])
+        linkTranslation = getBibleTranslation(command.lower(), bookNum)[1]
+        if 67 <= bookNum <= 88: # Contains a book from the apocrypha, meaning http://www.kingjamesbibleonline.org/ must be used instead.
+            if linkVerse != '0':
+                errorLink = ('http://www.kingjamesbibleonline.org/' + linkBook + '-' + linkChapter + '-' + linkVerse + '/').replace(' ', '-')
+                msg += ('- [' + linkBook + ' ' + linkChapter + ':' + linkVerse + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+            else:
+                errorLink = ('http://www.kingjamesbibleonline.org/' + linkBook + '-Chapter-' + linkChapter + '/').replace(' ', '-')
+                msg += ('- [' + linkBook + ' ' + linkChapter + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+        else:
+            if linkVerse != '0':
+                errorLink = ('http://www.biblegateway.com/passage/?search=' + linkBook + '%20' + linkChapter + ':' + linkVerse + '&version=' + linkTranslation).replace(' ', '%20')
+                msg += ('- [' + linkBook + ' ' + linkChapter + ':' + linkVerse + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+            else:
+                errorLink = ('http://www.biblegateway.com/passage/?search=' + linkBook + '%20' + linkChapter + '&version=' + linkTranslation).replace(' ', '%20')
+                msg += ('- [' + linkBook + ' ' + linkChapter + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+
+    return msg

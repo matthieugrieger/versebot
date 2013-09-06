@@ -49,6 +49,11 @@ Easy! Just put the desired translation in the brackets next to the desired verse
 
 Example: `[NIV John 3:16]` or `[john 3:16 kjv]`. If no translation is specified, the bot defaults to ESV.
 
+### Can I quote verses from the Apocrypha?
+Yes, it is now possible to quote verses from the Apocrypha. Please take a look at the [Accepted Bible Names](https://github.com/matthieugrieger/versebot/blob/master/docs/Accepted%20Bible%20Book%20Names.md) list to see which books are supported.
+
+**NOTE:** The formatting of Additions to Esther is a bit strange. The verses start from 10:4, not 1:1 like most Bible books. Keep this in mind if you want to quote a verse from Additions to Esther.
+
 ### Why is the bot not responding to my comment?
 This could be attributed to a few different things:
 * Your verse quotation doesn't follow the guidelines specified above.

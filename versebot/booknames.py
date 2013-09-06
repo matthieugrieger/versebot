@@ -28,7 +28,14 @@ bookNames = OrderedDict([('genesis',1) , ('gen',1) , ('gn',1), ('exodus',2), ('e
                          ('1 peter',60), ('1peter',60), ('1 pet',60), ('1pet',60), ('1 pt',60), ('1pt',60), ('2 peter',61), ('2peter',61),
                          ('2 pet',61), ('2pet',61), ('2 pt',61), ('2pt',61), ('1 john',62), ('1john',62), ('1 jn',62), ('1jn',62), ('2 john',63),
                          ('2john',63), ('2 jn',63), ('2jn',63), ('3 john',64), ('3john',64), ('3 jn',64), ('3jn',64), ('jude',65), ('revelation',66),
-                         ('revelations',66), ('rev',66), ('rv',66)])
+                         ('revelations',66), ('rev',66), ('rv',66), ('judith',67), ('judeth',67), ('jdt',67), ('wisdom',68), ('wis',68),
+                         ('wisdom of solomon',68), ('tobit',69), ('tob',69), ('sirach',70), ('sir',70), ('ecclesiasticus',70), ('baruch',71),
+                         ('bar',71), ('1 maccabees',72), ('1maccabees',72), ('1macc',72), ('1mac',72), ('2 maccabees',73), ('2maccabees',73),
+                         ('2macc',73), ('2mac',73), ('rest of daniel',74), ('additions to daniel',74), ('adddan',74), ('song of the three children',74),
+                         ('prayer of azariah',74), ('rest of esther',75), ('additions to esther',75), ('addesth',75), ('prayer of manasses',76), 
+                         ('prayer of manasseh',76), ('manasses',76), ('manasseh',76), ('prman',76), ('1 esdras',80), ('1esdras',80), ('1 esd',80), 
+                         ('1esd',80), ('2 esdras',81), ('2esdras',81), ('2 esd',81), ('2esd',81), ('story of susanna',87), ('susanna',87), ('sus',87), 
+                         ('bel and the dragon',88), ('bel',88)])
 
 # Used for retrieving string used for verse title
 bookTitles = {1:'Genesis', 2:'Exodus', 3:'Leviticus', 4:'Numbers', 5:'Deuteronomy', 6:'Joshua', 7:'Judges', 8:'Ruth',
@@ -39,7 +46,9 @@ bookTitles = {1:'Genesis', 2:'Exodus', 3:'Leviticus', 4:'Numbers', 5:'Deuteronom
                 39:'Malachi', 40:'Matthew', 41:'Mark', 42:'Luke', 43:'John', 44:'Acts', 45:'Romans', 46:'1 Corinthians',
                 47:'2 Corinthians', 48:'Galatians', 49:'Ephesians', 50:'Philippians', 51:'Colossians', 52:'1 Thessalonians',
                 53:'2 Thessalonians', 54:'1 Timothy', 55:'2 Timothy', 56:'Titus', 57:'Philemon', 58:'Hebrews', 59:'James',
-                60:'1 Peter', 61:'2 Peter', 62:'1 John', 63:'2 John', 64:'3 John', 65:'Jude', 66:'Revelation'}
+                60:'1 Peter', 61:'2 Peter', 62:'1 John', 63:'2 John', 64:'3 John', 65:'Jude', 66:'Revelation', 67:'Judith',
+                68:'Wisdom of Solomon', 69:'Tobit', 70:'Ecclesiasticus', 71:'Baruch', 72:'1 Maccabees', 73:'2 Maccabees', 74:'Prayer of Azariah',
+                75:'Additions to Esther', 76:'Prayer of Manasseh', 80:'1 Esdras', 81:'2 Esdras', 87:'Susanna', 88:'Bel and the Dragon'}
 
 # First, this function sorts the keys in bookNames, longest strings first. This is to avoid incorrect triggers.
 # Example: Misinterpreting [1 John 1:1] as John 1:1 since the string 'John' IS in '1 John'
