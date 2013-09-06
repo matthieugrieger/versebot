@@ -71,7 +71,7 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Jude__ -- Jude
 * __Revelation__ -- Revelation, Revelations, Rev, Rv
 
-### Apocrypha
+### Deuterocanon
 * __1 Esdras__ -- 1 Esdras, 1Esdras, 1 Esd, 1Esd
 * __2 Esdras__ -- 2 Esdras, 2Esdras, 2 Esd, 2Esd
 * __Tobit__ -- Tobit, Tob

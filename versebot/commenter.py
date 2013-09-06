@@ -98,8 +98,8 @@ def lookupPassage(book = False, chapter = False, verse = False, bible = False):
 
 def getBibleTranslation(commentText, bookNum):
     global nivbible, esvbible, kjvbible, nrsvbible
-    if 67 <= bookNum <= 88: # Uses KJV bible if an Apocrypha chapter is selected
-        return kjvbible, 'KJV Apocrypha'
+    if 67 <= bookNum <= 88: # Uses KJV bible if an Deuterocanon chapter is selected
+        return kjvbible, 'KJV Deuterocanon'
     else:
         if 'niv' in commentText:
             return nivbible, 'NIV'
@@ -122,7 +122,7 @@ def constructErrorMessage(commands):
         linkChapter = str(linkCommand[1])
         linkVerse = str(linkCommand[2])
         linkTranslation = getBibleTranslation(command.lower(), bookNum)[1]
-        if 67 <= bookNum <= 88: # Contains a book from the apocrypha, meaning http://www.kingjamesbibleonline.org/ must be used instead.
+        if 67 <= bookNum <= 88: # Contains a book from the deuterocanon, meaning http://www.kingjamesbibleonline.org/ must be used instead.
             if linkVerse != '0':
                 errorLink = ('http://www.kingjamesbibleonline.org/' + linkBook + '-' + linkChapter + '-' + linkVerse + '/').replace(' ', '-')
                 msg += ('- [' + linkBook + ' ' + linkChapter + ':' + linkVerse + ' (' + linkTranslation + ')](' + errorLink + ')\n')
