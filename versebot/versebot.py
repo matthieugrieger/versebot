@@ -57,6 +57,7 @@ io.close()
 
 commentsAdded = False
 lookupList = list()
+comment_ids_this_session = set() # This is to help protect against spamming when connection to database is lost
 
 while True:
 
@@ -64,11 +65,11 @@ while True:
         io = open('tmp.txt', 'w')
         cur.copy_to(io, 'commentids', sep='|')
         io.close()
-    # Removed print('Starting next scan...'). Filled up the Heroku logs too much.
     subreddit = r.get_subreddit(configloader.getSubreddits())
     subreddit_comments = subreddit.get_comments()
     for comment in subreddit_comments:
-        if comment.id not in open('tmp.txt').read():
+        if comment.author != configloader.getBotUsername() and comment.id not in open('tmp.txt').read() and comment.id not in comment_ids_this_session:
+            comment_ids_this_session.add(comment.id)
             versesToFind = findall(r'\[[\w\s:,-]+](?!\()', comment.body) # Uses regex to find verses in comment body (no longer incorrectly matches links)
             if (len(versesToFind) != 0):
                 for ver in versesToFind:
@@ -81,16 +82,13 @@ while True:
                     nextComment = False
 
                 if nextComment != False:
-                    print('Inserting new comment ids to database...')
+                    print('Inserting new comment id to database...')
                     cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,))
-                    cur.execute("""INSERT INTO commentids VALUES (%s);""", (nextComment,))
                     conn.commit()
                     commentsAdded = True
                     lookupList.clear()
                 else:
-                    print('Inserting comment id of comment with invalid command...')
-                    cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,)) # Adds comment id with invalid command so it is ignored in the future
-                    conn.commit()
-                    commentsAdded = True
+                    commentsAdded = False
                     lookupList.clear()
+
     sleep(30) # Waits 30 seconds between scans by default

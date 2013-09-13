@@ -36,13 +36,17 @@ def constructComment(commands, comment, niv, esv, kjv, nrsv):
     currentComment += commentFooter
     if currentComment != commentFooter:
         if len(currentComment) <= 3000: # Only posts generated response if it is less than or equal to 3000 characters in length
-            newComment = comment.reply(currentComment).id
+            comment.reply(currentComment)
+            print('Comment posted on ' + ctime() + '.')
+
         else:
             errorMessage = constructErrorMessage(commands)
             errorMessage += commentFooter
-            newComment = comment.reply(errorMessage).id
-        print('Comment posted on ' + ctime() + '.')
-        return newComment # Returns comment id of reply to keep bot from replying to itself
+            comment.reply(errorMessage)
+            print('Comment posted on ' + ctime() + '.')
+        
+        return True
+              
     else:
         return False
 
