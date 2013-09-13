@@ -84,7 +84,7 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Susanna__ -- Susanna, Sus, Story of Susanna
 * __Bel and the Dragon__ -- Bel and the Dragon, Bel
 * __Prayer of Manasseh__ -- Prayer of Manasseh, Manasseh, Prayer of Manasses, Manasses, PrMan
-* __1 Maccabees__ -- 1 Maccabees, 1Maccabees, 1Macc, 1Mac
-* __2 Maccabees__ -- 2 Maccabees, 1Maccabees, 1Macc, 1Mac
+* __1 Maccabees__ -- 1 Maccabees, 1Maccabees, 1 Macc, 1Macc, 1 Mac, 1Mac
+* __2 Maccabees__ -- 2 Maccabees, 2Maccabees, 2 Macc, 2Macc, 2 Mac, 2Mac
 
 Want an abbreviation added? Let me know!

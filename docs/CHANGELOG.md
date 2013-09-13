@@ -5,6 +5,7 @@
 * Restructured database. Now only stores the comment ids of comments that have been replied to.
 * Added a Python set that keeps track of comment ids from the current session. This is to further protect against spamming in the event the bot loses connection to the database.
 * Renamed .p extensions to .pickle. The .p files were being incorrectly recognized by Github as OpenEdge ABL files.
+* Added 1 Macc, 1 Mac, 2 Macc, and 2 Mac to the list of Bible abbreviations.
 
 ### September 5, 2013
 * Added KJV Deuterocanon to bot
