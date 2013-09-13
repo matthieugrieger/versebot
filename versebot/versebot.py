@@ -89,6 +89,12 @@ while True:
                     lookupList.clear()
                 else:
                     commentsAdded = False
+                    try:    
+                        # Removes comment id from set if the comment was not replied to. This should prevent situations where the comment
+                        # has a valid command and the bot does not reply because the reply operation failed the first time through.
+                        comment_ids_this_session.remove(comment.id)
+                    except KeyError:
+                        pass
                     lookupList.clear()
 
     sleep(30) # Waits 30 seconds between scans by default
