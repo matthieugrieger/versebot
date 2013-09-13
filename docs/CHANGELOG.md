@@ -1,5 +1,11 @@
 # VerseBot Changelog
 
+### September 13, 2013
+* Updated PRAW to 2.1.6. This fixes spamming during times when reddit is under heavy load.
+* Restructured database. Now only stores the comment ids of comments that have been replied to.
+* Added a Python set that keeps track of comment ids from the current session. This is to further protect against spamming in the event the bot loses connection to the database.
+* Renamed .p extensions to .picke. The .p files were being incorrectly recognized by Github as OpenEdge ABL files.
+
 ### September 5, 2013
 * Added KJV Deuterocanon to bot
 * Changed .pk1 file extensions to .p
