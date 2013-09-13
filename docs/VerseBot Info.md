@@ -14,6 +14,7 @@ If you want VerseBot to quote a Bible verse from your comment, simply surround i
 * When specifying which book your verse comes from, you must use a name from [this list](https://github.com/matthieugrieger/versebot/blob/master/docs/Accepted%20Bible%20Book%20Names.md).
 * You must put a space between the book name and the chapter number.
 * You must only ask for one verse quotation per bracket pair. However, you can have as many bracket pairs as you want!
+* At the moment, additional arguments (such as desired translation) must follow the desired verse. This may change in the future.
 
 Other than these three things, the bot is pretty flexible!
 
@@ -22,7 +23,6 @@ Definitely! Here are some examples of _correct_ usage of the bot:
 
 * `[John 3:16]`
 * `[john 3:16 niv]`
-* `[NRSV jn 3:16]`
 * `[John 3:16-17]`
 
 Here are some examples of _incorrect_ usage of the bot:
@@ -47,7 +47,7 @@ Currently, VerseBot supports the following translations:
 ### How do I specify a translation for my verse quotation?
 Easy! Just put the desired translation in the brackets next to the desired verse. 
 
-Example: `[NIV John 3:16]` or `[john 3:16 kjv]`. If no translation is specified, the bot defaults to ESV.
+Example: `[John 3:16 NIV]` or `[john 3:16 kjv]`. If no translation is specified, the bot defaults to ESV.
 
 ### Can I quote verses from Deuterocanonical books?
 Yes, it is now possible to quote verses from the Deuterocanon. Please take a look at the [Accepted Bible Names](https://github.com/matthieugrieger/versebot/blob/master/docs/Accepted%20Bible%20Book%20Names.md) list to see which books are supported.
@@ -58,7 +58,7 @@ Yes, it is now possible to quote verses from the Deuterocanon. Please take a loo
 This could be attributed to a few different things:
 * Your verse quotation doesn't follow the guidelines specified above.
 * The bot is down temporarily for maintenance/updates.
-* Heroku (where this bot is hosted) is down or is restarting apps.
+* Heroku (where this bot is hosted) is down or is restarting apps. Heroku provides a [status page](https://status.heroku.com/) that you can check for Heroku downtimes.
 * The bot is trying to keep up with commands (there is a 30 second sleep period between comment scans).
 * The bot has crashed. This should be rare, but even if it does happen Heroku automatically restarts crashed apps within 10 minutes.
 
