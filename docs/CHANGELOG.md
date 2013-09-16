@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### September 16, 2013
+* VerseBot released on [/r/Catholicism](http://www.reddit.com/r/Catholicism/).
+
 ### September 13, 2013
 * Updated PRAW to 2.1.6. This fixes spamming during times when reddit is under heavy load.
 * Restructured database. Now only stores the comment ids of comments that have been replied to.
