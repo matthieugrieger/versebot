@@ -11,27 +11,31 @@ nivbible = OrderedDict()
 esvbible = OrderedDict()
 kjvbible = OrderedDict()
 nrsvbible = OrderedDict()
+drabible = OrderedDict()
 
-def constructComment(commands, comment, niv, esv, kjv, nrsv):
-    global currentComment, bookNumber, nivbible, esvbible, kjvbible, nrsvbible
+def constructComment(commands, comment, niv, esv, kjv, nrsv, dra):
+    global currentComment, bookNumber, nivbible, esvbible, kjvbible, nrsvbible, drabible
 
     nivbible = niv
     esvbible = esv
     kjvbible = kjv
     nrsvbible = nrsv
+    drabible = dra
+
+    subreddit = comment.permalink[24:comment.permalink.find('/', 24)] # Finds subreddit of comment (might be in PRAW, but I don't know how to access it)
 
     currentComment = ''
     commentFooter = '\n[[Source Code](https://github.com/matthieugrieger/versebot)] [[Feedback](https://github.com/matthieugrieger/versebot/issues)] [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)] [[FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq)] [[Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md)]'
     for command in commands:
         bookNumber = booknames.getBookNumber(command.lower())
         if bookNumber != False:
-            nextCommand = parseCommand(command.lower())
+            nextCommand = parseCommand(command.lower(), subreddit)
             if nextCommand[0] != False:
                 if nextCommand[2] != '0':
                     currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ':' + str(nextCommand[2]) + ' (*' + 
-                                       getBibleTranslation(command.lower(), bookNumber)[1] + '*)**\n>' + nextCommand[0]) + '\n\n'
+                                       getBibleTranslation(command.lower(), bookNumber, subreddit)[1] + '*)**\n>' + nextCommand[0]) + '\n\n'
                 else:
-                    currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ' (*' + getBibleTranslation(command.lower(), bookNumber)[1] +
+                    currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ' (*' + getBibleTranslation(command.lower(), bookNumber, subreddit)[1] +
                                        '*)**\n>' + nextCommand[0]) + '\n\n'
     currentComment += commentFooter
     if currentComment != commentFooter:
@@ -40,7 +44,7 @@ def constructComment(commands, comment, niv, esv, kjv, nrsv):
             print('Comment posted on ' + ctime() + '.')
 
         else:
-            errorMessage = constructErrorMessage(commands)
+            errorMessage = constructErrorMessage(commands, subreddit)
             errorMessage += commentFooter
             comment.reply(errorMessage)
             print('Comment posted on ' + ctime() + '.')
@@ -50,7 +54,7 @@ def constructComment(commands, comment, niv, esv, kjv, nrsv):
     else:
         return False
 
-def parseCommand(command, error = False):
+def parseCommand(command, subreddit, error = False):
     global currentComment
     currentChapter = '0'
     currentVerse = '0'
@@ -67,12 +71,12 @@ def parseCommand(command, error = False):
         bookNumber = booknames.getBookNumber(command.lower())
         if currentVerse != '0' and currentVerse != None:
             try:
-                validComment = lookupPassage(bookNumber, currentChapter, currentVerse, getBibleTranslation(command.lower(), bookNumber)[0])
+                validComment = lookupPassage(bookNumber, currentChapter, currentVerse, getBibleTranslation(command.lower(), bookNumber, subreddit)[0])
             except KeyError:
                 validComment = False
         else:
             try:
-                validComment = lookupPassage(bookNumber, currentChapter, False, getBibleTranslation(command.lower(), bookNumber)[0])
+                validComment = lookupPassage(bookNumber, currentChapter, False, getBibleTranslation(command.lower(), bookNumber, subreddit)[0])
             except KeyError:
                 validComment = False
     
@@ -100,8 +104,8 @@ def lookupPassage(book = False, chapter = False, verse = False, bible = False):
         currentSelection += verseText
         return currentSelection
 
-def getBibleTranslation(commentText, bookNum):
-    global nivbible, esvbible, kjvbible, nrsvbible
+def getBibleTranslation(commentText, bookNum, subreddit):
+    global nivbible, esvbible, kjvbible, nrsvbible, drabible
     if 67 <= bookNum <= 88: # Uses KJV bible if an Deuterocanon chapter is selected
         return kjvbible, 'KJV Deuterocanon'
     else:
@@ -113,19 +117,26 @@ def getBibleTranslation(commentText, bookNum):
             return kjvbible, 'KJV'
         elif 'nrsv' in commentText:
             return nrsvbible, 'NRSV'
-        else: # Defaults to ESV if no translation is specified
-            return esvbible, 'ESV'
+        elif 'dra' in commentText or 'duoay' in commentText or 'rheims' in commentText:
+            return drabible, 'DRA'
+        else: # Uses the default translation for each subreddit
+            if subreddit == 'Christianity' or subreddit == 'TrueChristian':
+                return esvbible, 'ESV'
+            elif subreddit == 'Catholicism':
+                return drabible, 'DRA'
+            else:
+                return esvbible, 'ESV'
 
-def constructErrorMessage(commands):
+def constructErrorMessage(commands, subreddit):
     msg = 'It seems that the verses you tried to quote were too long (over 3000 characters). Instead, here are links to the verses!\n\n'
     for command in commands:
         linkVerse = '0'
         bookNum = booknames.getBookNumber(command.lower())
         linkBook = booknames.getBookTitle(bookNum)
-        linkCommand = parseCommand(command.lower(), True)
+        linkCommand = parseCommand(command.lower(), subreddit, True)
         linkChapter = str(linkCommand[1])
         linkVerse = str(linkCommand[2])
-        linkTranslation = getBibleTranslation(command.lower(), bookNum)[1]
+        linkTranslation = getBibleTranslation(command.lower(), bookNum, subreddit)[1]
         if 67 <= bookNum <= 88: # Contains a book from the deuterocanon, meaning http://www.kingjamesbibleonline.org/ must be used instead.
             if linkVerse != '0':
                 errorLink = ('http://www.kingjamesbibleonline.org/' + linkBook + '-' + linkChapter + '-' + linkVerse + '/').replace(' ', '-')
