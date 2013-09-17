@@ -25,6 +25,7 @@ try:
     esvbible = pickle.load(open(configloader.getESV(), 'rb'))
     kjvbible = pickle.load(open(configloader.getKJV(), 'rb'))
     nrsvbible = pickle.load(open(configloader.getNRSV(), 'rb'))
+    drabible = pickle.load(open(configloader.getDRA(), 'rb'))
     print('Bible translations successfully loaded!')
 except:
     print('Error while loading Bible translations. Make sure the environment vars point to correct paths.')
@@ -77,7 +78,7 @@ while True:
                     lookupList.append(str(nextVer))
 
                 if len(lookupList) != 0:
-                    nextComment = constructComment(lookupList, comment, nivbible, esvbible, kjvbible, nrsvbible)
+                    nextComment = constructComment(lookupList, comment, nivbible, esvbible, kjvbible, nrsvbible, drabible)
                 else:
                     nextComment = False
 
@@ -98,3 +99,4 @@ while True:
                     lookupList.clear()
 
     sleep(30) # Waits 30 seconds between scans by default
+

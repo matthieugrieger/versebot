@@ -12,6 +12,9 @@ def getKJV():
 def getNRSV():
     return environ['NRSVBIBLE']
 
+def getDRA():
+    return environ['DRABIBLE']
+
 def getBotUsername():
     return environ['USERNAME']
 
