@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### September 17, 2013
+* Added Douay-Rheims American translation.
+* Added ability to set subreddit-specific default translations.
+
 ### September 16, 2013
 * VerseBot released on [/r/Catholicism](http://www.reddit.com/r/Catholicism/).
 * VerseBot released on [/r/OrthodoxChristianity](http://www.reddit.com/r/OrthodoxChristianity).
