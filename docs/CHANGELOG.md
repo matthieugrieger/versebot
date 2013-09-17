@@ -3,6 +3,7 @@
 ### September 17, 2013
 * Added Douay-Rheims American translation.
 * Added ability to set subreddit-specific default translations.
+* Set the following translation defaults: Christianity = ESV, TrueChristian = ESV, Catholicism = Douay-Rheims.
 
 ### September 16, 2013
 * VerseBot released on [/r/Catholicism](http://www.reddit.com/r/Catholicism/).
