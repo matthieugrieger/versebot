@@ -2,6 +2,7 @@
 
 ### September 16, 2013
 * VerseBot released on [/r/Catholicism](http://www.reddit.com/r/Catholicism/).
+* VerseBot released on [/r/OrthodoxChristianity](http://www.reddit.com/r/OrthodoxChristianity).
 
 ### September 13, 2013
 * Updated PRAW to 2.1.6. This fixes spamming during times when reddit is under heavy load.

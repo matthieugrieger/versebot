@@ -6,7 +6,7 @@
 VerseBot is a reddit bot that is triggered by Bible verse references in reddit comments. It posts the contents of the verse selection as a reply to the comment with the Bible verse reference.
 
 ### Where is it currently being used?
-VerseBot is currently running on [/r/Christianity](http://www.reddit.com/r/christianity), [/r/TrueChristian](http://www.reddit.com/r/TrueChristian), and [/r/Catholicism](http://www.reddit.com/r/Catholicism/).
+VerseBot is currently running on [/r/Christianity](http://www.reddit.com/r/christianity), [/r/TrueChristian](http://www.reddit.com/r/TrueChristian), [/r/Catholicism](http://www.reddit.com/r/Catholicism/), and [/r/OrthodoxChristianity](http://www.reddit.com/r/OrthodoxChristianity).
 
 ### How do I use it?
 If you want VerseBot to quote a Bible verse from your comment, simply surround it in brackets ([]). That's it! However, there are some small rules that your Bible quotation must follow:
