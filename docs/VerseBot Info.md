@@ -44,6 +44,7 @@ Currently, VerseBot supports the following translations:
 * New Revised Standard Version (NRSV)
 * King James Version (KJV)
 * Douay-Rheims American Version (DRA)
+* Brenton's Septuagint
 
 ### How do I specify a translation for my verse quotation?
 Easy! Just put the desired translation in the brackets next to the desired verse. 

@@ -15,6 +15,9 @@ def getNRSV():
 def getDRA():
     return environ['DRABIBLE']
 
+def getBrenton():
+    return environ['BRENTONBIBLE']
+
 def getBotUsername():
     return environ['USERNAME']
 

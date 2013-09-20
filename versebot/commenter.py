@@ -12,15 +12,17 @@ esvbible = OrderedDict()
 kjvbible = OrderedDict()
 nrsvbible = OrderedDict()
 drabible = OrderedDict()
+brentonbible = OrderedDict()
 
-def constructComment(commands, comment, niv, esv, kjv, nrsv, dra):
-    global currentComment, bookNumber, nivbible, esvbible, kjvbible, nrsvbible, drabible
+def constructComment(commands, comment, niv, esv, kjv, nrsv, dra, brenton):
+    global currentComment, bookNumber, nivbible, esvbible, kjvbible, nrsvbible, drabible, brentonbible
 
     nivbible = niv
     esvbible = esv
     kjvbible = kjv
     nrsvbible = nrsv
     drabible = dra
+    brentonbible = brenton
 
     subreddit = comment.permalink[24:comment.permalink.find('/', 24)] # Finds subreddit of comment (might be in PRAW, but I don't know how to access it)
 
@@ -105,9 +107,12 @@ def lookupPassage(book = False, chapter = False, verse = False, bible = False):
         return currentSelection
 
 def getBibleTranslation(commentText, bookNum, subreddit):
-    global nivbible, esvbible, kjvbible, nrsvbible, drabible
+    global nivbible, esvbible, kjvbible, nrsvbible, drabible, brentonbible
     if 67 <= bookNum <= 88: # Uses KJV bible if an Deuterocanon chapter is selected
-        return kjvbible, 'KJV Deuterocanon'
+        if subreddit == 'OrthodoxChristianity':
+            return brentonbible, 'Brenton\'s Septuagint'
+        else:
+            return kjvbible, 'KJV Deuterocanon'
     else:
         if 'niv' in commentText:
             return nivbible, 'NIV'
@@ -119,11 +124,18 @@ def getBibleTranslation(commentText, bookNum, subreddit):
             return nrsvbible, 'NRSV'
         elif 'dra' in commentText or 'duoay' in commentText or 'rheims' in commentText:
             return drabible, 'DRA'
+        elif 'brenton' in commentText:
+            return brentonbible, 'Brenton\'s Septuagint'
         else: # Uses the default translation for each subreddit
             if subreddit == 'Christianity' or subreddit == 'TrueChristian':
                 return esvbible, 'ESV'
             elif subreddit == 'Catholicism':
                 return drabible, 'DRA'
+            elif subreddit == 'OrthodoxChristianity':
+                if 40 <= bookNum <= 66:
+                    return esvbible, 'ESV'
+                else:
+                    return brentonbible, 'Brenton\'s Septuagint'
             else:
                 return esvbible, 'ESV'
 
@@ -137,14 +149,21 @@ def constructErrorMessage(commands, subreddit):
         linkChapter = str(linkCommand[1])
         linkVerse = str(linkCommand[2])
         linkTranslation = getBibleTranslation(command.lower(), bookNum, subreddit)[1]
-        if 67 <= bookNum <= 88: # Contains a book from the deuterocanon, meaning http://www.kingjamesbibleonline.org/ must be used instead.
+        if linkTranslation == 'Brenton\'s Septuagint': # BibleGateway does not support Brenton's Septuagint
+            if linkVerse != '0':
+                errorLink = ('http://www.studybible.info/Brenton/' + linkBook + '%20' + linkChapter + ':' + linkVerse).replace(' ', '%20')
+                msg += ('- [' + linkBook + ' ' + linkChapter + ':' + linkVerse + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+            else:
+                errorLink = ('http://www.studybible.info/Brenton/' + linkBook + '%20' + linkChapter).replace(' ', '%20')
+                msg += ('- [' + linkBook + ' ' + linkChapter + ' (' + linkTranslation + ')](' + errorLink + ')\n')
+        elif 67 <= bookNum <= 88: # Contains a book from the deuterocanon, meaning http://www.kingjamesbibleonline.org/ must be used instead.
             if linkVerse != '0':
                 errorLink = ('http://www.kingjamesbibleonline.org/' + linkBook + '-' + linkChapter + '-' + linkVerse + '/').replace(' ', '-')
                 msg += ('- [' + linkBook + ' ' + linkChapter + ':' + linkVerse + ' (' + linkTranslation + ')](' + errorLink + ')\n')
             else:
                 errorLink = ('http://www.kingjamesbibleonline.org/' + linkBook + '-Chapter-' + linkChapter + '/').replace(' ', '-')
                 msg += ('- [' + linkBook + ' ' + linkChapter + ' (' + linkTranslation + ')](' + errorLink + ')\n')
-        else:
+        else: # Use BibleGateway if none of the above stipulations are met
             if linkVerse != '0':
                 errorLink = ('http://www.biblegateway.com/passage/?search=' + linkBook + '%20' + linkChapter + ':' + linkVerse + '&version=' + linkTranslation).replace(' ', '%20')
                 msg += ('- [' + linkBook + ' ' + linkChapter + ':' + linkVerse + ' (' + linkTranslation + ')](' + errorLink + ')\n')

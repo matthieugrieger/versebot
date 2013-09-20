@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### September 19, 2013
+* Added Brenton's Septuagint.
+* Set following translation default: OrthodoxChristianity = Brenton's Septuagint.
+
 ### September 17, 2013
 * Added Douay-Rheims American translation.
 * Added ability to set subreddit-specific default translations.
