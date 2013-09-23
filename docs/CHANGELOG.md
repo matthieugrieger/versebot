@@ -2,6 +2,7 @@
 
 ### September 22, 2013
 * VerseBot released on [/r/SOTE](http://www.reddit.com/r/SOTE).
+* Set following translation default: SOTE = ESV.
 
 ### September 19, 2013
 * Added Brenton's Septuagint.
