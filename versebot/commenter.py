@@ -127,7 +127,7 @@ def getBibleTranslation(commentText, bookNum, subreddit):
         elif 'brenton' in commentText:
             return brentonbible, 'Brenton\'s Septuagint'
         else: # Uses the default translation for each subreddit
-            if subreddit == 'Christianity' or subreddit == 'TrueChristian':
+            if subreddit == 'Christianity' or subreddit == 'TrueChristian' or subreddit == 'SOTE':
                 return esvbible, 'ESV'
             elif subreddit == 'Catholicism':
                 return drabible, 'DRA'

@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### September 22, 2013
+* VerseBot released on [/r/SOTE](http://www.reddit.com/r/SOTE).
+
 ### September 19, 2013
 * Added Brenton's Septuagint.
 * Set following translation default: OrthodoxChristianity = Brenton's Septuagint.
