@@ -33,12 +33,17 @@ def constructComment(commands, comment, niv, esv, kjv, nrsv, dra, brenton):
         if bookNumber != False:
             nextCommand = parseCommand(command.lower(), subreddit)
             if nextCommand[0] != False:
+                bookName = booknames.getBookTitle(bookNumber)
+                chapter = str(nextCommand[1])
+                translation = getBibleTranslation(command.lower(), bookNumber, subreddit)[1]
+                contextLink = getContextLink(bookName, chapter, translation)
                 if nextCommand[2] != '0':
-                    currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ':' + str(nextCommand[2]) + ' (*' + 
-                                       getBibleTranslation(command.lower(), bookNumber, subreddit)[1] + '*)**\n>' + nextCommand[0]) + '\n\n'
+                    verse = str(nextCommand[2])
+                    currentComment += ('[**' + bookName + ' ' + chapter + ':' + verse + ' (*' + 
+                                       translation + '*)**](' + contextLink + ')\n>' + nextCommand[0]) + '\n\n'
                 else:
-                    currentComment += ('**' + booknames.getBookTitle(bookNumber) + ' ' + str(nextCommand[1]) + ' (*' + getBibleTranslation(command.lower(), bookNumber, subreddit)[1] +
-                                       '*)**\n>' + nextCommand[0]) + '\n\n'
+                    currentComment += ('[**' + bookName + ' ' + chapter + ' (*' + translation + '*)**](' + 
+                                       contextLink + ')\n>' + nextCommand[0]) + '\n\n'
     currentComment += commentFooter
     if currentComment != commentFooter:
         if len(currentComment) <= 3000: # Only posts generated response if it is less than or equal to 3000 characters in length
@@ -172,3 +177,13 @@ def constructErrorMessage(commands, subreddit):
                 msg += ('- [' + linkBook + ' ' + linkChapter + ' (' + linkTranslation + ')](' + errorLink + ')\n')
 
     return msg
+
+def getContextLink(bookName, chap, translation):
+    if translation == 'Brenton\'s Septuagint':
+        link = ('http://studybible.info/Brenton/' + bookName + '%20' + chap).replace(' ', '%20')
+    elif translation == 'KJV Deuterocanon':
+        link = ('http://kingjamesbibleonline.org/' + bookName + '-Chapter-' + chap + '/').replace(' ', '-')
+    else:
+        link = ('http://www.biblegateway.com/passage/?search=' + bookName + '%20' + chap + '&version=' + translation).replace(' ', '%20')
+
+    return link
