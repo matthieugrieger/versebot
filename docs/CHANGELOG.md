@@ -1,5 +1,10 @@
 # VerseBot Changelog
 
+### September 26, 2013
+* Verse titles now link to full chapter for context.
+* Added 1st Timothy and 2nd Timothy to list of Bible abbreviations.
+* Made a slight change to regex to allow for the change above.
+
 ### September 22, 2013
 * VerseBot released on [/r/SOTE](http://www.reddit.com/r/SOTE).
 * Set following translation default: SOTE = ESV.

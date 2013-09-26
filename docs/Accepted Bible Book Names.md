@@ -57,8 +57,8 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Colossians__ -- Colossians, Col
 * __1 Thessalonians__ -- 1 Thessalonians, 1Thessalonians, 1 Thess, 1Thess, 1 Thes, 1Thes
 * __2 Thessalonians__ -- 2 Thessalonians, 2Thessalonians, 2 Thess, 2Thess, 2 Thes, 2Thes
-* __1 Timothy__ -- 1 Timothy, 1Timothy, 1 Tim, 1Tim, 1 Tm, 1Tm
-* __2 Timothy__ -- 2 Timothy, 2Timothy, 2 Tim, 2Tim, 2 Tm, 2Tm
+* __1 Timothy__ -- 1 Timothy, 1Timothy, 1st Timothy, 1 Tim, 1Tim, 1 Tm, 1Tm
+* __2 Timothy__ -- 2 Timothy, 2Timothy, 2nd Timothy, 2 Tim, 2Tim, 2 Tm, 2Tm
 * __Titus__ -- Titus, Ti
 * __Philemon__ -- Philemon, Philem, Phlm
 * __Hebrews__ -- Hebrews, Heb

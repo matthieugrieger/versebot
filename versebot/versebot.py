@@ -75,7 +75,7 @@ while True:
             versesToFind = findall(r'\[[\w\s:,-]+](?!\()', comment.body) # Uses regex to find verses in comment body (no longer incorrectly matches links)
             if (len(versesToFind) != 0):
                 for ver in versesToFind:
-                    nextVer = findall(r'(?:\d\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+)?', ver) # Regex to find valid commands in brackets. Looks really ugly, can probably be made better.
+                    nextVer = findall(r'(?:\d\w*\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+)?', ver) # Regex to find valid commands in brackets. Looks really ugly, can probably be made better.
                     lookupList.append(str(nextVer))
 
                 if len(lookupList) != 0:
