@@ -17,7 +17,7 @@ bookNames = OrderedDict([('genesis',1) , ('gen',1) , ('gn',1), ('exodus',2), ('e
                          ('obadiah',31), ('obad',31), ('ob',31), ('jonah',32), ('jon',32), ('micah',33), ('mic',33), ('nahum',34),
                          ('nah',34), ('na',34), ('habakkuk',35), ('hab',35), ('hb',35), ('zephaniah',36), ('zeph',36), ('zep',36),
                          ('haggai',37), ('hag',37), ('hg',37), ('zechariah',38), ('zech',38), ('zec',38), ('malachi',39),
-                         ('mal',39), ('matthew',40), ('matt',40), ('mat',40), ('mt',40), ('mark',41), ('mk',41), ('luke',42), ('lk',42),
+                         ('mal',39), ('matthew',40), ('mathew',40), ('matt',40), ('mat',40), ('mt',40), ('mark',41), ('mk',41), ('luke',42), ('lk',42),
                          ('john',43), ('jn',43), ('acts',44), ('acts of the apostles',44), ('romans',45), ('rom',45),
                          ('1 corinthians',46), ('1corinthians',46), ('1 cor',46), ('1cor',46), ('2 corinthians',47), ('2corinthians',47), 
                          ('2 cor',47), ('2cor',47), ('galatians',48), ('gal',48), ('ephesians',49), ('philippians',50), ('phil',50), 

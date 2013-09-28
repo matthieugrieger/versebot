@@ -43,7 +43,7 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Malachi__ -- Malachi, Mal
 
 ### New Testament
-* __Matthew__ -- Matthew, Matt, Mat, Mt
+* __Matthew__ -- Matthew, Mathew, Matt, Mat, Mt
 * __Mark__ -- Mark, Mk
 * __Luke__ -- Luke, Lk
 * __John__ -- John, Jn
@@ -86,7 +86,7 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Prayer of Manasseh__ -- Prayer of Manasseh, Manasseh, Prayer of Manasses, Manasses, PrMan
 * __1 Maccabees__ -- 1 Maccabees, 1Maccabees, 1 Macc, 1Macc, 1 Mac, 1Mac
 * __2 Maccabees__ -- 2 Maccabees, 2Maccabees, 2 Macc, 2Macc, 2 Mac, 2Mac
-* __3 Maccabees (Brenton's only)__ -- 3 Maccabees, 3Maccabees, 3 Macc, 3Macc, 3 Mac, 3Mac
+* __3 Maccabees (Brenton's only)__ -- 3 Maccabees, 3Maccabees, 3 Macc, 3Macc, 3 Mac, 3Mac 
 * __4 Maccabees (Brenton's only)__ -- 4 Maccabees, 4Maccabees, 4 Macc, 4Macc, 4 Mac, 4Mac
 
 Want an abbreviation added? Let me know!

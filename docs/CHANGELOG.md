@@ -5,6 +5,8 @@
 * Code is more thoroughly commented.
 * VerseBot no longer replies to comments with verse text from a different book of the Bible. Example: interpreting [1 Timohty 1:1] as Titus 1:1 (misspelled on purpose).
 * Horizontal rule added to bottom of comment before comment footer.
+* Fixed slight formatting error.
+* Added 'Mathew' (Matthew) to list of accepted bible names.
 
 ### September 26, 2013
 * Verse titles now link to full chapter for context.
