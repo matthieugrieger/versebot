@@ -4,89 +4,120 @@
 #---------------------#
 
 import pickle
-import praw
 import configloader
-import os
+import praw
 import psycopg2
 import urllib.parse
-from commenter import constructComment
+from verse import Verse
 from sys import exit
-from warnings import filterwarnings
-from time import sleep
 from re import findall
+from time import sleep
 from os import environ
+from warnings import filterwarnings
 
-filterwarnings("ignore", category=DeprecationWarning) # Ignores DeprecationWarnings caused by PRAW
-filterwarnings("ignore", category=ResourceWarning) # Ignores ResourceWarnings when using pickle files. May need to look into this later, but it seems to work fine.
+# Ignores ResourceWarnings when using pickle files. May need to look into this later, but it seems to work fine.
+filterwarnings("ignore", category=ResourceWarning)
+# Ignores DeprecationWarnings caused by PRAW
+filterwarnings("ignore", category=DeprecationWarning) 
 
+print('Starting up VerseBot...')
+
+# Loads Bible translation pickle files into memory.
 print('Loading Bible translations...')
 try:
-    nivbible = pickle.load(open(configloader.getNIV(), 'rb'))
     esvbible = pickle.load(open(configloader.getESV(), 'rb'))
-    kjvbible = pickle.load(open(configloader.getKJV(), 'rb'))
+    nivbible = pickle.load(open(configloader.getNIV(), 'rb'))
     nrsvbible = pickle.load(open(configloader.getNRSV(), 'rb'))
+    kjvbible = pickle.load(open(configloader.getKJV(), 'rb'))
     drabible = pickle.load(open(configloader.getDRA(), 'rb'))
     brentonbible = pickle.load(open(configloader.getBrenton(), 'rb'))
+    bibles = (esvbible, nivbible, nrsvbible, kjvbible, drabible, brentonbible)
     print('Bible translations successfully loaded!')
 except:
     print('Error while loading Bible translations. Make sure the environment vars point to correct paths.')
     exit()
 
+# Connects to reddit via PRAW.
 print('Connecting to reddit...')
 try:
     r = praw.Reddit(user_agent='VerseBot by /u/mgrieger. Github: https://github.com/matthieugrieger/versebot')
     r.login(configloader.getBotUsername(), configloader.getBotPassword())
-    print('Connected!')
+    print('Connected to reddit!')
 except:
     print('Connection to reddit failed. Either reddit is down at the moment, or something in the config is incorrect.')
     exit()
 
+# Connects to a PostgreSQL database used to store comment ids.
 print('Connecting to database...')
 urllib.parse.uses_netloc.append('postgres')
 url = urllib.parse.urlparse(environ['HEROKU_POSTGRESQL_ONYX_URL'])
-conn = psycopg2.connect(
+try:
+    conn = psycopg2.connect(
     database = url.path[1:],
     user = url.username,
     password = url.password,
     host = url.hostname,
-    port = url.port
-)
-cur = conn.cursor()
+    port = url.port)
+    
+    cur = conn.cursor()
+    print('Connected to database!')
+except:
+    print('Connection to database failed.')
+    exit()
 
-io = open('tmp.txt', 'w')
-cur.copy_to(io, 'commentids', sep='|')
-io.close()
+# Fills text file previous comment ids from PostgreSQL database.
+print('Setting up tmp.txt...')
+try:
+    io = open('tmp.txt', 'w')
+    cur.copy_to(io, 'commentids', sep='|')
+    io.close()
+    print('tmp.txt ready!')
+except:
+    print('Error when setting up tmp.txt.')
+    exit()
 
 commentsAdded = False
 lookupList = list()
-comment_ids_this_session = set() # This is to help protect against spamming when connection to database is lost
+comment_ids_this_session = set() # This is to help protect against spamming when connection to database is lost.
 
+print('Beginning to scan comments...')
+# This loop runs every 30 seconds.
 while True:
-
     if commentsAdded:
+        # Copies new comment ids from database into txt file for searching.
         io = open('tmp.txt', 'w')
         cur.copy_to(io, 'commentids', sep='|')
         io.close()
     subreddit = r.get_subreddit(configloader.getSubreddits())
     subreddit_comments = subreddit.get_comments()
+
     for comment in subreddit_comments:
         if comment.author != configloader.getBotUsername() and comment.id not in open('tmp.txt').read() and comment.id not in comment_ids_this_session:
             comment_ids_this_session.add(comment.id)
-            versesToFind = findall(r'\[[\w\s:,-]+](?!\()', comment.body) # Uses regex to find verses in comment body (no longer incorrectly matches links)
-            if (len(versesToFind) != 0):
+            versesToFind = findall(r'\[[\w\s:,-]+](?!\()', comment.body) # Uses regex to find potential verses in comment body.
+            if len(versesToFind) != 0:
                 for ver in versesToFind:
-                    nextVer = findall(r'(?:\d\w*\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+)?', ver) # Regex to find valid commands in brackets. Looks really ugly, can probably be made better.
+                    # This regex is ugly, I will look into making it prettier later.
+                    nextVer = findall(r'(?:\d\w*\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+)?', ver)
                     lookupList.append(str(nextVer))
 
                 if len(lookupList) != 0:
-                    nextComment = constructComment(lookupList, comment, nivbible, esvbible, kjvbible, nrsvbible, drabible, brentonbible)
+                    verseObject = Verse(lookupList, comment, bibles)
+                    nextComment = verseObject.getComment()
+                    if nextComment != False:
+                        comment.reply(nextComment)
+                    verseObject.clearVerses()
                 else:
                     nextComment = False
 
                 if nextComment != False:
                     print('Inserting new comment id to database...')
-                    cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,))
-                    conn.commit()
+                    try:
+                        cur.execute("""INSERT INTO commentids VALUES (%s);""", (comment.id,))
+                        conn.commit()
+                    except:
+                        print('Database insert failed.')
+                        exit()
                     commentsAdded = True
                     lookupList.clear()
                 else:
@@ -98,6 +129,5 @@ while True:
                     except KeyError:
                         pass
                     lookupList.clear()
-
-    sleep(30) # Waits 30 seconds between scans by default
-
+    
+    sleep(30)
