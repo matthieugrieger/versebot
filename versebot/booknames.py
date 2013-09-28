@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from re import search
 
 bookNames = OrderedDict([('genesis',1) , ('gen',1) , ('gn',1), ('exodus',2), ('exod',2), ('ex',2), ('leviticus',3),
                          ('lev',3), ('lv',3), ('numbers',4), ('num',4), ('nm',4), ('deuteronomy',5), ('deut',5),
