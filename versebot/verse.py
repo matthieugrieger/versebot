@@ -160,7 +160,7 @@ class Verse:
                         else:
                             return False
                     else:
-                        verseText = '[**' + ver + ']** ' + bible[str(book)][int(chap)][int(ver)]
+                        verseText = '[**' + ver + '**] ' + bible[str(book)][int(chap)][int(ver)]
                 else:
                     for verse in bible[str(book)][int(chap)]:
                         verseText += '[**' + str(verse) + '**] ' + (bible[str(book)][int(chap)][verse] + ' ')
