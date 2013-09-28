@@ -57,7 +57,7 @@ bookTitles = {1:'Genesis', 2:'Exodus', 3:'Leviticus', 4:'Numbers', 5:'Deuteronom
 def getBookNumber(phrase): 
     sortedBookNames = OrderedDict(sorted(bookNames.items(), key=lambda t: len(t[0]), reverse = True))
     for key, value in sortedBookNames.items():
-        if key in phrase:
+        if search(r'\b' + key + r'\b', phrase):
             return value
     return False
 

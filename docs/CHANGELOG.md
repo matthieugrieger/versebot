@@ -1,5 +1,11 @@
 # VerseBot Changelog
 
+### September 27, 2013
+* Complete rewrite of VerseBot code. Should be much easier to update/understand now.
+* Code is more thoroughly commented.
+* VerseBot no longer replies to comments with verse text from a different book of the Bible. Example: interpreting [1 Timohty 1:1] as Titus 1:1 (misspelled on purpose).
+* Horizontal rule added to bottom of comment before comment footer.
+
 ### September 26, 2013
 * Verse titles now link to full chapter for context.
 * Added 1st Timothy and 2nd Timothy to list of Bible abbreviations.
