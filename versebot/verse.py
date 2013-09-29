@@ -194,7 +194,7 @@ class Verse:
     # __getCharLimit(). Instead of posting the contents of the verse(s) in the comment, it links to webpages
     # that contain the contents of the verse(s).
     def __getOverflowComment(self):
-        comment = 'The contents of the verse(s) you quoted exceed the character limit (4000 characters). Instead, here are links to the verse(s)!\n'
+        comment = 'The contents of the verse(s) you quoted exceed the character limit (4000 characters). Instead, here are links to the verse(s)!\n\n'
         for curVerData in self._verseData:
             book = curVerData[0]
             chap = curVerData[1]
