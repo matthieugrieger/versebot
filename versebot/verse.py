@@ -14,6 +14,7 @@ class Verse:
     _KJV = OrderedDict()
     _DRA = OrderedDict()
     _Brenton = OrderedDict()
+    _JPS = OrderedDict()
     _invalidComment = False
 
     # Initializes Verse object with data from the command(s)
@@ -24,6 +25,7 @@ class Verse:
         self._KJV = translations[3]
         self._DRA = translations[4]
         self._Brenton = translations[5]
+        self._JPS = translations[6]
         
         for verse in verseList:
             verseBookNum = booknames.getBookNumber(verse.lower())
@@ -116,6 +118,8 @@ class Verse:
                 return 'DRA'
             elif 'brenton' in commentText or 'septuagint' in commentText:
                 return 'Brenton\'s Septuagint'
+            elif 'jps' in commentText or 'tanakh' in commentText:
+                return 'JPS Tanakh'
             else: # Uses the default translation for each subreddit
                 if subreddit == 'Christianity' or subreddit == 'TrueChristian' or subreddit == 'SOTE':
                     return 'ESV'
@@ -126,6 +130,8 @@ class Verse:
                         return 'ESV'
                     else:
                         return 'Brenton\'s Septuagint'
+                elif subreddit == 'Judaism':
+                    return 'JPS Tanakh'
                 else:
                     return 'ESV'
     
@@ -147,6 +153,8 @@ class Verse:
             bible = self._DRA
         elif translation == 'Brenton\'s Septuagint':
             bible = self._Brenton
+        elif translation == 'JPS Tanakh':
+            bible = self._JPS
 
         if book and chap:
             try:
@@ -185,6 +193,8 @@ class Verse:
             link = ('http://studybible.info/Brenton/' + bookName + '%20' + chap).replace(' ', '%20')
         elif translation == 'KJV Deuterocanon':
             link = ('http://kingjamesbibleonline.org/' + bookName + '-Chapter-' + chap + '/').replace(' ', '-')
+        elif translation == 'JPS Tanakh':
+            link = ('http://www.taggedtanakh.org/Chapter/Index/english-' + booknames.getTanakhName(bookName) + '-' + chap)
         else:
             link = ('http://www.biblegateway.com/passage/?search=' + bookName + '%20' + chap + '&version=' + translation).replace(' ', '%20')
 
@@ -215,6 +225,12 @@ class Verse:
                  else:
                     overflowLink = ('http://www.kingjamesbibleonline.org/' + book + '-Chapter-' + chap + '/').replace(' ', '-')
                     comment += ('- [' + book + ' ' + chap + ' (' + translation + ')](' + overflowLink + ')\n')
+            elif translation == 'JPS Tanakh':
+                 overflowLink = ('http://www.taggedtanakh.org/Chapter/Index/english-' + booknames.getTanakhName(book) + '-' + chap)
+                 if ver != '0':
+                     comment += ('- [' + book + ' ' + chap + ':' + ver + ' (' + translation + ')](' + overflowLink + ')\n')
+                 else:
+                     comment += ('- [' + book + ' ' + chap + ' (' + translation + ')](' + overflowLink + ')\n')
             else:
                 if ver != '0':
                     overflowLink = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + ':' + 

@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### October 24, 2013
+* Added JPS Tanakh translation.
+* Released bot on [/r/Judaism](http://www.reddit.com/r/Judaism).
+
 ### September 27, 2013
 * Complete rewrite of VerseBot code. Should be much easier to update/understand now.
 * Code is more thoroughly commented.

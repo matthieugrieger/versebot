@@ -18,6 +18,9 @@ def getDRA():
 def getBrenton():
     return environ['BRENTONBIBLE']
 
+def getJPS():
+    return environ['JPSBIBLE']
+
 def getBotUsername():
     return environ['USERNAME']
 

@@ -53,6 +53,16 @@ bookTitles = {1:'Genesis', 2:'Exodus', 3:'Leviticus', 4:'Numbers', 5:'Deuteronom
                 75:'Additions to Esther', 76:'Prayer of Manasseh', 77:'3 Maccabees', 78:'4 Maccabees', 80:'1 Esdras', 81:'2 Esdras', 
                 87:'Susanna', 88:'Bel and the Dragon'}
 
+# http://www.taggedtanakh.org/ uses shortened book names for its URLs. This data structure helps retrieve the shortened book name
+# to construct the correct URL.
+tanakhNames = {'Genesis':'Gen', 'Exodus':'Exod', 'Leviticus':'Lev', 'Numbers':'Num', 'Deuteronomy':'Deut', 'Joshua':'Josh',
+               'Judges':'Judg', '1 Samuel':'1%20Sam', '2 Samuel':'2%20Sam', '1 Kings':'1%20Kings', '2 Kings':'2%20Kings',
+               'Isaiah':'Isa', 'Jeremiah':'Jer', 'Ezekiel':'Ezek', 'Hosea':'Hosea', 'Joel':'Joel', 'Amos':'Amos', 'Obadiah':'Obad',
+               'Jonah':'Jon', 'Micah':'Mic', 'Nahum':'Nah', 'Habakkuk':'Hab', 'Zephaniah':'Zeph', 'Haggai':'Hag', 'Zechariah':'Zech',
+               'Malachi':'Mal', 'Psalms':'Ps', 'Proverbs':'Prov', 'Job':'Job', 'Song of Songs':'Songs', 'Ruth':'Ruth', 'Lamentations':'Lam',
+               'Ecclesiastes':'Eccles', 'Esther':'Esther', 'Daniel':'Dan', 'Ezra':'Ezra', 'Nehemiah':'Neh', '1 Chronicles':'1%20Chron',
+               '2 Chronicles':'2%20Chron'}
+
 # First, this function sorts the keys in bookNames, longest strings first. This is to avoid incorrect triggers.
 # Example: Misinterpreting [1 John 1:1] as John 1:1 since the string 'John' IS in '1 John'
 def getBookNumber(phrase): 
@@ -62,5 +72,10 @@ def getBookNumber(phrase):
             return value
     return False
 
+# Retrives title of book for verse headings
 def getBookTitle(bookNum):
     return bookTitles[bookNum]
+
+# Retrieves shortened book name needed to construct a URL for http://www.taggedtanakh.org/
+def getTanakhName(bookName):
+    return tanakhNames[bookName]
