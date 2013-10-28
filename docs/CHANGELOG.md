@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### October 28, 2013
+* Added Hebrew names for some of the Old Testament books.
+
 ### October 24, 2013
 * Added JPS Tanakh translation.
 * Released bot on [/r/Judaism](http://www.reddit.com/r/Judaism).

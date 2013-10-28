@@ -2,18 +2,18 @@
 _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 
 ### Old Testament
-* __Genesis__ -- Genesis, Gen, Gn
-* __Exodus__ -- Exodus, Exod, Ex
-* __Leviticus__ -- Leviticus, Lev, Lv
-* __Numbers__ -- Numbers, Num, Nm
-* __Deuteronomy__ -- Deuteronomy, Deut, Dt
-* __Joshua__ -- Joshua, Josh
-* __Judges__ -- Judges, Judg, Jgs
+* __Genesis__ -- Genesis, Gen, Gn, Bereshit
+* __Exodus__ -- Exodus, Exod, Ex, Shemot
+* __Leviticus__ -- Leviticus, Lev, Lv, Vayikra
+* __Numbers__ -- Numbers, Num, Nm, Bemidbar
+* __Deuteronomy__ -- Deuteronomy, Deut, Dt, Devarim
+* __Joshua__ -- Joshua, Josh, Yehoshua
+* __Judges__ -- Judges, Judg, Jgs, Shoftim
 * __Ruth__ -- Ruth, Ru
-* __1 Samuel__ -- 1 Samuel, 1Samuel, 1 Sam, 1Sam, 1 Sm, 1Sm
-* __2 Samuel__ -- 2 Samuel, 2Samuel, 2 Sam, 2Sam, 2 Sm, 2Sm
-* __1 Kings__ -- 1 Kings, 1Kings, 1 Kgs, 1Kgs
-* __2 Kings__ -- 2 Kings, 2Kings, 2 Kgs, 2Kgs
+* __1 Samuel__ -- 1 Samuel, 1Samuel, 1 Sam, 1Sam, 1 Sm, 1Sm, 1 Shmuel, 1Shmuel
+* __2 Samuel__ -- 2 Samuel, 2Samuel, 2 Sam, 2Sam, 2 Sm, 2Sm, 2 Shmuel, 2Shmuel
+* __1 Kings__ -- 1 Kings, 1Kings, 1 Kgs, 1Kgs, 1 Melachim, 1Melachim
+* __2 Kings__ -- 2 Kings, 2Kings, 2 Kgs, 2Kgs, 2 Melachim, 2Melachim
 * __1 Chronicles__ -- 1 Chronicles, 1Chronicles, 1 Chron, 1Chron, 1 Chr, 1Chr
 * __2 Chronicles__ -- 2 Chronicles, 2Chronicles, 2 Chron, 2Chron, 2 Chr, 2Chr
 * __Ezra__ -- Ezra, Ezr
@@ -24,22 +24,22 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __Proverbs__ -- Proverbs, Prov, Prv
 * __Ecclesiastes__ -- Ecclesiastes, Eccles, Eccl
 * __Song of Songs__ -- Song of Solomon, Song of Songs, Song of Sol, Sg
-* __Isaiah__ -- Isaiah, Isa
-* __Jeremiah__ -- Jeremiah, Jer
+* __Isaiah__ -- Isaiah, Isa, Yeshayahu, Yeshaya
+* __Jeremiah__ -- Jeremiah, Jer, Yirmiyahu, Yirmiyah
 * __Lamentations__ -- Lamentations, Lam
-* __Ezekiel__ -- Ezekiel, Ezek
+* __Ezekiel__ -- Ezekiel, Ezek, Yechezkel
 * __Daniel__ -- Daniel, Dan, Dn
-* __Hosea__ -- Hosea, Hos
-* __Joel__ -- Joel, Jl
+* __Hosea__ -- Hosea, Hos, Hoshea
+* __Joel__ -- Joel, Jl, Yoel
 * __Amos__ -- Amos, Am
-* __Obadiah__ -- Obadiah, Obad, Ob
-* __Jonah__ -- Jonah, Jon
-* __Micah__ -- Micah, Mic
-* __Nahum__ -- Nahum, Nah, Na
-* __Habakkuk__ -- Habakkuk, Hab, Hb
-* __Zephaniah__ -- Zephaniah, Zeph, Zep
-* __Haggai__ -- Haggai, Hag, Hg
-* __Zechariah__ -- Zechariah, Zech, Zec
+* __Obadiah__ -- Obadiah, Obad, Ob, Ovadiah, Ovadyah
+* __Jonah__ -- Jonah, Jon, Yonah
+* __Micah__ -- Micah, Mic, Michah
+* __Nahum__ -- Nahum, Nah, Na, Nachum
+* __Habakkuk__ -- Habakkuk, Hab, Hb, Chavakuk
+* __Zephaniah__ -- Zephaniah, Zeph, Zep, Tzefaniah, Tzefanyah
+* __Haggai__ -- Haggai, Hag, Hg, Chaggai
+* __Zechariah__ -- Zechariah, Zech, Zec, Zecharya, Zecharyah, Zechariyah
 * __Malachi__ -- Malachi, Mal
 
 ### New Testament
