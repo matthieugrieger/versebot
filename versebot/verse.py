@@ -121,7 +121,7 @@ class Verse:
             elif 'jps' in commentText or 'tanakh' in commentText:
                 return 'JPS Tanakh'
             else: # Uses the default translation for each subreddit
-                if subreddit == 'Christianity' or subreddit == 'TrueChristian' or subreddit == 'SOTE':
+                if subreddit == 'Christianity' or subreddit == 'TrueChristian' or subreddit == 'SOTE' or subreddit == 'Reformed':
                     return 'ESV'
                 elif subreddit == 'Catholicism':
                     return 'DRA'

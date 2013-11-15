@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### November 15, 2013
+* VerseBot released on [/r/Reformed](http://www.reddit.com/r/Reformed).
+
 ### October 28, 2013
 * Added Hebrew names for some of the Old Testament books.
 
