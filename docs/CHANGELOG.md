@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### November 29, 2013
+* Fixed an incorrect verse in the ESV translation.
+
 ### November 15, 2013
 * VerseBot released on [/r/Reformed](http://www.reddit.com/r/Reformed).
 
