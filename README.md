@@ -8,7 +8,7 @@ A reddit bot that is triggered by Bible verse references in reddit comments. It 
 First, you will want to install PRAW ([Python Reddit API Wrapper](https://github.com/praw-dev/praw)).
 Once PRAW is installed, you will also need to install [psycopg2](http://initd.org/psycopg/docs/install.html#install-from-a-package). This is used to connect to the PostgreSQL database.
 
-In order to run the bot as-is, you must use [Heroku](https://www.heroku.com/). In order to use Heroku, you must register an account and install [Heroku Toolbelt](https://toolbelt.heroku.com/).
+In order to run the bot as-is, you must use [Heroku](https://www.heroku.com/). To use Heroku, you must register an account and install [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
 Once the bot is deployed to Heroku, you must set your environment variables. Below are the required variables that need to be set:
 
@@ -18,6 +18,7 @@ Once the bot is deployed to Heroku, you must set your environment variables. Bel
 * `NRSVBIBLE`: File path to `nrsv.pickle`
 * `DRABIBLE`: File path to `douay-rheims.pickle`
 * `BRENTONBIBLE`: File path to `brentons-septuagint.pickle`
+* `JPSBIBLE`: File path to `jps-tanakh.pickle`
 * `USERNAME`: reddit username of the account you want the bot to run on
 * `PASSWORD`: Password of aforementioned reddit account
 * `SUBREDDITS`: List of subreddits you want the bot to run on (multiple subreddits can be added if they are separated with + signs)
