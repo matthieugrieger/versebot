@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### December 20, 2013
+* VerseBot released on [/r/DebateAChristian](http://www.reddit.com/r/DebateAChristian).
+
 ### November 29, 2013
 * Fixed an incorrect verse in the ESV translation.
 
