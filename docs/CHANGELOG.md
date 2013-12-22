@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### December 22, 2013
+* Nova Vulgata (A Latin translation) added to VerseBot.
+* Removed some redundant code.
+
 ### December 20, 2013
 * VerseBot released on [/r/DebateAChristian](http://www.reddit.com/r/DebateAChristian).
 

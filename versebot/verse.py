@@ -15,6 +15,7 @@ class Verse:
     _DRA = OrderedDict()
     _Brenton = OrderedDict()
     _JPS = OrderedDict()
+    _Nova = OrderedDict()
     _invalidComment = False
 
     # Initializes Verse object with data from the command(s)
@@ -26,6 +27,7 @@ class Verse:
         self._DRA = translations[4]
         self._Brenton = translations[5]
         self._JPS = translations[6]
+        self._Nova = translations[7]
         
         for verse in verseList:
             verseBookNum = booknames.getBookNumber(verse.lower())
@@ -120,6 +122,8 @@ class Verse:
                 return 'Brenton\'s Septuagint'
             elif 'jps' in commentText or 'tanakh' in commentText:
                 return 'JPS Tanakh'
+            elif 'nova' in commentText or 'vulgata' in commentText or 'nv' in commentText or 'latin' in commentText:
+                return 'Nova Vulgata'
             else: # Uses the default translation for each subreddit
                 if subreddit == 'Christianity' or subreddit == 'TrueChristian' or subreddit == 'SOTE' or subreddit == 'Reformed' or subreddit == 'DebateAChristian':
                     return 'ESV'
@@ -155,6 +159,8 @@ class Verse:
             bible = self._Brenton
         elif translation == 'JPS Tanakh':
             bible = self._JPS
+        elif translation == 'Nova Vulgata':
+            bible = self._Nova
 
         if book and chap:
             try:
@@ -184,7 +190,8 @@ class Verse:
                + ' [[Feedback](https://github.com/matthieugrieger/versebot/issues)]' 
                + ' [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)]'
                + ' [[FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq)]' 
-               + ' [[Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md)]')
+               + ' [[Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md)]'
+               + '\n\n**^^Dec ^^22, ^^2013:** ^^VerseBot ^^can ^^now ^^quote ^^verses ^^from ^^the ^^Nova ^^Vulgata!')
 
     # Takes the verse's book name, chapter, and translation as parameters. The function then constructs
     # the appropriate context link. This link appears on each verse title.
@@ -195,6 +202,15 @@ class Verse:
             link = ('http://kingjamesbibleonline.org/' + bookName + '-Chapter-' + chap + '/').replace(' ', '-')
         elif translation == 'JPS Tanakh':
             link = ('http://www.taggedtanakh.org/Chapter/Index/english-' + booknames.getTanakhName(bookName) + '-' + chap)
+        elif translation == 'Nova Vulgata':
+            novaNum = booknames.getBookNumber(bookName.lower())
+            if novaNum <= 39: # The Vatican website URL is different for Old Testament (Vetus Testamentum) and New Testament (Novum Testamentum)
+                if novaNum == 19: # Links to Psalms are formatted differently on http://vatican.va/
+                    link = ('http://www.vatican.va/archive/bible/nova_vulgata/documents/nova-vulgata_vt_psalmorum_lt.html#PSALMUS%20' + chap)
+                else:
+                    link = ('http://www.vatican.va/archive/bible/nova_vulgata/documents/nova-vulgata_vt_' + booknames.getNovaName(bookName) + '_lt.html#' + chap)
+            else:
+                link = ('http://www.vatican.va/archive/bible/nova_vulgata/documents/nova-vulgata_nt_' + booknames.getNovaName(bookName) + '_lt.html#' + chap)
         else:
             link = ('http://www.biblegateway.com/passage/?search=' + bookName + '%20' + chap + '&version=' + translation).replace(' ', '%20')
 
@@ -214,32 +230,29 @@ class Verse:
             if translation == 'Brenton\'s Septuagint':
                 if ver != '0':
                     overflowLink = ('http://www.studybible.info/Brenton/' + book + '%20' + chap + ':' + ver).replace(' ', '%20')
-                    comment += ('- [' + book + ' ' + chap + ':' + ver + ' (' + translation + ')](' + overflowLink + ')\n')
                 else:
                     overflowLink = ('http://www.studybible.info/Brenton/' + book + '%20' + chap).replace(' ', '%20')
-                    comment += ('- [' + book + ' ' + chap + ' (' + translation + ')](' + overflowLink + ')\n')
             elif translation == 'KJV Deuterocanon':
                  if ver != '0':
                     overflowLink = ('http://www.kingjamesbibleonline.org/' + book + '-' + chap + '-' + ver + '/').replace(' ', '-')
-                    comment += ('- [' + book + ' ' + chap + ':' + ver + ' (' + translation + ')](' + overflowLink + ')\n')
                  else:
                     overflowLink = ('http://www.kingjamesbibleonline.org/' + book + '-Chapter-' + chap + '/').replace(' ', '-')
-                    comment += ('- [' + book + ' ' + chap + ' (' + translation + ')](' + overflowLink + ')\n')
             elif translation == 'JPS Tanakh':
                  overflowLink = ('http://www.taggedtanakh.org/Chapter/Index/english-' + booknames.getTanakhName(book) + '-' + chap)
-                 if ver != '0':
-                     comment += ('- [' + book + ' ' + chap + ':' + ver + ' (' + translation + ')](' + overflowLink + ')\n')
-                 else:
-                     comment += ('- [' + book + ' ' + chap + ' (' + translation + ')](' + overflowLink + ')\n')
+            elif translation == 'Nova Vulgata':
+                overflowLink = self.__getContextLink(book, chap, translation)
             else:
                 if ver != '0':
                     overflowLink = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + ':' + 
                                     ver + '&version=' + translation).replace(' ', '%20')
-                    comment += ('- [' + book + ' ' + chap + ':' + ver + ' (' + translation + ')](' + overflowLink + ')\n')
                 else:
                     overflowLink = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + 
                                  '&version=' + translation).replace(' ', '%20')
-                    comment += ('- [' + book + ' ' + chap + ' (' + translation + ')](' + overflowLink + ')\n')
+
+            if ver != '0':
+                comment += ('- [' + book + ' ' + chap + ':' + ver + ' (' + translation + ')](' + overflowLink + ')\n')
+            else:
+                comment += ('- [' + book + ' ' + chap + ' (' + translation + ')](' + overflowLink + ')\n')
         
         return comment
     

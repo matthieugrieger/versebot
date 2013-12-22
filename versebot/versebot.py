@@ -32,7 +32,8 @@ try:
     drabible = pickle.load(open(configloader.getDRA(), 'rb'))
     brentonbible = pickle.load(open(configloader.getBrenton(), 'rb'))
     jpsbible = pickle.load(open(configloader.getJPS(), 'rb'))
-    bibles = (esvbible, nivbible, nrsvbible, kjvbible, drabible, brentonbible, jpsbible)
+    novabible = pickle.load(open(configloader.getNova(), 'rb'))
+    bibles = (esvbible, nivbible, nrsvbible, kjvbible, drabible, brentonbible, jpsbible, novabible)
     print('Bible translations successfully loaded!')
 except:
     print('Error while loading Bible translations. Make sure the environment vars point to correct paths.')

@@ -63,6 +63,17 @@ tanakhNames = {'Genesis':'Gen', 'Exodus':'Exod', 'Leviticus':'Lev', 'Numbers':'N
                'Ecclesiastes':'Eccles', 'Esther':'Esther', 'Daniel':'Dan', 'Ezra':'Ezra', 'Nehemiah':'Neh', '1 Chronicles':'1%20Chron',
                '2 Chronicles':'2%20Chron'}
 
+# Used to retrieve correct bookname for http://www.vatican.va/ links when using Nova Vulgata translation.
+novaNames = {'Genesis':'genesis', 'Exodus':'exodus', 'Leviticus':'leviticus', 'Numbers':'numeri', 'Deuteronomy':'deuteronomii', 'Joshua':'iosue',
+               'Judges':'iudicum', 'Ruth':'ruth', '1 Samuel':'i-samuelis', '2 Samuel':'ii-samuelis', '1 Kings':'i-regum', '2 Kings':'ii-regum',
+               '1 Chronicles':'i-paralipomenon', '2 Chronicles':'ii-paralipomenon', 'Ezra':'esdrae', 'Nehemiah':'nehemiae', 'Esther':'esther', 'Job':'iob',
+               'Psalms':'psalmorum', 'Proverbs':'proverbiorum', 'Ecclesiastes':'ecclesiastes', 'Song of Songs':'canticum-canticorum', 'Isaiah':'isaiae', 'Jeremiah':'ieremiae', 'Lamentations':'lamentationes', 'Ezekiel':'ezechielis',
+               'Daniel':'danielis', 'Hosea':'osee', 'Joel':'ioel', 'Amos':'amos', 'Obadiah':'abdiae', 'Jonah':'ionae', 'Micah':'michaeae', 'Nahum':'nahum', 'Habakkuk':'habacuc', 'Zephaniah':'sophoniae',
+               'Haggai':'aggaei', 'Zechariah':'zachariae', 'Malachi':'malachiae', 'Matthew':'evang-matthaeum', 'Mark':'evang-marcum', 'Luke':'evang-lucam', 'John':'evang-ioannem', 'Acts':'actus-apostolorum', 'Romans':'epist-romanos', '1 Corinthians':'epist-i-corinthios',
+               '2 Corinthians':'epist-ii-corinthios', 'Galatians':'epist-galatas', 'Ephesians':'epist-ephesios', 'Philippians':'epist-philippenses', 'Colossians':'epist-colossenses', '1 Thessalonians':'epist-i-thessalonicenses', '2 Thessalonians':'epist-ii-thessalonicenses',
+               '1 Timothy':'epist-i-timotheum', '2 Timothy':'epist-ii-timotheum', 'Titus':'epist-titum', 'Philemon':'epist-philemonem', 'Hebrews':'epist-hebraeos', 'James':'epist-iacobi', '1 Peter':'epist-i-petri', '2 Peter':'epist-ii-petri', '1 John':'epist-i-ioannis',
+               '2 John':'epist-ii-ioannis', '3 John':'epist-iii-ioannis', 'Jude':'epist-iudae', 'Revelation':'apocalypsis-ioannis'}
+
 # First, this function sorts the keys in bookNames, longest strings first. This is to avoid incorrect triggers.
 # Example: Misinterpreting [1 John 1:1] as John 1:1 since the string 'John' IS in '1 John'
 def getBookNumber(phrase): 
@@ -79,3 +90,7 @@ def getBookTitle(bookNum):
 # Retrieves shortened book name needed to construct a URL for http://www.taggedtanakh.org/
 def getTanakhName(bookName):
     return tanakhNames[bookName]
+
+# Retrieves book name needed to construct a URL for http://www.vatican.va/
+def getNovaName(bookName):
+    return novaNames[bookName]

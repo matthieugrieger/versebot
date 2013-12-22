@@ -55,6 +55,7 @@ Currently, VerseBot supports the following translations:
 * Douay-Rheims American Version (DRA)
 * Brenton's Septuagint
 * JPS Tanakh
+* Nova Vulgata (NV)
 
 ### How do I specify a translation for my verse quotation?
 Easy! Just put the desired translation in the brackets next to the desired verse. 
