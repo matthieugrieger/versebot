@@ -190,8 +190,7 @@ class Verse:
                + ' [[Feedback](https://github.com/matthieugrieger/versebot/issues)]' 
                + ' [[Contact Dev](http://www.reddit.com/message/compose/?to=mgrieger)]'
                + ' [[FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq)]' 
-               + ' [[Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md)]'
-               + '\n\n**^^Dec ^^22, ^^2013:** ^^VerseBot ^^can ^^now ^^quote ^^verses ^^from ^^the ^^Nova ^^Vulgata!')
+               + ' [[Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md)]')
 
     # Takes the verse's book name, chapter, and translation as parameters. The function then constructs
     # the appropriate context link. This link appears on each verse title.

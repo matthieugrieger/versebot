@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### December 25, 2013
+* Removed Nova Vulgata footer announcement.
+* Merry Christmas!
+
 ### December 22, 2013
 * Nova Vulgata (A Latin translation) added to VerseBot.
 * Removed some redundant code.
