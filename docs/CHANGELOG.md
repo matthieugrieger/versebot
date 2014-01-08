@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### January 8, 2014
+* VerseBot released on [/r/Protestantism](http://www.reddit.com/r/Protestantism).
+* VerseBot released on [/r/divineoffice](http://www.reddit.com/r/divineoffice).
+
 ### December 25, 2013
 * Removed Nova Vulgata footer announcement.
 * Merry Christmas!

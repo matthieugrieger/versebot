@@ -125,7 +125,7 @@ class Verse:
             elif 'nova' in commentText or 'vulgata' in commentText or 'nv' in commentText or 'latin' in commentText:
                 return 'Nova Vulgata'
             else: # Uses the default translation for each subreddit
-                if subreddit == 'Christianity' or subreddit == 'TrueChristian' or subreddit == 'SOTE' or subreddit == 'Reformed' or subreddit == 'DebateAChristian':
+                if subreddit == 'Christianity' or subreddit == 'TrueChristian' or subreddit == 'SOTE' or subreddit == 'Reformed' or subreddit == 'DebateAChristian' or subreddit == 'divineoffice':
                     return 'ESV'
                 elif subreddit == 'Catholicism':
                     return 'DRA'
@@ -136,6 +136,8 @@ class Verse:
                         return 'Brenton\'s Septuagint'
                 elif subreddit == 'Judaism':
                     return 'JPS Tanakh'
+            	elif subreddit == 'Protestantism'
+            		return 'KJV'
                 else:
                     return 'ESV'
     
