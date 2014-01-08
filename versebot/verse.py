@@ -136,7 +136,7 @@ class Verse:
 						return 'Brenton\'s Septuagint'
 				elif subreddit == 'Judaism':
 					return 'JPS Tanakh'
-				elif subreddit == 'Protestantism'
+				elif subreddit == 'Protestantism':
 					return 'KJV'
 				else:
 					return 'ESV'
