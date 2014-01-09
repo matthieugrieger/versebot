@@ -239,7 +239,7 @@ class Verse:
 				 else:
 					overflowLink = ('http://www.kingjamesbibleonline.org/' + book + '-Chapter-' + chap + '/').replace(' ', '-')
 			elif translation == 'JPS Tanakh':
-				 overflowLink = ('http://www.taggedtanakh.org/Chapter/Index/english-' + booknames.getTanakhName(book) + '-' + chap)
+				overflowLink = ('http://www.taggedtanakh.org/Chapter/Index/english-' + booknames.getTanakhName(book) + '-' + chap)
 			elif translation == 'Nova Vulgata':
 				overflowLink = self.__getContextLink(book, chap, translation)
 			else:
