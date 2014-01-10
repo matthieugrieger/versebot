@@ -125,9 +125,7 @@ class Verse:
             elif 'nova' in commentText or 'vulgata' in commentText or 'nv' in commentText or 'latin' in commentText:
                 return 'Nova Vulgata'
             else: # Uses the default translation for each subreddit
-                if subreddit == 'Christianity' or subreddit == 'TrueChristian' or subreddit == 'SOTE' or subreddit == 'Reformed' or subreddit == 'DebateAChristian' or subreddit == 'divineoffice':
-                    return 'ESV'
-                elif subreddit == 'Catholicism':
+                if subreddit == 'Catholicism':
                     return 'DRA'
                 elif subreddit == 'OrthodoxChristianity':
                     if 40 <= bookNum <= 66:
@@ -138,7 +136,7 @@ class Verse:
                     return 'JPS Tanakh'
                 elif subreddit == 'Protestantism':
                 	return 'KJV'
-                else:
+                else: # This also includes subreddits that wish to have ESV as the default translation
                     return 'ESV'
     
     # Retrieves the contents of the selected verse(s) from the pickle files loaded at the beginning of the program.

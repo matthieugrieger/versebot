@@ -1,5 +1,10 @@
 # VerseBot Changelog
 
+### January 9, 2014
+* VerseBot released on [/r/NTChristian](http://www.reddit.com/r/NTChristian).
+* VerseBot released on [/r/HolyBible](http://www.reddit.com/r/HolyBible).
+* Removed some redundant code.
+
 ### January 8, 2014
 * VerseBot released on [/r/Protestantism](http://www.reddit.com/r/Protestantism).
 * VerseBot released on [/r/divineoffice](http://www.reddit.com/r/divineoffice).
