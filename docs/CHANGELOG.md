@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### March 9, 2014
+* VerseBot released on [/r/ReformedBaptist](http://www.reddit.com/r/ReformedBaptist).
+
 ### January 9, 2014
 * VerseBot released on [/r/NTChristian](http://www.reddit.com/r/NTChristian).
 * VerseBot released on [/r/HolyBible](http://www.reddit.com/r/HolyBible).
