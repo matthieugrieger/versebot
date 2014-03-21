@@ -24,6 +24,9 @@ def getJPS():
 def getNova():
     return environ['NOVABIBLE']
 
+def getNLT():
+    return environ['NLTBIBLE']
+
 def getBotUsername():
     return environ['USERNAME']
 

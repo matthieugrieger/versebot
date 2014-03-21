@@ -16,6 +16,7 @@ class Verse:
     _Brenton = OrderedDict()
     _JPS = OrderedDict()
     _Nova = OrderedDict()
+    _NLT = OrderedDict()
     _invalidComment = False
 
     # Initializes Verse object with data from the command(s)
@@ -28,6 +29,7 @@ class Verse:
         self._Brenton = translations[5]
         self._JPS = translations[6]
         self._Nova = translations[7]
+        self._NLT = translations[8]
         
         for verse in verseList:
             verseBookNum = booknames.getBookNumber(verse.lower())
@@ -124,6 +126,8 @@ class Verse:
                 return 'JPS Tanakh'
             elif 'nova' in commentText or 'vulgata' in commentText or 'nv' in commentText or 'latin' in commentText:
                 return 'Nova Vulgata'
+            elif 'nlt' in commentText:
+                return 'NLT'
             else: # Uses the default translation for each subreddit
                 if subreddit == 'Catholicism':
                     return 'DRA'
@@ -135,7 +139,7 @@ class Verse:
                 elif subreddit == 'Judaism':
                     return 'JPS Tanakh'
                 elif subreddit == 'Protestantism':
-                	return 'KJV'
+                    return 'KJV'
                 else: # This also includes subreddits that wish to have ESV as the default translation
                     return 'ESV'
     
@@ -161,6 +165,8 @@ class Verse:
             bible = self._JPS
         elif translation == 'Nova Vulgata':
             bible = self._Nova
+        elif translation == 'NLT':
+            bible = self._NLT
 
         if book and chap:
             try:
