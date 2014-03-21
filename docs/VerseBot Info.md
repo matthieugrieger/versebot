@@ -66,7 +66,7 @@ Currently, VerseBot supports the following translations:
 ### How do I specify a translation for my verse quotation?
 Easy! Just put the desired translation in the brackets next to the desired verse. 
 
-Example: `[John 3:16 NIV]` or `[john 3:16 kjv]`. If no translation is specified, the bot defaults to ESV.
+Example: `[John 3:16 NIV]` or `[john 3:16 kjv]`. If no translation is specified, the bot defaults to the default translation for the subreddit the comment was posted in.
 
 ### Can I quote verses from Deuterocanonical books?
 Yes, it is now possible to quote verses from the Deuterocanon. Please take a look at the [Accepted Bible Names](https://github.com/matthieugrieger/versebot/blob/master/docs/Accepted%20Bible%20Book%20Names.md) list to see which books are supported.
