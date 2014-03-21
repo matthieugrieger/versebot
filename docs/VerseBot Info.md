@@ -61,6 +61,7 @@ Currently, VerseBot supports the following translations:
 * Brenton's Septuagint
 * JPS Tanakh
 * Nova Vulgata (NV)
+* New Living Translation (NLT)
 
 ### How do I specify a translation for my verse quotation?
 Easy! Just put the desired translation in the brackets next to the desired verse. 
