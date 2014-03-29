@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### March 28, 2014
+* VerseBot released on [/r/christiansupport](http://www.reddit.com/r/christiansupport).
+
 ### March 21, 2014
 * Added New Living Translation (NLT).
 

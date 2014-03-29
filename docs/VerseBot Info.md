@@ -21,6 +21,7 @@ VerseBot is currently running on the following subreddits:
 * [/r/NTChristian](http://www.reddit.com/r/NTChristian)
 * [/r/HolyBible](http://www.reddit.com/r/HolyBible)
 * [/r/ReformedBaptist](http://www.reddit.com/r/ReformedBaptist)
+* [/r/christiansupport](http://www.reddit.com/r/christiansupport)
 
 ### How do I use it?
 If you want VerseBot to quote a Bible verse from your comment, simply surround it in brackets ([]). That's it! However, there are some small rules that your Bible quotation must follow:
