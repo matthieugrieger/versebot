@@ -1,6 +1,6 @@
 # VerseBot Changelog
 
-### DATE HERE
+### May 8, 2014
 * HUGE update!
 * Completely refactored codebase.
 * VerseBot now uses [BibleGateway](http://www.biblegateway.com) as its source for Bible texts. Because of this, VerseBot now supports over 100 translations in 62 languages!
