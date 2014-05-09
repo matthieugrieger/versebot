@@ -1,3 +1,4 @@
 praw>=2.1.14
 psycopg2>=2.5.2
 beautifulsoup4>=4.3.2
+ordereddict>=1.1

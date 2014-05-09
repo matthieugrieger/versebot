@@ -92,7 +92,7 @@ class Verse:
 	# for the subreddit in which the comment was posted.
 	def _get_bible_translation(self, comment_text, subreddit, book_num):
 		for translation in helpers.get_supported_translations():
-			if search(r'\b' + translation + r'\b', comment_text):
+			if translation in comment_text:
 				return translation
 		return data.get_default_translation(subreddit, book_num)
 	
