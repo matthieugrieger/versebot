@@ -1,5 +1,35 @@
 # VerseBot Changelog
 
+### DATE HERE
+* HUGE update!
+* Completely refactored codebase.
+* VerseBot now uses [BibleGateway](http://www.biblegateway.com) as its source for Bible texts. Because of this, VerseBot now supports over 100 translations in 62 languages!
+* Bot automatically recognizes new translations on BibleGateway every 24 hours or so (whenever the bot is restarted automatically).
+* Added helpers.py to handle all BibleGateway functions (and possibly more in the future).
+* Changed method of retrieving new comments. Now uses PRAW's comment stream.
+* Bot now scans ALL subreddits (will be monitored for reliability).
+* Updated comment ids table to hold timestamp of reply.
+* Now automatically deletes all comment ids in the database 2 days old or older on startup.
+* Added book stats table.
+* Added translation stats table.
+* Added subreddit stats table.
+* Updated createdatabase.sql to reflect database changes.
+* Moved all database actions to database.py.
+* Rewritten for transition to Python 2.7.6 for better library support.
+* Changed runtime.txt to Python 2.7.6.
+* Updated PRAW and psycopg2, added BeautifulSoupv4.
+* Added tests/tests.py to implement unit tests.
+* Removed Bible pickle files (no longer needed).
+* Renamed configloader.py to config.py.
+* Cleaned up config in config.py, removed all references to pickle file locations.
+* Renamed booknames.py to data.py.
+* Changed bookNames datatype in data.py from OrderedDict to Dict. OrderedDict was not needed anymore.
+* Got rid of temp.txt. Not needed anymore.
+* Appropriately renders titles in verse contents, much like BibleGateway.
+* Now retrieves verse and translation titles from BibleGateway for more detail.
+* Added docs/Supported Translations.md.
+
+
 ### March 28, 2014
 * VerseBot released on [/r/christiansupport](http://www.reddit.com/r/christiansupport).
 
