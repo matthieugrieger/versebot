@@ -13,7 +13,7 @@ Matthieu Grieger
 ## License
 	The MIT License (MIT)
 
-	Copyright (c) 2013 Matthieu Grieger
+	Copyright (c) 2014 Matthieu Grieger
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -34,4 +34,4 @@ Matthieu Grieger
 	THE SOFTWARE.
 
 ## Thanks
-[Jeffrey Ness](https://github.com/jness) for [this blog post](http://blog.flip-edesign.com/_rst/Using_a_KJV_Bible_with_Pickle_and_Python.html).
+[BibleGateway](http://www.biblegateway.com) for being the source of all texts posted by VerseBot.
