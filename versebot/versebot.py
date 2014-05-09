@@ -47,7 +47,7 @@ def main():
 				verses_to_find = findall(r'\[[\w\s:,-]+](?!\()', comment.body)
 				if len(verses_to_find) != 0:
 					for ver in verses_to_find:
-						next_ver = findall(r'(?:\d\w*\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+-?\w*)?', ver)
+						next_ver = findall(r'(?:\d\w*\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+\s?-?\w*)?', ver)
 						lookup_list.append(str(next_ver))
 					
 					if len(lookup_list) != 0:
