@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### May 9, 2014
+* Fixed the bot mistaking books such as '1 John' as just 'John'.
+
 ### May 8, 2014
 * HUGE update!
 * Completely refactored codebase.
@@ -28,7 +31,6 @@
 * Appropriately renders titles in verse contents, much like BibleGateway.
 * Now retrieves verse and translation titles from BibleGateway for more detail.
 * Added docs/Supported Translations.md.
-
 
 ### March 28, 2014
 * VerseBot released on [/r/christiansupport](http://www.reddit.com/r/christiansupport).
