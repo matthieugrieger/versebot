@@ -6,22 +6,7 @@
 VerseBot is a reddit bot that is triggered by Bible verse references in reddit comments. It posts the contents of the verse selection as a reply to the comment with the Bible verse reference.
 
 ### Where is it currently being used?
-VerseBot is currently running on the following subreddits:
-
-* [/r/Christianity](http://www.reddit.com/r/christianity)
-* [/r/TrueChristian](http://www.reddit.com/r/TrueChristian)
-* [/r/Catholicism](http://www.reddit.com/r/Catholicism/)
-* [/r/OrthodoxChristianity](http://www.reddit.com/r/OrthodoxChristianity)
-* [/r/SOTE](http://www.reddit.com/r/SOTE)
-* [/r/Judaism](http://www.reddit.com/r/Judaism)
-* [/r/Reformed](http://www.reddit.com/r/Reformed)
-* [/r/DebateAChristian](http://www.reddit.com/r/DebateAChristian)
-* [/r/Protestantism](http://www.reddit.com/r/Protestantism)
-* [/r/divineoffice](http://www.reddit.com/r/divineoffice)
-* [/r/NTChristian](http://www.reddit.com/r/NTChristian)
-* [/r/HolyBible](http://www.reddit.com/r/HolyBible)
-* [/r/ReformedBaptist](http://www.reddit.com/r/ReformedBaptist)
-* [/r/christiansupport](http://www.reddit.com/r/christiansupport)
+VerseBot now runs on all of reddit! However, remember that mods of subreddits can choose to ban the bot.
 
 ### How do I use it?
 If you want VerseBot to quote a Bible verse from your comment, simply surround it in brackets ([]). That's it! However, there are some small rules that your Bible quotation must follow:
@@ -52,17 +37,7 @@ Here are some examples of _incorrect_ usage of the bot:
 _Remember, the verse quotation can be located **ANYWHERE** in your comment!_
 
 ### What translations of the Bible are supported?
-Currently, VerseBot supports the following translations:
-
-* English Standard Version (ESV)
-* New International Version (NIV)
-* New Revised Standard Version (NRSV)
-* King James Version (KJV)
-* Douay-Rheims American Version (DRA)
-* Brenton's Septuagint
-* JPS Tanakh
-* Nova Vulgata (NV)
-* New Living Translation (NLT)
+VerseBot supports most of the translations that are on [BibleGateway](http://www.biblegateway.com). A full list of supported translations and their abbreviations to trigger the bot can be found [here](PUT LINK HERE).
 
 ### How do I specify a translation for my verse quotation?
 Easy! Just put the desired translation in the brackets next to the desired verse. 
@@ -70,9 +45,7 @@ Easy! Just put the desired translation in the brackets next to the desired verse
 Example: `[John 3:16 NIV]` or `[john 3:16 kjv]`. If no translation is specified, the bot defaults to the default translation for the subreddit the comment was posted in.
 
 ### Can I quote verses from Deuterocanonical books?
-Yes, it is now possible to quote verses from the Deuterocanon. Please take a look at the [Accepted Bible Names](https://github.com/matthieugrieger/versebot/blob/master/docs/Accepted%20Bible%20Book%20Names.md) list to see which books are supported.
-
-**NOTE:** The formatting of Additions to Esther is a bit strange. The verses start from 10:4, not 1:1 like most Bible books. Keep this in mind if you want to quote a verse from Additions to Esther.
+Yes! Please take a look at the [Accepted Bible Names](https://github.com/matthieugrieger/versebot/blob/master/docs/Accepted%20Bible%20Book%20Names.md) list to see which books are supported.
 
 ### Why is the bot not responding to my comment?
 This could be attributed to a few different things:
@@ -81,6 +54,7 @@ This could be attributed to a few different things:
 * Heroku (where this bot is hosted) is down or is restarting apps. Heroku provides a [status page](https://status.heroku.com/) that you can check for Heroku downtimes.
 * The bot is trying to keep up with commands (there is a 30 second sleep period between comment scans).
 * The bot has crashed. This should be rare, but even if it does happen Heroku automatically restarts crashed apps within 10 minutes.
+* The bot is banned from the subreddit you are trying to post in.
 
 ### What should I do if I still have questions?
 Just ask me! You can [contact me on reddit](http://www.reddit.com/message/compose/?to=mgrieger).
