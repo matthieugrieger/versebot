@@ -24,7 +24,7 @@ class Verse:
 				verse_chapter = self._get_chapter_and_verse(verse.lower())[0]
 				verse_selection = self._get_chapter_and_verse(verse.lower())[1]
 				verse_translation = self._get_bible_translation(verse.upper(), verse_subreddit, verse_book_num)
-				verse_content = helpers.get_verse_contents(verse_book_name, verse_chapter, verse_selection, verse_translation)
+				verse_content = helpers.get_verse_contents(verse_book_name, verse_book_num, verse_chapter, verse_selection, verse_translation)
 				verse_title = helpers.get_verse_title()
 				trans_title = helpers.get_translation_title()
 				
@@ -92,7 +92,7 @@ class Verse:
 	# for the subreddit in which the comment was posted.
 	def _get_bible_translation(self, comment_text, subreddit, book_num):
 		for translation in helpers.get_supported_translations():
-			if translation in comment_text:
+			if search(r'\b' + translation + r'\b', comment_text):
 				return translation
 		return data.get_default_translation(subreddit, book_num)
 	
@@ -104,13 +104,16 @@ class Verse:
                + ' [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|'
                + ' [^FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq) ^|' 
                + ' [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md) \n\n'
-               + ' ^All ^texts ^provided ^by [^BibleGateway](http://www.biblegateway.com)')
+               + ' ^All ^texts ^provided ^by [^BibleGateway](http://www.biblegateway.com) ^and [^TaggedTanakh](http://www.taggedtanakh.org)')
 	
 	# Takes the verse's book name, chapter, and translation as parameters. The function
 	# then constructs a context link for the selected passage. This link appears on each
 	# verse title.
 	def _get_context_link(self, book_name, chap, translation):
-		return ('http://www.biblegateway.com/passage/?search=' + book_name + '%20' + chap
+		if translation == 'NJPS':
+			return ('http://www.taggedtanakh.org/Chapter/Index/english-' + data.get_tanakh_name(book_name) + '-' + chap)
+		else:
+			return ('http://www.biblegateway.com/passage/?search=' + book_name + '%20' + chap
 				+ '&version=' + translation).replace(' ', '%20')
 	
 	# Constructs and returns an overflow comment whenever the comment exceeds the character
@@ -124,13 +127,19 @@ class Verse:
 			ver = cur_ver_data[2]
 			translation = cur_ver_data[3]
 			
+			if translation == 'NJPS':
+				overflow_link = ('http://www.taggedtanakh.org/Chapter/Index/english-' + data.get_tanakh_name(book) + '-' + chap)
+			else:
+				if ver != '0':
+					overflow_link = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + ':' + 
+									ver + '&version=' + translation).replace(' ', '%20')
+				else:
+					overflow_link = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + 
+									 '&version=' + translation).replace(' ', '%20')
+			
 			if ver != '0':
-				overflow_link = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + ':' + 
-								ver + '&version=' + translation).replace(' ', '%20')
 				comment += ('- [' + book + ' ' + chap + ':' + ver + ' (' + translation + ')](' + overflow_link + ')\n')
 			else:
-				overflow_link = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + 
-                                 '&version=' + translation).replace(' ', '%20')
 				comment += ('- [' + book + ' ' + chap + ' (' + translation + ')](' + overflow_link + ')\n')
 		
 		return comment

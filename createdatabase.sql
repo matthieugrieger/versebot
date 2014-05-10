@@ -46,7 +46,7 @@ INSERT INTO translation_stats (trans) VALUES ('AMU'), ('ERV-AR'), ('ALAB'), ('ER
 	('OL'), ('VFL'), ('MTDS'), ('QUT'), ('RMNN'), ('NTLR'), ('ERV-RU'), ('RUSV'), ('SZ'), ('NPK'), ('SOM'), ('ALB'),
 	('ERV-SR'), ('SVL'), ('SV1917'), ('SFB'), ('SNT'), ('ERV-TA'), ('TNCV'), ('ERV-TH'), ('SND'), ('NA-TWI'), ('UKR'),
 	('ERV-UK'), ('ERV-UR'), ('USP'), ('VIET'), ('BD2011'), ('BPT'), ('CCB'), ('ERV-ZH'), ('CNVT'), ('CSBS'), ('CSBT'),
-	('CUVS'), ('CUV'), ('CUVMPS'), ('CUVMPT');
+	('CUVS'), ('CUV'), ('CUVMPS'), ('CUVMPT'), ('NJPS');
 	
 CREATE TRIGGER update_translation_stats_timestamp BEFORE UPDATE
     ON translation_stats FOR EACH ROW EXECUTE PROCEDURE 
