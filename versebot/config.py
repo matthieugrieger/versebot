@@ -15,5 +15,5 @@ def get_database():
 	return environ['HEROKU_POSTGRESQL_ONYX_URL']
 
 def get_local_bible(translation):
-	return '../bibles/' + translation + '.pickle'
+	return 'bibles/' + translation + '.pickle'
 	
