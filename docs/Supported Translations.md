@@ -1,5 +1,5 @@
 # Supported Translations
-Last Updated: May 8, 2014
+Last Updated: May 10, 2014
 
 #### Amuzgo Guerrero
 * Amuzgo de Guerrero (AMU)
@@ -72,10 +72,11 @@ Last Updated: May 8, 2014
 * Names of God Bible (NOG)
 * New American Standard Bible (NASB) 
 * New Century Version (NCV)   
-* New English Translation (NET Bible)  
+* New English Translation (NET)  
 * New International Reader's Version (NIRV)   
 * New International Version (NIV)  
-* New International Version - UK (NIVUK)  
+* New International Version - UK (NIVUK)
+* JPS Tanakh (NJPS)  
 * New King James Version (NKJV)  
 * New Life Version (NLV)  
 * New Living Translation (NLT)  

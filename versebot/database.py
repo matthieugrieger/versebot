@@ -62,8 +62,13 @@ def update_book_stats(new_books):
 # Updates translation_stats table with recently used translations.		
 def update_translation_stats(new_translations):
 	for translation in new_translations.items():
+		if translation[0] == 'NET':
+			trans = 'NET Bible'
+		else:
+			trans = translation[0]
+		count = translation[1]
 		with _conn.cursor() as cur:
-			cur.execute('UPDATE translation_stats SET count = count + %s WHERE trans = %s', [translation[1], translation[0]])
+			cur.execute('UPDATE translation_stats SET count = count + %s WHERE trans = %s', [count, trans])
 	_conn.commit()
 	
 def update_subreddit_stats(new_subreddits):
