@@ -37,7 +37,7 @@ Here are some examples of _incorrect_ usage of the bot:
 _Remember, the verse quotation can be located **ANYWHERE** in your comment!_
 
 ### What translations of the Bible are supported?
-VerseBot supports most of the translations that are on [BibleGateway](http://www.biblegateway.com). A full list of supported translations and their abbreviations to trigger the bot can be found [here](PUT LINK HERE).
+VerseBot supports most of the translations that are on [BibleGateway](http://www.biblegateway.com). A full list of supported translations and their abbreviations to trigger the bot can be found [here](https://github.com/matthieugrieger/versebot/blob/master/docs/Supported%20Translations.md).
 
 ### How do I specify a translation for my verse quotation?
 Easy! Just put the desired translation in the brackets next to the desired verse. 
