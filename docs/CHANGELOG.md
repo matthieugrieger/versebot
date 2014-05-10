@@ -1,7 +1,19 @@
 # VerseBot Changelog
 
+### May 10, 2014
+* Fixed NET Bible translation. Now use the keyword 'NET' to trigger this translation.
+* Fixed bot choosing wrong translations.
+* Set default translation for /r/Catholicism to RSVCE.
+* Added bibles/NJPS.pickle to add the NJPS translation to the bot.
+* Added NJPS translation to translation stats table.
+* Set default translation for /r/Judaism to NJPS.
+* Implemented necessary functions and logic to incorporate pickle files once again.
+* Added pickler.py. This is the script that is run to generate pickle files for Bible translations from XML.
+* Fixed link to Supported Translations in VerseBot Info.md.
+
 ### May 9, 2014
 * Fixed the bot mistaking books such as '1 John' as just 'John'.
+* Added ordereddict to requirements.txt.
 
 ### May 8, 2014
 * HUGE update!
