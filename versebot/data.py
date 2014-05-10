@@ -69,13 +69,24 @@ def get_book_title(book_num):
                 78:'Prayer of Manasseh', 79:'1 Esdras', 80:'2 Esdras', 81:'Susanna', 82:'Bel and the Dragon'}
 
 	return book_titles[book_num]
+	
+# Retrieves book name used by TaggedTanakh to construct links to their website.
+def get_tanakh_name(book_name):
+	tanakh_names = {'Genesis':'Gen', 'Exodus':'Exod', 'Leviticus':'Lev', 'Numbers':'Num', 'Deuteronomy':'Deut', 'Joshua':'Josh',
+               'Judges':'Judg', '1 Samuel':'1%20Sam', '2 Samuel':'2%20Sam', '1 Kings':'1%20Kings', '2 Kings':'2%20Kings',
+               'Isaiah':'Isa', 'Jeremiah':'Jer', 'Ezekiel':'Ezek', 'Hosea':'Hosea', 'Joel':'Joel', 'Amos':'Amos', 'Obadiah':'Obad',
+               'Jonah':'Jon', 'Micah':'Mic', 'Nahum':'Nah', 'Habakkuk':'Hab', 'Zephaniah':'Zeph', 'Haggai':'Hag', 'Zechariah':'Zech',
+               'Malachi':'Mal', 'Psalms':'Ps', 'Proverbs':'Prov', 'Job':'Job', 'Song of Songs':'Songs', 'Ruth':'Ruth', 'Lamentations':'Lam',
+               'Ecclesiastes':'Eccles', 'Esther':'Esther', 'Daniel':'Dan', 'Ezra':'Ezra', 'Nehemiah':'Neh', '1 Chronicles':'1%20Chron',
+               '2 Chronicles':'2%20Chron'}
+	return tanakh_names[book_name]
 
 # Finds default translation for the specified subreddit. This function is called
 # whenever a user doesn't specify a translation. NOTE: Subreddits with ESV as the
 # default translation are not listed in default_translations, as this is the overall
 # default translation for the bot.
 def get_default_translation(subreddit, book_num):
-	default_translations = {'Catholicism':'DRA', 'Judaism':'OJB'}
+	default_translations = {'Catholicism':'RSVCE', 'Judaism':'NJPS'}
 	default_deutero_translations = {'Catholicism':'DRA'}
 	
 	if book_num >= 67:
