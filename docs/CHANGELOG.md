@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### May 12, 2014
+* Made OJB the default translation of /r/AcademicBiblical.
+
 ### May 10, 2014
 * Fixed NET Bible translation. Now use the keyword 'NET' to trigger this translation.
 * Fixed bot choosing wrong translations.

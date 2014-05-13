@@ -86,7 +86,7 @@ def get_tanakh_name(book_name):
 # default translation are not listed in default_translations, as this is the overall
 # default translation for the bot.
 def get_default_translation(subreddit, book_num):
-	default_translations = {'Catholicism':'RSVCE', 'Judaism':'NJPS'}
+	default_translations = {'Catholicism':'RSVCE', 'Judaism':'NJPS', 'AcademicBiblical':'OJB'}
 	default_deutero_translations = {'Catholicism':'DRA'}
 	
 	if book_num >= 67:
