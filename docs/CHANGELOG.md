@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### May 21, 2014
+* Made KJV the default translation of /r/Protestantism.
+
 ### May 12, 2014
 * Made OJB the default translation of /r/AcademicBiblical.
 
