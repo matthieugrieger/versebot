@@ -1,5 +1,11 @@
 # VerseBot Changelog
 
+### June 18, 2014
+* Updated PRAW to address an AttributeError caused by a recent reddit update.
+
+### June 9, 2014
+* Made NRSVCE the default translation of /r/divineoffice.
+
 ### May 21, 2014
 * Made KJV the default translation of /r/Protestantism.
 
