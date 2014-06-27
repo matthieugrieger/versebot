@@ -2,6 +2,7 @@
 
 ### June 27, 2014
 * Reverted to legacy BibleGateway website for compatibility reasons. Will update to the new BibleGateway eventually.
+
 ### June 18, 2014
 * Updated PRAW to address an AttributeError caused by a recent reddit update.
 
