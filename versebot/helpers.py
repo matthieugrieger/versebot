@@ -28,9 +28,9 @@ def get_verse_contents(book_name, book_num, chapter, verse, translation):
 # parses the text from BibleGateway.com.	
 def _get_biblegateway_contents(book_name, chapter, verse, translation):
 	if verse != '0':
-		url = ('http://www.biblegateway.com/passage/?search=' + book_name + '+' + chapter + ':' + verse + '&version=' + translation).replace(' ', '%20')
+		url = ('http://legacy.biblegateway.com/passage/?search=' + book_name + '+' + chapter + ':' + verse + '&version=' + translation).replace(' ', '%20')
 	else:
-		url = ('http://www.biblegateway.com/passage/?search=' + book_name + '+' + chapter + '&version=' + translation).replace(' ', '%20')
+		url = ('http://legacy.biblegateway.com/passage/?search=' + book_name + '+' + chapter + '&version=' + translation).replace(' ', '%20')
 			
 	page = urllib2.urlopen(url)
 	soup = BeautifulSoup(page.read())
@@ -113,7 +113,7 @@ def _get_local_contents(book_num, chapter, verse, translation):
 # Retrieves the translations that are supported by the bot. 	
 def find_supported_translations():
 	global _supported_translations
-	url = 'http://www.biblegateway.com/versions/'
+	url = 'http://legacy.biblegateway.com/versions/'
 		
 	page = urllib2.urlopen(url)
 	soup = BeautifulSoup(page.read())

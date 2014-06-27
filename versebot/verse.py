@@ -113,7 +113,7 @@ class Verse:
 		if translation == 'NJPS':
 			return ('http://www.taggedtanakh.org/Chapter/Index/english-' + data.get_tanakh_name(book_name) + '-' + chap)
 		else:
-			return ('http://www.biblegateway.com/passage/?search=' + book_name + '%20' + chap
+			return ('http://legacy.biblegateway.com/passage/?search=' + book_name + '%20' + chap
 				+ '&version=' + translation).replace(' ', '%20')
 	
 	# Constructs and returns an overflow comment whenever the comment exceeds the character
@@ -131,10 +131,10 @@ class Verse:
 				overflow_link = ('http://www.taggedtanakh.org/Chapter/Index/english-' + data.get_tanakh_name(book) + '-' + chap)
 			else:
 				if ver != '0':
-					overflow_link = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + ':' + 
+					overflow_link = ('http://legacy.biblegateway.com/passage/?search=' + book + '%20' + chap + ':' + 
 									ver + '&version=' + translation).replace(' ', '%20')
 				else:
-					overflow_link = ('http://www.biblegateway.com/passage/?search=' + book + '%20' + chap + 
+					overflow_link = ('http://legacy.biblegateway.com/passage/?search=' + book + '%20' + chap + 
 									 '&version=' + translation).replace(' ', '%20')
 			
 			if ver != '0':
