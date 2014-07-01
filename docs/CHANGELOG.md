@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### June 30, 2014
+* Compatibility changes for the new version of BibleGateway.
+
 ### June 27, 2014
 * Reverted to legacy BibleGateway website for compatibility reasons. Will update to the new BibleGateway eventually.
 

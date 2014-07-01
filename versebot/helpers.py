@@ -21,35 +21,33 @@ def get_verse_contents(book_name, book_num, chapter, verse, translation):
 		contents = _get_local_contents(book_num, chapter, verse, translation)
 	else:
 		contents = _get_biblegateway_contents(book_name, chapter, verse, translation)
-		
+
 	return contents
 
 # Retrieve the contents of the Bible passage the user requested. Obtains and
-# parses the text from BibleGateway.com.	
+# parses the text from BibleGateway.com.
 def _get_biblegateway_contents(book_name, chapter, verse, translation):
 	if verse != '0':
-		url = ('http://legacy.biblegateway.com/passage/?search=' + book_name + '+' + chapter + ':' + verse + '&version=' + translation).replace(' ', '%20')
+		url = ('http://www.biblegateway.com/passage/?search=' + book_name + '+' + chapter + ':' + verse + '&version=' + translation).replace(' ', '%20')
 	else:
-		url = ('http://legacy.biblegateway.com/passage/?search=' + book_name + '+' + chapter + '&version=' + translation).replace(' ', '%20')
-			
+		url = ('http://www.biblegateway.com/passage/?search=' + book_name + '+' + chapter + '&version=' + translation).replace(' ', '%20')
+
 	page = urllib2.urlopen(url)
 	soup = BeautifulSoup(page.read())
-	
+
 	verses = soup.findAll('span', {'class':'text'})
-	
+
 	# Check to make sure that verses have been retrieved. Some translations only support
 	# Old Testament or New Testament, meaning that some queries will not return any
 	# verses.
 	if verses == []:
 		return False
-	
+
 	global _verse_title
 	global _trans_title
-	
-	heading = soup.find('div', {'class':'heading'})
-	_verse_title = heading.h3.get_text()
-	_trans_title = heading.p.get_text()
-	
+	_verse_title = soup.find('span', {'class':'passage-display-bcv'}).get_text()
+	_trans_title = soup.find('span', {'class':'passage-display-version'}).get_text()
+
 	contents = ''
 	for verse in verses:
 		if verse.find('span', {'class':'indent-1-breaks'}) != None:
@@ -63,31 +61,31 @@ def _get_biblegateway_contents(book_name, chapter, verse, translation):
 			text = numbers.sub(r'[**\1**]', text, 1)
 		else:
 			text = '\n\n>**' + verse.get_text() + '**  \n'
-			
-		
+
+
 		contents += re.sub(r'\[\w\]', '', text)
-		
+
 	return contents
 
 # Retrieve the contents of the Bible passage the user requested.
 # Obtains text from local pickle file. Used for translations
 # that BibleGateway does not support.
 def _get_local_contents(book_num, chapter, verse, translation):
-	
+
 	f = open(get_local_bible(translation), 'rb')
 	bible = pickle.load(f)
 	f.close()
-	
+
 	global _verse_title
 	global _trans_title
-	
+
 	if verse != '0':
 		_verse_title = get_book_title(book_num) + ' ' + chapter + ':' + verse
 	else:
 		_verse_title = get_book_title(book_num) + ' ' + chapter
 	# This will need to be changed if more pickle files are added.
 	_trans_title = 'JPS Tanakh (NJPS)'
-	
+
 	verse_text = ''
 	if book_num and chapter:
 		try:
@@ -110,31 +108,25 @@ def _get_local_contents(book_num, chapter, verse, translation):
 		except KeyError:
 			return False
 
-# Retrieves the translations that are supported by the bot. 	
+# Retrieves the translations that are supported by the bot.
 def find_supported_translations():
 	global _supported_translations
-	url = 'http://legacy.biblegateway.com/versions/'
-		
+	url = 'http://www.biblegateway.com/versions/'
+
 	page = urllib2.urlopen(url)
 	soup = BeautifulSoup(page.read())
-		
-	translations = soup.findAll('tr')
-		
-	for translation in translations:
-		if 'Text' in translation.get_text():
-			trans = translation.findAll('td')
-			for t in trans:
-				if t.a != None:
-					cur_trans = t.a.get_text()
-					if cur_trans != 'Text':
-						_supported_translations.append(cur_trans[cur_trans.rfind('(')+1:cur_trans.rfind(')')])
-						
-	# The abbreviation for the NET translation on this page is wrong.
-	_supported_translations.remove('NET Bible')
-	_supported_translations.append('NET')
+
+	translations = soup.find('select', {'class':'search-translation-select'})
+	trans = translations.findAll('option')
+	for t in trans:
+		if t.has_attr('value') and not t.has_attr('class'):
+			cur_trans = t['value']
+			_supported_translations.append(cur_trans)
+
+	# Add local translations to supported translations list
 	_supported_translations.append('NJPS')
 
-# Simply returns the list of supported translations.	
+# Simply returns the list of supported translations.
 def get_supported_translations():
 	_supported_translations.sort(key=len, reverse=True)
 	return _supported_translations
@@ -142,7 +134,7 @@ def get_supported_translations():
 # Returns the verse title provided by BibleGateway.
 def get_verse_title():
 	return _verse_title
-	
-# Returns the translation title provided by BibleGateway.	
+
+# Returns the translation title provided by BibleGateway.
 def get_translation_title():
 	return _trans_title
