@@ -35,4 +35,4 @@ Matthieu Grieger
 	THE SOFTWARE.
 
 ## Thanks
-[BibleGateway](http://www.biblegateway.com) for being the source of all texts posted by VerseBot.
+[BibleGateway](http://www.biblegateway.com) and [TaggedTanakh](http://www.taggedtanakh.org) for being the source of all texts posted by VerseBot.
