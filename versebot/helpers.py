@@ -55,12 +55,12 @@ def _get_biblegateway_contents(book_name, chapter, verse, translation):
 		if verse.parent.name != 'h3' and verse.parent.name != 'h4':
 			if '<span class="chapternum">' in str(verse):
 				text = verse.get_text().replace(chapter, '1') + ' '
+			elif verse.get_text() == 'Back':
+				text = ''
 			else:
 				text = verse.get_text() + ' '
 			numbers = re.compile(r'(\d+)')
 			text = numbers.sub(r'[**\1**]', text, 1)
-		elif verse.get_text() == 'Back':
-			text = ''
 		else:
 			text = '\n\n>**' + verse.get_text() + '**  \n'
 
