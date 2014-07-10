@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### July 9, 2014
+* Fixed "Back" appearing at the end of every quotation (thanks to /u/coveredinbeeees for finding this!).
+
 ### June 30, 2014
 * Compatibility changes for the new version of BibleGateway.
 
