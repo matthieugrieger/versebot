@@ -50,8 +50,6 @@ def _get_biblegateway_contents(book_name, chapter, verse, translation):
 
 	contents = ''
 	for verse in verses:
-		if verse.get_text() == 'Back':
-			text = ''
 		if verse.find('span', {'class':'indent-1-breaks'}) != None:
 			verse.find('span', {'class':'indent-1-breaks'}).decompose()
 		if verse.parent.name != 'h3' and verse.parent.name != 'h4':
@@ -61,6 +59,8 @@ def _get_biblegateway_contents(book_name, chapter, verse, translation):
 				text = verse.get_text() + ' '
 			numbers = re.compile(r'(\d+)')
 			text = numbers.sub(r'[**\1**]', text, 1)
+		elif verse.get_text() == 'Back':
+			text = ''
 		else:
 			text = '\n\n>**' + verse.get_text() + '**  \n'
 
