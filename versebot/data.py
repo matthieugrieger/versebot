@@ -12,10 +12,10 @@ def get_book_number(phrase):
 	book_names = OrderedDict([('genesis',1) , ('gen',1) , ('gn',1), ('bereshit', 1), ('exodus',2), ('exod',2), ('ex',2), ('shemot',2), ('leviticus',3),
                          ('lev',3), ('lv',3), ('vayikra',3), ('numbers',4), ('num',4), ('nm',4), ('bemidbar',4), ('deuteronomy',5), ('deut',5),
                          ('dt',5), ('devarim',5), ('joshua',6), ('josh',6), ('yehoshua',6), ('judges',7), ('judg',7), ('jgs',7), ('shoftim',7), ('ruth',8), ('ru',8),
-                         ('1 samuel',9), ('1samuel',9), ('1 sam',9), ('1sam',9), ('1 sm',9), ('1sm',9), ('1 shmuel',9), ('1shmuel',9), ('2 samuel',10), 
+                         ('1 samuel',9), ('1samuel',9), ('1 sam',9), ('1sam',9), ('1 sm',9), ('1sm',9), ('1 shmuel',9), ('1shmuel',9), ('2 samuel',10),
                          ('2samuel',10), ('2 sam',10), ('2sam',10), ('2 sm',10), ('2sm',10), ('2 shmuel',10), ('2shmuel',10), ('1 kings',11), ('1kings',11),
-                         ('1 kgs',11), ('1kgs',11), ('1 melachim',11), ('1melachim',11), ('2 kings',12), ('2kings',12), ('2 kgs',12), ('2kgs',12), ('2 melachim',12), ('2melachim',12), 
-                         ('1 chronicles',13), ('1chronicles',13), ('1 chron',13), ('1chron',13), ('1 chr',13), ('1chr',13), ('2 chronicles',14), 
+                         ('1 kgs',11), ('1kgs',11), ('1 melachim',11), ('1melachim',11), ('2 kings',12), ('2kings',12), ('2 kgs',12), ('2kgs',12), ('2 melachim',12), ('2melachim',12),
+                         ('1 chronicles',13), ('1chronicles',13), ('1 chron',13), ('1chron',13), ('1 chr',13), ('1chr',13), ('2 chronicles',14),
                          ('2chronicles',14), ('2 chron',14), ('2chron',14), ('2 chr',14), ('2chr',14), ('ezra',15), ('ezr',15), ('nehemiah',16),
                          ('neh',16), ('esther',17), ('est',17), ('job',18), ('jb',18), ('psalms',19), ('psalm',19), ('ps',19),
                          ('pss',19), ('proverbs',20), ('prov',20), ('prv',20), ('ecclesiastes',21), ('eccles',21), ('eccl',21),
@@ -27,11 +27,11 @@ def get_book_number(phrase):
                          ('haggai',37), ('hag',37), ('hg',37), ('chaggai',37), ('zechariah',38), ('zech',38), ('zec',38), ('zecharya',38), ('zecharyah',38), ('zechariyah',38), ('malachi',39),
                          ('mal',39), ('matthew',40), ('mathew',40), ('matt',40), ('mat',40), ('mt',40), ('mark',41), ('mk',41), ('luke',42), ('lk',42),
                          ('john',43), ('jn',43), ('acts',44), ('acts of the apostles',44), ('romans',45), ('rom',45),
-                         ('1 corinthians',46), ('1corinthians',46), ('1 cor',46), ('1cor',46), ('2 corinthians',47), ('2corinthians',47), 
-                         ('2 cor',47), ('2cor',47), ('galatians',48), ('gal',48), ('ephesians',49), ('philippians',50), ('phil',50), 
-                         ('colossians',51), ('col',51), ('1 thessalonians',52), ('1thessalonians',52), ('1 thess',52), ('1thess',52), 
-                         ('1 thes',52), ('1thes',52), ('2 thessalonians',53), ('2thessalonians',53), ('2 thess',53), ('2thess',53), 
-                         ('2 thes',53), ('2thes',53), ('1 timothy',54), ('1timothy',54), ('1st timothy',54), ('1 tim',54), ('1tim',54), ('1 tm',54), ('1tm',54), 
+                         ('1 corinthians',46), ('1corinthians',46), ('1 cor',46), ('1cor',46), ('2 corinthians',47), ('2corinthians',47),
+                         ('2 cor',47), ('2cor',47), ('galatians',48), ('gal',48), ('ephesians',49), ('philippians',50), ('phil',50),
+                         ('colossians',51), ('col',51), ('1 thessalonians',52), ('1thessalonians',52), ('1 thess',52), ('1thess',52),
+                         ('1 thes',52), ('1thes',52), ('2 thessalonians',53), ('2thessalonians',53), ('2 thess',53), ('2thess',53),
+                         ('2 thes',53), ('2thes',53), ('1 timothy',54), ('1timothy',54), ('1st timothy',54), ('1 tim',54), ('1tim',54), ('1 tm',54), ('1tm',54),
                          ('2 timothy', 55), ('2timothy',55), ('2nd timothy',55), ('2 tim',55), ('2tim',55), ('2 tm',55), ('2tm',55), ('titus',56), ('ti',56),
                          ('philemon',57), ('philem',57), ('phlm',57), ('hebrews',58), ('heb',58), ('james',59), ('jas',59),
                          ('1 peter',60), ('1peter',60), ('1 pet',60), ('1pet',60), ('1 pt',60), ('1pt',60), ('2 peter',61), ('2peter',61),
@@ -45,7 +45,7 @@ def get_book_number(phrase):
                          ('adddan',76), ('song of the three children',76), ('prayer of azariah',76), ('rest of esther',77), ('additions to esther',77), ('addesth',77),
                          ('prayer of manasses',78), ('prayer of manasseh',78), ('manasses',78), ('manasseh',78), ('prman',78), ('1 esdras',79), ('1esdras',79), ('1 esd',79),
                          ('1esd',79), ('2 esdras',80), ('2esdras',80), ('2 esd',80), ('2esd',80), ('story of susanna',81), ('susanna',81), ('sus',81), ('bel and the dragon',82), ('bel',82)])
-				
+
 	sorted_books = OrderedDict(sorted(book_names.items(), key=lambda t: len(t[0]), reverse=True))
 	for key, value in sorted_books.items():
 		if search(r'\b' + key + r'\b', phrase):
@@ -53,7 +53,7 @@ def get_book_number(phrase):
 	return False
 
 # Find appropriate book name for certain book number. Used to create title for
-# verse and to construct BibleGateway URLs.		
+# verse and to construct BibleGateway URLs.
 def get_book_title(book_num):
 	book_titles = {1:'Genesis', 2:'Exodus', 3:'Leviticus', 4:'Numbers', 5:'Deuteronomy', 6:'Joshua', 7:'Judges', 8:'Ruth',
                 9:'1 Samuel', 10:'2 Samuel', 11:'1 Kings', 12:'2 Kings', 13:'1 Chronicles', 14:'2 Chronicles', 15: 'Ezra',
@@ -69,7 +69,7 @@ def get_book_title(book_num):
                 78:'Prayer of Manasseh', 79:'1 Esdras', 80:'2 Esdras', 81:'Susanna', 82:'Bel and the Dragon'}
 
 	return book_titles[book_num]
-	
+
 # Retrieves book name used by TaggedTanakh to construct links to their website.
 def get_tanakh_name(book_name):
 	tanakh_names = {'Genesis':'Gen', 'Exodus':'Exod', 'Leviticus':'Lev', 'Numbers':'Num', 'Deuteronomy':'Deut', 'Joshua':'Josh',
@@ -86,14 +86,14 @@ def get_tanakh_name(book_name):
 # default translation are not listed in default_translations, as this is the overall
 # default translation for the bot.
 def get_default_translation(subreddit, book_num):
-	default_translations = {'Catholicism':'RSVCE', 'Judaism':'NJPS', 'AcademicBiblical':'OJB', 'Protestantism':'KJV', 'latterdaysaints':'KJV', 'divineoffice':'NRSVCE'}
+	default_translations = {'Catholicism':'RSVCE', 'Judaism':'NJPS', 'AcademicBiblical':'NRSV', 'Protestantism':'KJV', 'latterdaysaints':'KJV', 'divineoffice':'NRSVCE'}
 	default_deutero_translations = {'Catholicism':'DRA'}
-	
+
 	if book_num >= 67:
 		if book_num != 74 and book_num != 75: # Not all translations support 3 and 4 Maccabees (just in case)
 			try:
 				return default_deutero_translations[subreddit]
-			except KeyError: 
+			except KeyError:
 				return 'NRSV'
 		else:
 			return 'NRSV'
