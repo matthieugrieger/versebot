@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### July 12, 2014
+* Changed default translation for /r/AcademicBiblical to NRSV.
+
 ### July 9, 2014
 * Fixed "Back" appearing at the end of every quotation (thanks to /u/coveredinbeeees for finding this!).
 
