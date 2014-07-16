@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### July 16, 2014
+* Released the [VerseBot Statistics website!](http://matthieugrieger.com/versebot/)
+
 ### July 12, 2014
 * Changed default translation for /r/AcademicBiblical to NRSV.
 

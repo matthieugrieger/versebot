@@ -3,6 +3,7 @@ A reddit bot that is triggered by Bible verse references in reddit comments. It 
 
 [See the bot in action!](http://www.reddit.com/user/VerseBot)  
 [/r/VerseBot](http://www.reddit.com/r/versebot)
+[VerseBot Statistics](http://matthieugrieger.com/versebot/)
 
 ## Usage
 ### Triggering the bot

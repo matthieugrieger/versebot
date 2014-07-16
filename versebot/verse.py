@@ -103,7 +103,8 @@ class Verse:
                + ' [^/r/VerseBot](http://www.reddit.com/r/versebot) ^|'
                + ' [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|'
                + ' [^FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq) ^|'
-               + ' [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md) \n\n'
+               + ' [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md) ^|'
+			   + ' [^Statistics](http://matthieugrieger.com/versebot/) \n\n'
                + ' ^All ^texts ^provided ^by [^BibleGateway](http://www.biblegateway.com) ^and [^TaggedTanakh](http://www.taggedtanakh.org)')
 
 	# Takes the verse's book name, chapter, and translation as parameters. The function
