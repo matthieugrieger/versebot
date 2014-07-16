@@ -17,7 +17,7 @@ from os import environ
 
 def main():
     print('Starting up VerseBot...')
-    
+
     # Connects to reddit via PRAW.
     try:
         r = praw.Reddit(user_agent = ('VerseBot by /u/mgrieger. Github: https://github.com/matthieugrieger/versebot'))
@@ -26,18 +26,18 @@ def main():
     except:
         print('Connection to reddit failed. Either reddit is down at the moment or something in the config is incorrect.')
         exit()
-    
+
     print('Connecting to database...')
     database.connect()
     print('Cleaning database...')
     database.clean_comment_id_database()
-    
+
     print('Retrieving supported translations...')
     find_supported_translations()
-    
+
     lookup_list = list()
     comment_ids_this_session = set()
-    
+
     print('Beginning to scan comments...')
     while True:
 		comments = praw.helpers.comment_stream(r, 'all', limit=None)
@@ -49,7 +49,7 @@ def main():
 					for ver in verses_to_find:
 						next_ver = findall(r'(?:\d\w*\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+\s?-?\w*)?', ver)
 						lookup_list.append(str(next_ver))
-					
+
 					if len(lookup_list) != 0:
 						verse_object = Verse(lookup_list, comment)
 						next_comment = verse_object.get_comment()
@@ -62,19 +62,19 @@ def main():
 									print('Banned from subreddit. Cannot reply.')
 									next_comment = False
 							except praw.errors.APIException, err:
-								if err.error_type in ('TOO_OLD','DELETED_LINK'):
+								if err.error_type in ('TOO_OLD','DELETED_LINK', 'DELETED_COMMENT'):
 									next_comment = False
 								else:
 									raise
 					else:
 						next_comment = False
-					
+
 					if next_comment != False:
 						print('Inserting new comment id to database...')
 						database.add_comment_id(comment.id)
 						print('Updating statistics...')
 						database.update_db_stats(verse_object)
-						
+
 						lookup_list[:] = []
 					else:
 						try:
@@ -83,12 +83,6 @@ def main():
 							pass
 						lookup_list[:] = []
 					verse_object.clear_verses()
-    
+
 if __name__ == '__main__':
 	main()
-
-
-    
-        
-        
-    
