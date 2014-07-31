@@ -20,7 +20,7 @@ INSERT INTO book_stats (book) VALUES ('Genesis'), ('Exodus'), ('Leviticus'), ('N
 	('Galatians'), ('Ephesians'), ('Philippians'), ('Colossians'), ('1 Thessalonians'),
 	('2 Thessalonians'), ('1 Timothy'), ('2 Timothy'), ('Titus'), ('Philemon'), ('Hebrews'),
 	('James'), ('1 Peter'), ('2 Peter'), ('1 John'), ('2 John'), ('3 John'), ('Jude'), ('Revelation'),
-	('Judith'), ('Wisdom of Solomon'), ('Tobit'), ('Ecclesiasticus'), ('Baruch'), ('1 Maccabees'),
+	('Judith'), ('Wisdom'), ('Tobit'), ('Ecclesiasticus'), ('Baruch'), ('1 Maccabees'),
 	('2 Maccabees'), ('3 Maccabees'), ('4 Maccabees'), ('Prayer of Azariah'), ('Additions to Esther'),
 	('Prayer of Manasseh'), ('1 Esdras'), ('2 Esdras'), ('Susanna'), ('Bel and the Dragon');
 	

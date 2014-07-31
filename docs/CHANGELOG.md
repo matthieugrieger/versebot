@@ -2,6 +2,7 @@
 
 ### July 31, 2014
 * Fixed Biblical references in the book of Wisdom (deuterocanon).
+* Updated createdatabase.sql to reflect above change.
 
 ### July 16, 2014
 * Released the [VerseBot Statistics website!](http://matthieugrieger.com/versebot/)
