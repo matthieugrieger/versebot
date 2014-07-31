@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### July 31, 2014
+* Fixed Biblical references in the book of Wisdom (deuterocanon).
+
 ### July 16, 2014
 * Released the [VerseBot Statistics website!](http://matthieugrieger.com/versebot/)
 * Fixed a crash that occurred when trying to reply to a recently deleted comment.

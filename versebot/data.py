@@ -64,7 +64,7 @@ def get_book_title(book_num):
                 47:'2 Corinthians', 48:'Galatians', 49:'Ephesians', 50:'Philippians', 51:'Colossians', 52:'1 Thessalonians',
                 53:'2 Thessalonians', 54:'1 Timothy', 55:'2 Timothy', 56:'Titus', 57:'Philemon', 58:'Hebrews', 59:'James',
                 60:'1 Peter', 61:'2 Peter', 62:'1 John', 63:'2 John', 64:'3 John', 65:'Jude', 66:'Revelation',
-                67:'Judith', 68:'Wisdom of Solomon', 69:'Tobit', 70:'Ecclesiasticus', 71:'Baruch', 72:'1 Maccabees',
+                67:'Judith', 68:'Wisdom', 69:'Tobit', 70:'Ecclesiasticus', 71:'Baruch', 72:'1 Maccabees',
                 73:'2 Maccabees', 74:'3 Maccabees', 75:'4 Maccabees', 76:'Prayer of Azariah', 77:'Additions to Esther',
                 78:'Prayer of Manasseh', 79:'1 Esdras', 80:'2 Esdras', 81:'Susanna', 82:'Bel and the Dragon'}
 
