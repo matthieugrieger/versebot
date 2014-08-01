@@ -7,6 +7,7 @@
 ### July 16, 2014
 * Released the [VerseBot Statistics website!](http://matthieugrieger.com/versebot/)
 * Fixed a crash that occurred when trying to reply to a recently deleted comment.
+* Set /r/Lectionary default translation to NRSV.
 
 ### July 12, 2014
 * Changed default translation for /r/AcademicBiblical to NRSV.
