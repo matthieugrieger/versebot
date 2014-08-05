@@ -1,5 +1,12 @@
 # VerseBot Changelog
 
+### August 5, 2014
+* Added the ability for users to edit/delete VerseBot comments. Only the user who triggers the VerseBot response will have the ability to edit/delete the comment.
+* Added logic for "fixing" the the book, translation, and subreddit statistics when a VerseBot response is edited/deleted.
+* Added a short sentence at the end of the comment footer that gives links for editing and deleting a comment.
+* Added messages.py to implement comment editing/deletion, and more functions in the future.
+* Moved all regex to regex.py to clean up the code a bit.
+
 ### July 31, 2014
 * Fixed Biblical references in the book of Wisdom (deuterocanon).
 * Updated createdatabase.sql to reflect above change.
