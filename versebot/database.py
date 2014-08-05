@@ -53,14 +53,21 @@ def clean_comment_id_database():
 	_conn.commit()
 
 # Updates book_stats table with recently quoted books.
-def update_book_stats(new_books):
+# Alternatively, this function is also used to remove book counts
+# that were added by a comment that has been edited/deleted.
+def update_book_stats(new_books, is_edit_or_delete = False):
 	for book in new_books.items():
 		with _conn.cursor() as cur:
-			cur.execute('UPDATE book_stats SET count = count + %s WHERE book = %s', [book[1], book[0]])
+			if is_edit_or_delete:
+				cur.execute('UPDATE book_stats SET count = count - %s WHERE book = %s', [book[1], book[0]])
+			else:
+				cur.execute('UPDATE book_stats SET count = count + %s WHERE book = %s', [book[1], book[0]])
 	_conn.commit()
 
-# Updates translation_stats table with recently used translations.		
-def update_translation_stats(new_translations):
+# Updates translation_stats table with recently used translations.
+# Alternatively, this function is also used to remove translation counts
+# that were added by a comment that has been edited/deleted.		
+def update_translation_stats(new_translations, is_edit_or_delete = False):
 	for translation in new_translations.items():
 		if translation[0] == 'NET':
 			trans = 'NET Bible'
@@ -68,16 +75,26 @@ def update_translation_stats(new_translations):
 			trans = translation[0]
 		count = translation[1]
 		with _conn.cursor() as cur:
-			cur.execute('UPDATE translation_stats SET count = count + %s WHERE trans = %s', [count, trans])
+			if is_edit_or_delete:
+				cur.execute('UPDATE translation_stats SET count = count - %s WHERE trans = %s', [count, trans])
+			else:
+				cur.execute('UPDATE translation_stats SET count = count + %s WHERE trans = %s', [count, trans])
 	_conn.commit()
-	
-def update_subreddit_stats(new_subreddits):
+
+# Updates subreddit_stats table with subreddits that have recently used VerseBot.
+# Alternatively, this function is also used to remove subreddit counts
+# that were added by a comment that has been edited/deleted.
+def update_subreddit_stats(new_subreddits, is_edit_or_delete = False):
 	for subreddit in new_subreddits.items():	
 		with _conn.cursor() as cur:
-			# I opted for this instead of upsert because it seemed simpler.
-			cur.execute('UPDATE subreddit_stats SET count = count + %(num)s WHERE sub = %(subreddit)s;' +
-						'INSERT INTO subreddit_stats (sub, count) SELECT %(subreddit)s, %(num)s WHERE NOT EXISTS (SELECT 1 FROM subreddit_stats WHERE sub = %(subreddit)s);',
-						{'subreddit':subreddit[0], 'num':subreddit[1]})
+			if is_edit_or_delete:
+				cur.execute('UPDATE subreddit_stats SET count = count - %(num)s WHERE sub = %(subreddit)s;' +
+						'DELETE FROM subreddit_stats WHERE count = 0;', {'subreddit':subreddit[0], 'num':subreddit[1]})
+			else:
+				# I opted for this instead of upsert because it seemed simpler.
+				cur.execute('UPDATE subreddit_stats SET count = count + %(num)s WHERE sub = %(subreddit)s;' +
+							'INSERT INTO subreddit_stats (sub, count) SELECT %(subreddit)s, %(num)s WHERE NOT EXISTS (SELECT 1 FROM subreddit_stats WHERE sub = %(subreddit)s);',
+							{'subreddit':subreddit[0], 'num':subreddit[1]})
 	_conn.commit()
 
 # Iterates through all verses in Verse object and adds them to dicts to
@@ -111,6 +128,11 @@ def update_db_stats(verse_ob):
 	update_subreddit_stats(subreddit_stats)
 	
 	return
+	
+def fix_db_stats(invalid_books, invalid_translations, invalid_subreddit):
+	update_book_stats(invalid_books, is_edit_or_delete = True)
+	update_translation_stats(invalid_translations, is_edit_or_delete = True)
+	update_subreddit_stats(invalid_subreddit, is_edit_or_delete = True)
 	
 
 

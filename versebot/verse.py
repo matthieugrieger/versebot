@@ -4,6 +4,7 @@
 #---------------------#
 
 from re import findall, search
+from config import get_bot_username
 import data
 import helpers
 
@@ -14,12 +15,18 @@ class Verse:
 	_verse_data = list()
 	_invalid_comment = False
 
-	# Initializes Verse object with data from the command(s)
-	def __init__(self, verse_list, comment):
+	# Initializes Verse object with data from the command(s).
+	# NOTE: permalink and subreddit are only used when dealing with
+	# a comment edit request.
+	def __init__(self, verse_list, comment, permalink = False, subreddit = False):
 		for verse in verse_list:
 			verse_book_num = data.get_book_number(verse.lower())
 			if verse_book_num != False:
-				verse_subreddit = comment.permalink[24:comment.permalink.find('/', 24)]
+				try:
+					verse_subreddit = comment.permalink[24:comment.permalink.find('/', 24)]
+				except AttributeError:
+					# This means we are dealing with a message, not a comment.
+					verse_subreddit = subreddit
 				verse_book_name = data.get_book_title(verse_book_num)
 				verse_chapter = self._get_chapter_and_verse(verse.lower())[0]
 				verse_selection = self._get_chapter_and_verse(verse.lower())[1]
@@ -27,9 +34,14 @@ class Verse:
 				verse_content = helpers.get_verse_contents(verse_book_name, verse_book_num, verse_chapter, verse_selection, verse_translation)
 				verse_title = helpers.get_verse_title()
 				trans_title = helpers.get_translation_title()
+				comment_author = str(comment.author)
+				if permalink:
+					comment_permalink = permalink
+				else:
+					comment_permalink = comment.permalink
 
 				if verse_content != False:
-					self._verse_data.append((verse_book_name, verse_chapter, verse_selection, verse_translation, verse_content, verse_subreddit, verse_title, trans_title))
+					self._verse_data.append((verse_book_name, verse_chapter, verse_selection, verse_translation, verse_content, verse_subreddit, verse_title, trans_title, comment_author, comment_permalink))
 
 		if len(self._verse_data) == 0:
 			self._invalid_comment = True
@@ -50,16 +62,15 @@ class Verse:
 				context_link = self._get_context_link(book, chap, translation)
 				verse_title = cur_ver_data[6]
 				trans_title = cur_ver_data[7]
+				comment_author = cur_ver_data[8]
+				comment_permalink = cur_ver_data[9]
 
 				comment += ('[**' + verse_title.lstrip() + ' | ' + trans_title.lstrip() + '**](' + context_link + ')\n>' + content) + '\n\n'
 
-			if 0 < len(comment) <= self._get_char_limit():
-				comment += self._get_comment_footer()
-				return comment
-			else:
+			if len(comment) > self._get_char_limit():
 				comment = self._get_overflow_comment()
-				comment += self._get_comment_footer()
-				return comment
+			comment += self._get_comment_footer(comment_author, comment_permalink)
+			return comment
 		else:
 			return False
 
@@ -98,14 +109,16 @@ class Verse:
 
 	# Simply returns the comment footer found at the bottom of every comment posted
 	# by the bot.
-	def _get_comment_footer(self):
+	def _get_comment_footer(self, author, permalink):
 		return ('\n***\n[^Source ^Code](https://github.com/matthieugrieger/versebot) ^|'
                + ' [^/r/VerseBot](http://www.reddit.com/r/versebot) ^|'
                + ' [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|'
                + ' [^FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq) ^|'
                + ' [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md) ^|'
 			   + ' [^Statistics](http://matthieugrieger.com/versebot/) \n\n'
-               + ' ^All ^texts ^provided ^by [^BibleGateway](http://www.biblegateway.com) ^and [^TaggedTanakh](http://www.taggedtanakh.org)')
+               + ' ^All ^texts ^provided ^by [^BibleGateway](http://www.biblegateway.com) ^and [^TaggedTanakh](http://www.taggedtanakh.org) \n\n'
+               + ' ^**Mistake?** ^' + author + ' ^can [^edit](http://www.reddit.com/message/compose/?to=' + get_bot_username() +'&subject=edit ' + permalink + '&message=Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)' 
+               + ' ^or [^delete](http://www.reddit.com/message/compose/?to=' + get_bot_username() + '&subject=delete ' + permalink + '&message=This+action+cannot+be+reversed!) ^this ^comment.')
 
 	# Takes the verse's book name, chapter, and translation as parameters. The function
 	# then constructs a context link for the selected passage. This link appears on each
