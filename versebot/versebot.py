@@ -7,8 +7,10 @@ import praw
 import config
 import database
 import requests
+import regex
 from helpers import find_supported_translations
 from verse import Verse
+from messages import check_messages
 
 from sys import exit
 from re import findall
@@ -16,38 +18,41 @@ from time import sleep
 from os import environ
 
 def main():
-    print('Starting up VerseBot...')
+	print('Starting up VerseBot...')
 
-    # Connects to reddit via PRAW.
-    try:
-        r = praw.Reddit(user_agent = ('VerseBot by /u/mgrieger. Github: https://github.com/matthieugrieger/versebot'))
-        r.login(config.get_bot_username(), config.get_bot_password())
-        print('Connected to reddit!')
-    except:
-        print('Connection to reddit failed. Either reddit is down at the moment or something in the config is incorrect.')
-        exit()
+	# Connects to reddit via PRAW.
+	try:
+		r = praw.Reddit(user_agent = ('VerseBot by /u/mgrieger. Github: https://github.com/matthieugrieger/versebot'))
+		r.login(config.get_bot_username(), config.get_bot_password())
+		print('Connected to reddit!')
+	except:
+		print('Connection to reddit failed. Either reddit is down at the moment or something in the config is incorrect.')
+		exit()
 
-    print('Connecting to database...')
-    database.connect()
-    print('Cleaning database...')
-    database.clean_comment_id_database()
+	print('Connecting to database...')
+	database.connect()
+	print('Cleaning database...')
+	database.clean_comment_id_database()
 
-    print('Retrieving supported translations...')
-    find_supported_translations()
+	print('Retrieving supported translations...')
+	find_supported_translations()
 
-    lookup_list = list()
-    comment_ids_this_session = set()
+	lookup_list = list()
+	comment_ids_this_session = set()
 
-    print('Beginning to scan comments...')
-    while True:
+	print('Beginning to check messages...')
+	check_messages(r)
+	
+	print('Beginning to scan comments...')
+	while True:
 		comments = praw.helpers.comment_stream(r, 'all', limit=None)
 		for comment in comments:
 			if comment.author != config.get_bot_username() and not database.check_comment_id(comment.id) and comment.id not in comment_ids_this_session:
 				comment_ids_this_session.add(comment.id)
-				verses_to_find = findall(r'\[[\w\s:,-]+](?!\()', comment.body)
+				verses_to_find = regex.find_bracketed_text(comment.body)
 				if len(verses_to_find) != 0:
 					for ver in verses_to_find:
-						next_ver = findall(r'(?:\d\w*\s)?(?:\w+\s\w+\s\w+)?(?:\w+\s\w+\s\w+\s\w+)?\w+\s\d+:?\d*-?\d*(?:\s\w+\s?-?\w*)?', ver)
+						next_ver = regex.find_verses(ver)
 						lookup_list.append(str(next_ver))
 
 					if len(lookup_list) != 0:
