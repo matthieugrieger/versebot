@@ -111,14 +111,14 @@ class Verse:
 	# by the bot.
 	def _get_comment_footer(self, author, permalink):
 		return ('\n***\n[^Source ^Code](https://github.com/matthieugrieger/versebot) ^|'
-               + ' [^/r/VerseBot](http://www.reddit.com/r/versebot) ^|'
-               + ' [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|'
-               + ' [^FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq) ^|'
-               + ' [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md) ^|'
+			   + ' [^/r/VerseBot](http://www.reddit.com/r/versebot) ^|'
+			   + ' [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|'
+			   + ' [^FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq) ^|'
+			   + ' [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md) ^|'
 			   + ' [^Statistics](http://matthieugrieger.com/versebot/) \n\n'
-               + ' ^All ^texts ^provided ^by [^BibleGateway](http://www.biblegateway.com) ^and [^TaggedTanakh](http://www.taggedtanakh.org) \n\n')
-               + ' ^**Mistake?** ^' + author + ' ^can [^edit](http://www.reddit.com/message/compose/?to=' + get_bot_username() +'&subject=edit ' + permalink + '&message=Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)' 
-               + ' ^or [^delete](http://www.reddit.com/message/compose/?to=' + get_bot_username() + '&subject=delete ' + permalink + '&message=This+action+cannot+be+reversed!) ^this ^comment.')
+			   + ' ^All ^texts ^provided ^by [^BibleGateway](http://www.biblegateway.com) ^and [^TaggedTanakh](http://www.taggedtanakh.org) \n\n')
+			   + ' ^**Mistake?** ^' + author + ' ^can [^edit](http://www.reddit.com/message/compose/?to=' + get_bot_username() +'&subject=edit ' + permalink + '&message=Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)' 
+			   + ' ^or [^delete](http://www.reddit.com/message/compose/?to=' + get_bot_username() + '&subject=delete ' + permalink + '&message=This+action+cannot+be+reversed!) ^this ^comment.')
 
 	# Takes the verse's book name, chapter, and translation as parameters. The function
 	# then constructs a context link for the selected passage. This link appears on each
