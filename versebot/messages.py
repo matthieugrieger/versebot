@@ -108,20 +108,22 @@ def remove_invalid_statistics(comment_body, subreddit):
 	invalid_sub = dict()
 	
 	for verse in invalid_verses:
-		invalid_book = data.get_book_title(data.get_book_number(verse.lower()))
-		translation = regex.find_translation_in_title(verse)
-		if invalid_book in invalid_books:
-			invalid_books[invalid_book] += 1
-		else:
-			invalid_books[invalid_book] = 1
-		if translation in invalid_trans:
-			invalid_trans[translation] += 1
-		else:
-			invalid_trans[translation] = 1
-		if subreddit in invalid_sub:
-			invalid_sub[subreddit] += 1
-		else:
-			invalid_sub[subreddit] = 1
+		book_num = data.get_book_number(verse.lower())
+		if book_num:
+			invalid_book = data.get_book_title()
+			translation = regex.find_translation_in_title(verse)
+			if invalid_book in invalid_books:
+				invalid_books[invalid_book] += 1
+			else:
+				invalid_books[invalid_book] = 1
+			if translation in invalid_trans:
+				invalid_trans[translation] += 1
+			else:
+				invalid_trans[translation] = 1
+			if subreddit in invalid_sub:
+				invalid_sub[subreddit] += 1
+			else:
+				invalid_sub[subreddit] = 1
 			
 	database.fix_db_stats(invalid_books, invalid_trans, invalid_sub)	
 		
