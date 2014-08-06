@@ -36,4 +36,5 @@ Matthieu Grieger
 	THE SOFTWARE.
 
 ## Thanks
-[BibleGateway](http://www.biblegateway.com) and [TaggedTanakh](http://www.taggedtanakh.org) for being the source of all texts posted by VerseBot.
+[BibleGateway](http://www.biblegateway.com) and [TaggedTanakh](http://www.taggedtanakh.org) for being the source of all texts posted by VerseBot.  
+[All those who contribute](https://github.com/praw-dev/praw/graphs/contributors) to [PRAW (Python Reddit API Wrapper)](https://github.com/praw-dev/praw).
