@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### August 6, 2014
+* Fixed a bug that made edit/delete actions stop working.
+
 ### August 5, 2014
 * Added the ability for users to edit/delete VerseBot comments. Only the user who triggers the VerseBot response will have the ability to edit/delete the comment.
 * Added logic for "fixing" the the book, translation, and subreddit statistics when a VerseBot response is edited/deleted.
