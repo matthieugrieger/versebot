@@ -111,7 +111,7 @@ def remove_invalid_statistics(comment_body, subreddit):
 	for verse in invalid_verses:
 		book_num = data.get_book_number(verse.lower())
 		if book_num:
-			invalid_book = data.get_book_title()
+			invalid_book = data.get_book_title(book_num)
 			translation = regex.find_translation_in_title(verse)
 			if invalid_book in invalid_books:
 				invalid_books[invalid_book] += 1
