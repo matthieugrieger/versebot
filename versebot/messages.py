@@ -62,6 +62,7 @@ def process_edit_request(r, message):
 						except:
 							print('Comment edit failed. Will try again later...')
 							verse_object.clear_verses()
+							raise
 					else:
 						message.mark_as_read()
 				lookup_list[:] = []
