@@ -2,6 +2,9 @@
 
 ### August 6, 2014
 * Fixed a bug that made edit/delete actions stop working.
+* Moved comment URL in edit/delete message to comment body to avoid creating a subject over 100 characters long (thanks /u/emprags!).
+* Added complete translation names and translation languages to translation statistics table.
+* Improved readability of some SQL scripts.
 
 ### August 5, 2014
 * Added the ability for users to edit/delete VerseBot comments. Only the user who triggers the VerseBot response will have the ability to edit/delete the comment.
