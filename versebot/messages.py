@@ -32,7 +32,7 @@ def check_messages(r):
 # comment of VerseBot's reply.
 def process_edit_request(r, message):
 	try:
-		comment_url = message.subject[5:]
+		comment_url = message.body[1:message.body.find('}')]
 		comment = r.get_submission(comment_url)
 	except:
 		message.reply('An error occurred while processing your request. Please make sure that you do not modify the subject line of your message to VerseBot.')
@@ -77,7 +77,7 @@ def process_edit_request(r, message):
 # comment of VerseBot's reply.
 def process_delete_request(r, message):
 	try:
-		comment_url = message.subject[7:]
+		comment_url = message.body[1:message.body.find('}')]
 		comment = r.get_submission(comment_url)
 	except:
 		message.reply('An error occurred while processing your request. Please make sure that you do not modify the subject line of your message to VerseBot.')

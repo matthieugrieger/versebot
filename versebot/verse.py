@@ -117,8 +117,8 @@ class Verse:
 			   + ' [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/docs/CHANGELOG.md) ^|'
 			   + ' [^Statistics](http://matthieugrieger.com/versebot/) \n\n'
 			   + ' ^All ^texts ^provided ^by [^BibleGateway](http://www.biblegateway.com) ^and [^TaggedTanakh](http://www.taggedtanakh.org) \n\n'
-			   + ' ^**Mistake?** ^' + author + ' ^can [^edit](http://www.reddit.com/message/compose/?to=' + get_bot_username() +'&subject=edit ' + permalink + '&message=Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)' 
-			   + ' ^or [^delete](http://www.reddit.com/message/compose/?to=' + get_bot_username() + '&subject=delete ' + permalink + '&message=This+action+cannot+be+reversed!) ^this ^comment.')
+			   + ' ^**Mistake?** ^' + author + ' ^can [^edit](http://www.reddit.com/message/compose/?to=' + get_bot_username() +'&subject=edit&message={' + permalink + '} Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)' 
+			   + ' ^or [^delete](http://www.reddit.com/message/compose/?to=' + get_bot_username() + '&subject=delete&message={' + permalink + '} This+action+cannot+be+reversed!) ^this ^comment.')
 
 	# Takes the verse's book name, chapter, and translation as parameters. The function
 	# then constructs a context link for the selected passage. This link appears on each
