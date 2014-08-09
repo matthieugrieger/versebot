@@ -40,8 +40,8 @@ def main():
 	lookup_list = list()
 	comment_ids_this_session = set()
 
-	print('Beginning to check messages...')
-	check_messages(r)
+	#print('Beginning to check messages...')
+	#check_messages(r)
 	
 	print('Beginning to scan comments...')
 	while True:

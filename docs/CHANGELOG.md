@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### August 9, 2014
+* Temporarily disabled edit/delete actions (again) until I get the chance to fix it once and for all.
+
 ### August 6, 2014
 * Fixed a bug that made edit/delete actions stop working.
 * Moved comment URL in edit/delete message to comment body to avoid creating a subject over 100 characters long (thanks /u/emprags!).
