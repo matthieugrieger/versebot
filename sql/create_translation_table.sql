@@ -168,7 +168,8 @@ INSERT INTO translation_stats (name,trans) VALUES
 	('Chinese Union Version (Traditional)','CUV','Chinese'), 
 	('Chinese Union Version Modern Punctuation (Simplified)','CUVMPS','Chinese'), 
 	('Chinese Union Version Modern Punctuation (Traditional)','CUVMPT','Chinese'), 
-	('JPS Tanakh','NJPS','English');
+	('JPS Tanakh','NJPS','English'),
+	('New American Bible (Revised Edition)','NABRE','English');
 	
 CREATE TRIGGER update_translation_stats_timestamp BEFORE UPDATE
     ON translation_stats FOR EACH ROW EXECUTE PROCEDURE 
