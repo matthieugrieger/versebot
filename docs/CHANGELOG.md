@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### August 18, 2014
+* Added NABRE translation to database.
+* Set default translation for /r/Catholicism and /r/divineoffice to NABRE.
+
 ### August 9, 2014
 * Temporarily disabled edit/delete actions (again) until I get the chance to fix it once and for all.
 
