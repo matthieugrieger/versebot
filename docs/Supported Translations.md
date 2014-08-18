@@ -1,5 +1,5 @@
 # Supported Translations
-Last Updated: May 10, 2014
+Last Updated: August 18, 2014
 
 #### Amuzgo Guerrero
 * Amuzgo de Guerrero (AMU)
@@ -70,6 +70,7 @@ Last Updated: May 10, 2014
 * The Message (MSG)  
 * Mounce Reverse-Interlinear New Testament (MOUNCE)  
 * Names of God Bible (NOG)
+* New American Bible (Revised Edition) (NABRE)
 * New American Standard Bible (NASB) 
 * New Century Version (NCV)   
 * New English Translation (NET)  
