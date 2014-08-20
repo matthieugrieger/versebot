@@ -6,10 +6,10 @@
 from os import environ
 
 def get_bot_username():
-    return environ['USERNAME']
+	return environ['USERNAME']
 
 def get_bot_password():
-    return environ['PASSWORD']
+	return environ['PASSWORD']
     
 def get_database():
 	return environ['HEROKU_POSTGRESQL_ONYX_URL']
