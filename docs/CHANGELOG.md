@@ -1,5 +1,9 @@
 # VerseBot Changelog
 
+### August 20, 2014
+* Re-enabled comment edit/deletion. If you find any issues, let me know!
+* Fixed some weird formatting issues in config.py.
+
 ### August 18, 2014
 * Added NABRE translation to database.
 * Set default translation for /r/Catholicism and /r/divineoffice to NABRE.
