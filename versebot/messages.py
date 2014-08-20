@@ -7,15 +7,12 @@ import re
 import regex
 import database
 import data
-from threading import Timer
 from verse import Verse
 from config import get_bot_username
 
 # Begins to scan unread inbox messages to check for various triggers that
 # allow VerseBot users to interact with the bot.
 def check_messages(r):
-	Timer(60, check_messages, [r]).start()
-	print('Checking messages....')
 	messages = r.get_unread()
 	for message in messages:
 		if 'edit' in message.subject:
