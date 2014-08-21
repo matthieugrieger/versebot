@@ -3,6 +3,7 @@
 ### August 20, 2014
 * Re-enabled comment edit/deletion. If you find any issues, let me know!
 * Fixed some weird formatting issues in config.py.
+* Removed code that incorrectly marked some edit/delete messages as read.
 
 ### August 18, 2014
 * Added NABRE translation to database.

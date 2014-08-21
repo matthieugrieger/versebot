@@ -59,8 +59,6 @@ def process_edit_request(r, message):
 						except:
 							print('Comment edit failed. Will try again later...')
 							verse_object.clear_verses()
-					else:
-						message.mark_as_read()
 				lookup_list[:] = []
 			else:
 				message.mark_as_read()
@@ -91,8 +89,6 @@ def process_delete_request(r, message):
 					break
 				except:
 					print('Comment deletion failed. Will try again later...')
-			else:
-				message.mark_as_read()
 	else:
 		message.mark_as_read()
 		
