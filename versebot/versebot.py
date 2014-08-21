@@ -41,7 +41,7 @@ def main():
 	lookup_list = list()
 	comment_ids_this_session = set()
 	
-	check_message_timer = datetime.datetime.utcnow()
+	#check_message_timer = datetime.datetime.utcnow()
 	
 	print('Beginning to scan comments...')
 	while True:
@@ -50,10 +50,10 @@ def main():
 			# This if statement allows for messages to be checked every 2 minutes (or so). Ideally this would be
 			# done with another timed thread, but Reddit objects in PRAW (which check_messages() takes as
 			# an argument) are not thread-safe.
-			if (datetime.datetime.utcnow() - check_message_timer).seconds >= 120:
-				print('Checking messages...')
-				check_messages(r)
-				check_message_timer = datetime.datetime.utcnow()
+			#if (datetime.datetime.utcnow() - check_message_timer).seconds >= 120:
+			#	print('Checking messages...')
+			#	check_messages(r)
+			#	check_message_timer = datetime.datetime.utcnow()
 			if comment.author != config.get_bot_username() and not database.check_comment_id(comment.id) and comment.id not in comment_ids_this_session:
 				comment_ids_this_session.add(comment.id)
 				verses_to_find = regex.find_bracketed_text(comment.body)

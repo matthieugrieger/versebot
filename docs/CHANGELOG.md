@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### August 21, 2014
+* Disabled comment edit/deletion again. Still seems to not be working. I will figure this out! Sorry.
+
 ### August 20, 2014
 * Re-enabled comment edit/deletion. If you find any issues, let me know!
 * Fixed some weird formatting issues in config.py.
