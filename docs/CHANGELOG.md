@@ -4,6 +4,7 @@
 * Re-enabled comment edit/deletion. If you find any issues, let me know!
 * Fixed some weird formatting issues in config.py.
 * Removed code that incorrectly marked some edit/delete messages as read.
+* Updated PRAW to 2.1.18.
 
 ### August 18, 2014
 * Added NABRE translation to database.
