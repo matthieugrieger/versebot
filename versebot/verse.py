@@ -1,24 +1,29 @@
+"""
 #---------------------#
-# VerseBot for reddit #
-# By Matthieu Grieger #
+| VerseBot for reddit |
+| By Matthieu Grieger |
 #---------------------#
+"""
 
 from re import findall, search
 from config import get_bot_username
 import data
 import helpers
 
-# Class that holds the properties of a Bible verse, and various
-# operations that go along with them.
-class Verse:
 
+class Verse:
+	""" Class that holds the properties of a Bible verse, and various
+	operations that go along with them. """
+	
 	_verse_data = list()
 	_invalid_comment = False
 
-	# Initializes Verse object with data from the command(s).
-	# NOTE: permalink and subreddit are only used when dealing with
-	# a comment edit request.
+
 	def __init__(self, verse_list, comment, permalink = False, subreddit = False):
+		""" Initializes Verse object with data from the command(s).
+		NOTE: permalink and subreddit are only used when dealing with
+		a comment edit request. """
+	
 		for verse in verse_list:
 			verse_book_num = data.get_book_number(verse.lower())
 			if verse_book_num != False:
@@ -48,8 +53,10 @@ class Verse:
 
 		return
 
-	# Constructs reddit comment.
+
 	def get_comment(self):
+		""" Constructs a reddit comment. """
+		
 		if not self._invalid_comment:
 			comment = ''
 			for cur_ver_data in self._verse_data:
@@ -74,16 +81,22 @@ class Verse:
 		else:
 			return False
 
-	# Clears contents of _verseData.
+	
 	def clear_verses(self):
+		""" Clears contents of _verseData. """
+		
 		self._verse_data[:] = []
 		return
 
 	def get_verse_data(self):
+		""" Simply returns _verse_data. """
+		
 		return self._verse_data
 
-	# Finds chapter number and verse number within current verse request.
+	
 	def _get_chapter_and_verse(self, verse):
+		""" Finds chapter number and verse number within current verse request. """
+		
 		chap = '0'
 		ver = '0'
 
@@ -97,19 +110,23 @@ class Verse:
 
 		return chap, ver
 
-	# Determines the correct Bible translation to use for the current verse.
-	# It first looks for a user-specified translation. If there is no
-	# translation specified, it will then use the default translation
-	# for the subreddit in which the comment was posted.
+	
 	def _get_bible_translation(self, comment_text, subreddit, book_num):
+		""" Determines the correct Bible translation to use for the current verse.
+		It first looks for a user-specified translation. If there is no
+		translation specified, it will then use the default translation
+		for the subreddit in which the comment was posted. """
+	
 		for translation in helpers.get_supported_translations():
 			if search(r'\b' + translation + r'\b', comment_text):
 				return translation
 		return data.get_default_translation(subreddit, book_num)
 
-	# Simply returns the comment footer found at the bottom of every comment posted
-	# by the bot.
+	
 	def _get_comment_footer(self, author, permalink):
+		""" Simply returns the comment footer found at the bottom of every comment posted
+		by the bot. """
+	
 		return ('\n***\n[^Source ^Code](https://github.com/matthieugrieger/versebot) ^|'
 			   + ' [^/r/VerseBot](http://www.reddit.com/r/versebot) ^|'
 			   + ' [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|'
@@ -120,20 +137,24 @@ class Verse:
 			   #+ ' ^**Mistake?** ^' + author + ' ^can [^edit](http://www.reddit.com/message/compose/?to=' + get_bot_username() +'&subject=edit&message={' + permalink + '} Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)' 
 			   #+ ' ^or [^delete](http://www.reddit.com/message/compose/?to=' + get_bot_username() + '&subject=delete&message={' + permalink + '} This+action+cannot+be+reversed!) ^this ^comment.')
 
-	# Takes the verse's book name, chapter, and translation as parameters. The function
-	# then constructs a context link for the selected passage. This link appears on each
-	# verse title.
+
 	def _get_context_link(self, book_name, chap, translation):
+		""" Takes the verse's book name, chapter, and translation as parameters. The function
+		then constructs a context link for the selected passage. This link appears on each
+		verse title. """
+	
 		if translation == 'NJPS':
 			return ('http://www.taggedtanakh.org/Chapter/Index/english-' + data.get_tanakh_name(book_name) + '-' + chap)
 		else:
 			return ('http://www.biblegateway.com/passage/?search=' + book_name + '%20' + chap
 				+ '&version=' + translation).replace(' ', '%20')
 
-	# Constructs and returns an overflow comment whenever the comment exceeds the character
-	# limit set by _get_char_limit(). Instead of posting the contents of the verse(s) in the comment,
-	# it links to webpages that contain the contents of the verse(s).
+
 	def _get_overflow_comment(self):
+		""" Constructs and returns an overflow comment whenever the comment exceeds the character
+		limit set by _get_char_limit(). Instead of posting the contents of the verse(s) in the comment,
+		it links to webpages that contain the contents of the verse(s). """
+		
 		comment = 'The contents of the verse(s) you quoted exceed the character limit (' + str(self._get_char_limit()) + ' characters). Instead, here are links to the verse(s)!\n\n'
 		for cur_ver_data in self._verse_data:
 			book = cur_ver_data[0]
@@ -158,7 +179,9 @@ class Verse:
 
 		return comment
 
-	# Simply returns the current character limit for the reddit comment. Makes it easy to
-	# find/change in the future. NOTE: reddit's character limit is 10,000 characters by default.
+
 	def _get_char_limit(self):
+		""" Simply returns the current character limit for the reddit comment. Makes it easy to
+		find/change in the future. NOTE: reddit's character limit is 10,000 characters by default. """
+		
 		return 6000

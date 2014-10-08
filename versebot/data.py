@@ -1,14 +1,18 @@
+"""
 #---------------------#
-# VerseBot for reddit #
-# By Matthieu Grieger #
+| VerseBot for reddit |
+| By Matthieu Grieger |
 #---------------------#
+"""
 
 from re import search
 from ordereddict import OrderedDict
 
-# Find book number of requested book of the Bible. Used to handle multiple forms
-# of writing a certain Bible book.
+
 def get_book_number(phrase):
+	""" Find book number of requested book of the Bible. Used to handle multiple forms
+	of writing a certain Bible book. """
+	
 	book_names = OrderedDict([('genesis',1) , ('gen',1) , ('gn',1), ('bereshit', 1), ('exodus',2), ('exod',2), ('ex',2), ('shemot',2), ('leviticus',3),
                          ('lev',3), ('lv',3), ('vayikra',3), ('numbers',4), ('num',4), ('nm',4), ('bemidbar',4), ('deuteronomy',5), ('deut',5),
                          ('dt',5), ('devarim',5), ('joshua',6), ('josh',6), ('yehoshua',6), ('judges',7), ('judg',7), ('jgs',7), ('shoftim',7), ('ruth',8), ('ru',8),
@@ -52,9 +56,11 @@ def get_book_number(phrase):
 			return value
 	return False
 
-# Find appropriate book name for certain book number. Used to create title for
-# verse and to construct BibleGateway URLs.
+
 def get_book_title(book_num):
+	""" Find appropriate book name for certain book number. Used to create title for
+	verse and to construct BibleGateway URLs. """
+	
 	book_titles = {1:'Genesis', 2:'Exodus', 3:'Leviticus', 4:'Numbers', 5:'Deuteronomy', 6:'Joshua', 7:'Judges', 8:'Ruth',
                 9:'1 Samuel', 10:'2 Samuel', 11:'1 Kings', 12:'2 Kings', 13:'1 Chronicles', 14:'2 Chronicles', 15: 'Ezra',
                 16:'Nehemiah', 17:'Esther', 18:'Job', 19:'Psalms', 20:'Proverbs', 21:'Ecclesiastes', 22:'Song of Songs',
@@ -70,8 +76,10 @@ def get_book_title(book_num):
 
 	return book_titles[book_num]
 
-# Retrieves book name used by TaggedTanakh to construct links to their website.
+
 def get_tanakh_name(book_name):
+	""" Retrieves book name used by TaggedTanakh to construct links to their website. """
+	
 	tanakh_names = {'Genesis':'Gen', 'Exodus':'Exod', 'Leviticus':'Lev', 'Numbers':'Num', 'Deuteronomy':'Deut', 'Joshua':'Josh',
                'Judges':'Judg', '1 Samuel':'1%20Sam', '2 Samuel':'2%20Sam', '1 Kings':'1%20Kings', '2 Kings':'2%20Kings',
                'Isaiah':'Isa', 'Jeremiah':'Jer', 'Ezekiel':'Ezek', 'Hosea':'Hosea', 'Joel':'Joel', 'Amos':'Amos', 'Obadiah':'Obad',
@@ -81,11 +89,13 @@ def get_tanakh_name(book_name):
                '2 Chronicles':'2%20Chron'}
 	return tanakh_names[book_name]
 
-# Finds default translation for the specified subreddit. This function is called
-# whenever a user doesn't specify a translation. NOTE: Subreddits with ESV as the
-# default translation are not listed in default_translations, as this is the overall
-# default translation for the bot.
+
 def get_default_translation(subreddit, book_num):
+	""" Finds default translation for the specified subreddit. This function is called
+	whenever a user doesn't specify a translation. NOTE: Subreddits with ESV as the
+	default translation are not listed in default_translations, as this is the overall
+	default translation for the bot. """
+	
 	default_translations = {'Catholicism':'NABRE', 'Judaism':'NJPS', 'AcademicBiblical':'NRSV', 'Protestantism':'KJV', 'latterdaysaints':'KJV', 'divineoffice':'NABRE', 'Lectionary':'NRSV'}
 	default_deutero_translations = {'Catholicism':'DRA'}
 

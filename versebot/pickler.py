@@ -1,3 +1,12 @@
+"""
+#---------------------#
+| VerseBot for reddit |
+| By Matthieu Grieger |
+#---------------------#
+"""
+
+""" A code sample that generates a .pickle file based on a Zefania-format XML Bible. """
+
 from xml.dom import minidom
 from ordereddict import OrderedDict
 import pickle

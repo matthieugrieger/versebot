@@ -1,7 +1,9 @@
+"""
 #---------------------#
-# VerseBot for reddit #
-# By Matthieu Grieger #
+| VerseBot for reddit |
+| By Matthieu Grieger |
 #---------------------#
+"""
 
 import re
 import regex
@@ -10,9 +12,11 @@ import data
 from verse import Verse
 from config import get_bot_username
 
-# Begins to scan unread inbox messages to check for various triggers that
-# allow VerseBot users to interact with the bot.
+
 def check_messages(r):
+	""" Begins to scan unread inbox messages to check for various triggers that
+	allow VerseBot users to interact with the bot. """
+	
 	messages = r.get_unread()
 	for message in messages:
 		if 'edit' in message.subject:
@@ -20,14 +24,16 @@ def check_messages(r):
 		elif 'delete' in message.subject:
 			process_delete_request(r, message)
 
-# Processes an edit request if found in check_messages(). Simply reconstructs
-# an updated VerseBot comments based on the user's revised verse quotations,
-# and replaces the outdated comment with the updated one. Additionally, the bot
-# sends the user a message letting them know that the edit has been completed
-# successfully.
-# NOTE: Users can only edit a VerseBot comment if they authored the parent
-# comment of VerseBot's reply.
+
 def process_edit_request(r, message):
+	""" Processes an edit request if found in check_messages(). Simply reconstructs
+	an updated VerseBot comments based on the user's revised verse quotations,
+	and replaces the outdated comment with the updated one. Additionally, the bot
+	sends the user a message letting them know that the edit has been completed
+	successfully.
+	NOTE: Users can only edit a VerseBot comment if they authored the parent
+	comment of VerseBot's reply. """
+	
 	try:
 		comment_url = message.body[1:message.body.find('}')]
 		comment = r.get_submission(comment_url)
@@ -65,12 +71,14 @@ def process_edit_request(r, message):
 	else:
 		message.mark_as_read()
 
-# Processes a delete request if found in check_messages(). Simply deletes
-# the requested comment. Additionally, the bot sends the user a message
-# letting them know that the deletion has been completed successfully.
-# NOTE: Users can only delete a VerseBot comment if they authored the parent
-# comment of VerseBot's reply.
+
 def process_delete_request(r, message):
+	""" Processes a delete request if found in check_messages(). Simply deletes
+	the requested comment. Additionally, the bot sends the user a message
+	letting them know that the deletion has been completed successfully.
+	NOTE: Users can only delete a VerseBot comment if they authored the parent
+	comment of VerseBot's reply. """
+	
 	try:
 		comment_url = message.body[1:message.body.find('}')]
 		comment = r.get_submission(comment_url)
@@ -92,8 +100,10 @@ def process_delete_request(r, message):
 	else:
 		message.mark_as_read()
 		
-# Corrects database statistics entries before a comment is edited or deleted.
+
 def remove_invalid_statistics(comment_body, subreddit):
+	""" Corrects database statistics entries before a comment is edited or deleted. """
+	
 	print('Removing invalid statistics...')
 	invalid_verses = regex.find_already_quoted_verses(comment_body)
 	invalid_books = dict()

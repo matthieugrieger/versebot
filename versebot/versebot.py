@@ -1,7 +1,9 @@
+"""
 #---------------------#
-# VerseBot for reddit #
-# By Matthieu Grieger #
+| VerseBot for reddit |
+| By Matthieu Grieger |
 #---------------------#
+"""
 
 import praw
 import config
@@ -19,6 +21,9 @@ from time import sleep
 from os import environ
 
 def main():
+	""" The main program for VerseBot. Starts a loop that infinitely retrieves, scans, processes, and replies
+	to comments. """
+	
 	print('Starting up VerseBot...')
 
 	# Connects to reddit via PRAW.
@@ -95,6 +100,7 @@ def main():
 							pass
 						lookup_list[:] = []
 					verse_object.clear_verses()
+
 
 if __name__ == '__main__':
 	main()

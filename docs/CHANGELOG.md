@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### October 7, 2014
+* Reformatted code spacing and comments to comply with PEP guidelines.
+
 ### August 21, 2014
 * Disabled comment edit/deletion again. Still seems to not be working. I will figure this out! Sorry.
 

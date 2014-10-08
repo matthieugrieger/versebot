@@ -1,7 +1,9 @@
+"""
 #---------------------#
-# VerseBot for reddit #
-# By Matthieu Grieger #
+| VerseBot for reddit |
+| By Matthieu Grieger |
 #---------------------#
+"""
 
 from bs4 import BeautifulSoup
 from collections import namedtuple
@@ -17,6 +19,8 @@ _verse_translation = ''
 
 
 def get_verse_contents(book_name, book_num, chapter, verse, translation):
+	""" Calls the appropriate helper function to retrieve the contents of a verse. """
+	
 	if translation == 'NJPS':
 		contents = _get_local_contents(book_num, chapter, verse, translation)
 	else:
@@ -24,9 +28,11 @@ def get_verse_contents(book_name, book_num, chapter, verse, translation):
 
 	return contents
 
-# Retrieve the contents of the Bible passage the user requested. Obtains and
-# parses the text from BibleGateway.com.
+
 def _get_biblegateway_contents(book_name, chapter, verse, translation):
+	""" Retrieve the contents of the Bible passage the user requested. Obtains and
+	parses the text from BibleGateway.com. """
+	
 	if verse != '0':
 		url = ('http://www.biblegateway.com/passage/?search=' + book_name + '+' + chapter + ':' + verse + '&version=' + translation).replace(' ', '%20')
 	else:
@@ -69,11 +75,12 @@ def _get_biblegateway_contents(book_name, chapter, verse, translation):
 
 	return contents
 
-# Retrieve the contents of the Bible passage the user requested.
-# Obtains text from local pickle file. Used for translations
-# that BibleGateway does not support.
-def _get_local_contents(book_num, chapter, verse, translation):
 
+def _get_local_contents(book_num, chapter, verse, translation):
+	""" Retrieve the contents of the Bible passage the user requested.
+	Obtains text from local pickle file. Used for translations
+	that BibleGateway does not support. """
+	
 	f = open(get_local_bible(translation), 'rb')
 	bible = pickle.load(f)
 	f.close()
@@ -110,8 +117,10 @@ def _get_local_contents(book_num, chapter, verse, translation):
 		except KeyError:
 			return False
 
-# Retrieves the translations that are supported by the bot.
+
 def find_supported_translations():
+	""" Retrieves the translations that are supported by the bot. """
+	
 	global _supported_translations
 	url = 'http://www.biblegateway.com/versions/'
 
@@ -128,15 +137,20 @@ def find_supported_translations():
 	# Add local translations to supported translations list
 	_supported_translations.append('NJPS')
 
-# Simply returns the list of supported translations.
+
 def get_supported_translations():
+	""" Retrieves the translations that are supported by the bot. """
+	
 	_supported_translations.sort(key=len, reverse=True)
 	return _supported_translations
 
-# Returns the verse title provided by BibleGateway.
+
 def get_verse_title():
+	""" Returns the verse title provided by BibleGateway. """
+	
 	return _verse_title
 
-# Returns the translation title provided by BibleGateway.
+
 def get_translation_title():
+	""" Returns the translation title provided by BibleGateway. """
 	return _trans_title
