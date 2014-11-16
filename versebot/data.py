@@ -32,7 +32,7 @@ def get_book_number(phrase):
                          ('mal',39), ('matthew',40), ('mathew',40), ('matt',40), ('mat',40), ('mt',40), ('mark',41), ('mk',41), ('luke',42), ('lk',42),
                          ('john',43), ('jn',43), ('acts',44), ('acts of the apostles',44), ('romans',45), ('rom',45),
                          ('1 corinthians',46), ('1corinthians',46), ('1 cor',46), ('1cor',46), ('2 corinthians',47), ('2corinthians',47),
-                         ('2 cor',47), ('2cor',47), ('galatians',48), ('gal',48), ('ephesians',49), ('philippians',50), ('phil',50),
+                         ('2 cor',47), ('2cor',47), ('galatians',48), ('gal',48), ('ephesians',49), ('eph',49), ('philippians',50), ('phil',50),
                          ('colossians',51), ('col',51), ('1 thessalonians',52), ('1thessalonians',52), ('1 thess',52), ('1thess',52),
                          ('1 thes',52), ('1thes',52), ('2 thessalonians',53), ('2thessalonians',53), ('2 thess',53), ('2thess',53),
                          ('2 thes',53), ('2thes',53), ('1 timothy',54), ('1timothy',54), ('1st timothy',54), ('1 tim',54), ('1tim',54), ('1 tm',54), ('1tm',54),

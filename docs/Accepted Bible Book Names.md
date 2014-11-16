@@ -52,7 +52,7 @@ _Note_: When triggering the bot, it is __NOT__ case-sensitive.
 * __1 Corinthians__ -- 1 Corinthians, 1Corinthians, 1 Cor, 1Cor
 * __2 Corinthians__ -- 2 Corinthians, 2Corinthians, 2 Cor, 2Cor
 * __Galatians__ -- Galatians, Gal
-* __Ephesians__ -- Ephesians
+* __Ephesians__ -- Ephesians, Eph
 * __Philippians__ -- Philippians, Phil
 * __Colossians__ -- Colossians, Col
 * __1 Thessalonians__ -- 1 Thessalonians, 1Thessalonians, 1 Thess, 1Thess, 1 Thes, 1Thes

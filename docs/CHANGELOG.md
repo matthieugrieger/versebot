@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### November 15, 2014
+* Added "Eph" as an abbreviation for Ephesians.
+
 ### October 7, 2014
 * Reformatted code spacing and comments to comply with PEP guidelines.
 
