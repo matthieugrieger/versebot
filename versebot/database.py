@@ -17,30 +17,30 @@ def connect():
 	""" Connect to PostgreSQL database. The connection information for the
 	database is retrieved via Heroku environment variable. """
 	
-    global _conn
-    urlparse.uses_netloc.append('postgres')
-    url = urlparse.urlparse(config.get_database())
-    try:
-        _conn = psycopg2.connect(
-        database = url.path[1:],
-        user = url.username,
-        password = url.password,
-        host = url.hostname,
-        port = url.port)
+	global _conn
+	urlparse.uses_netloc.append('postgres')
+	url = urlparse.urlparse(config.get_database())
+	try:
+		_conn = psycopg2.connect(
+		database = url.path[1:],
+		user = url.username,
+		password = url.password,
+		host = url.hostname,
+		port = url.port)
 
-        print('Connected to database!')
-        return True
-    except:
-        print('Connection to database failed.')
-        exit()
+		print('Connected to database!')
+		return True
+	except:
+		print('Connection to database failed.')
+		exit()
 
 
 def add_comment_id(comment_id):
 	""" Add new comment ID to the comment_ids database. Used to prevent the
 	bot from spamming on posts it already replied to. """
 	
-    with _conn.cursor() as cur:
-        cur.execute('INSERT INTO comment_ids (comment_id, timestamp) VALUES (%s, NOW())', [comment_id])
+	with _conn.cursor() as cur:
+		cur.execute('INSERT INTO comment_ids (comment_id, timestamp) VALUES (%s, NOW())', [comment_id])
 	_conn.commit()
 
 
@@ -48,18 +48,18 @@ def check_comment_id(comment_id):
 	""" Checks database for the specified comment id. Used to check for comments
 	that have already been replied to. """
 	
-    with _conn.cursor() as cur:
-        cur.execute('SELECT count(*) FROM comment_ids WHERE comment_id = %s', [comment_id])
-        return cur.fetchone()[0] > 0
+	with _conn.cursor() as cur:
+		cur.execute('SELECT count(*) FROM comment_ids WHERE comment_id = %s', [comment_id])
+		return cur.fetchone()[0] > 0
 
 
 def clean_comment_id_database():
-    """ Deletes all entries in comment_ids that are 2 days old or older. This function
+	""" Deletes all entries in comment_ids that are 2 days old or older. This function
 	is called approximately every 24 hours due to Heroku automatically restarting
 	apps every 24 hours. """
 	
-    with _conn.cursor() as cur:
-        cur.execute('DELETE FROM comment_ids WHERE timestamp < (NOW() - INTERVAL \'2 DAYS\')')
+	with _conn.cursor() as cur:
+		cur.execute('DELETE FROM comment_ids WHERE timestamp < (NOW() - INTERVAL \'2 DAYS\')')
 	_conn.commit()
 
 
@@ -159,4 +159,4 @@ def fix_db_stats(invalid_books, invalid_translations, invalid_subreddit):
 
 
 
-    
+	

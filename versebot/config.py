@@ -21,7 +21,7 @@ def get_bot_password():
 	
 	return environ['PASSWORD']
 
-    
+	
 def get_database():
 	""" Returns the URL to the PostgreSQL database, stored in the
 	HEROKU_POSTGRESQL_ONYX_URL environment variable. """
