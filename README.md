@@ -10,7 +10,7 @@ A reddit bot that is triggered by Bible verse references in reddit comments. It 
 [Refer to the VerseBot FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq).
 
 ## Authors
-Matthieu Grieger
+[Matthieu Grieger](http://matthieugrieger.com)
 
 ## License
 	The MIT License (MIT)
