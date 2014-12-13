@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### December 13, 2014
+* Added default translations for [/r/Resurrexi](http://www.reddit.com/r/Resurrexi).
+
 ### November 15, 2014
 * Added "Eph" as an abbreviation for Ephesians.
 
