@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### December 17, 2014
+* Added default translations for [/r/3OP](http://www.reddit.com/r/3OP).
+
 ### December 13, 2014
 * Added default translations for [/r/Resurrexi](http://www.reddit.com/r/Resurrexi).
 
