@@ -1,13 +1,13 @@
 # VerseBot
-A reddit bot that is triggered by Bible verse references in reddit comments. It posts the contents of the verse selection as a reply to the comment with the Bible verse reference.
+A reddit bot that posts Bible verses when asked to.
 
-[See the bot in action!](http://www.reddit.com/user/VerseBot)  
-[/r/VerseBot](http://www.reddit.com/r/versebot)  
-[VerseBot Statistics](http://matthieugrieger.com/versebot/)
+* [See the bot in action!](http://www.reddit.com/user/VerseBot)  
+* [/r/VerseBot](http://www.reddit.com/r/versebot)  
+* [VerseBot Statistics](http://matthieugrieger.com/versebot/)
 
 ## Usage
-### Triggering the bot
-[Refer to the VerseBot FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq).
+### Making verse quotations
+VerseBot is triggered by username mentions, which have been made available to all reddit users. Verse quotations are enclosed in brackets ([]), and may specify a desired translation within.
 
 ## Authors
 [Matthieu Grieger](http://matthieugrieger.com)
@@ -15,7 +15,7 @@ A reddit bot that is triggered by Bible verse references in reddit comments. It 
 ## License
 	The MIT License (MIT)
 
-	Copyright (c) 2014 Matthieu Grieger
+	Copyright (c) 2014, 2015 Matthieu Grieger
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
