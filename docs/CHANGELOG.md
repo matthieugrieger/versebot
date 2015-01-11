@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### January 10, 2015
+* Added default translations for [/r/DebateACatholic](https://www.reddit.com/r/DebateACatholic).
+
 ### December 17, 2014
 * Added default translations for [/r/3OP](http://www.reddit.com/r/3OP).
 
