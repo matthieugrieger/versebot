@@ -43,20 +43,20 @@ def update_book_stats(new_books, is_edit_or_delete=False):
     _conn.commit()
 
 def update_translation_stats(new_subreddits, is_edit_or_delete=False):
-	""" Updates subreddit_stats table with subreddits that have recently used VerseBot.
-	Alternatively, this function is also used to remove subreddit counts that were
-	added by a comment that has been edited/deleted. """
-	
-	for subreddit in new_subreddits.items():
-		with _conn.cursor() as cur:
-			if is_edit_or_delete:
-				cur.execute("UPDATE subreddit_stats SET count = count - %(num)s WHERE sub = %(subreddit)s;" +
-					"DELETE FROM subreddit_stats WHERE count = 0;", {"subreddit":subreddit[0], "num":subreddit[1]})
-			else:
-				# I opted for this instead of upsert because it seemed simpler.
-				cur.execute("UPDATE subreddit_stats SET count = count + %(num)s WHERE sub = %(subreddit)s;" +
-					"INSERT INTO subreddit_stats (sub, count) SELECT %(subreddit)s, %(num)s WHERE NOT EXISTS" +
-					"(SELECT 1 FROM subreddit_stats WHERE sub = %(subreddit)s);",
-					{"subreddit":subreddit[0], "num":subreddit[1]})
-	_conn.commit()
-	
+    """ Updates subreddit_stats table with subreddits that have recently used VerseBot.
+    Alternatively, this function is also used to remove subreddit counts that were
+    added by a comment that has been edited/deleted. """
+    
+    for subreddit in new_subreddits.items():
+        with _conn.cursor() as cur:
+            if is_edit_or_delete:
+                cur.execute("UPDATE subreddit_stats SET count = count - %(num)s WHERE sub = %(subreddit)s;" +
+                    "DELETE FROM subreddit_stats WHERE count = 0;", {"subreddit":subreddit[0], "num":subreddit[1]})
+            else:
+                # I opted for this instead of upsert because it seemed simpler.
+                cur.execute("UPDATE subreddit_stats SET count = count + %(num)s WHERE sub = %(subreddit)s;" +
+                    "INSERT INTO subreddit_stats (sub, count) SELECT %(subreddit)s, %(num)s WHERE NOT EXISTS" +
+                    "(SELECT 1 FROM subreddit_stats WHERE sub = %(subreddit)s);",
+                    {"subreddit":subreddit[0], "num":subreddit[1]})
+    _conn.commit()
+    
