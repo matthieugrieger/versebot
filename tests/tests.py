@@ -27,6 +27,11 @@ class TestBookRetrieval(unittest.TestCase):
         self.assertTrue(books.get_book_number("Genesis") == 1)
         self.assertTrue(books.get_book_number("Bel and the Dragon") == 82)
         self.assertTrue(books.get_book_number("thisisntabook") == False)
+        
+    def test_tanakh_name_retrieval(self):
+        """ Tests TaggedTanakh URL book name retrieval. """
+        self.assertTrue(books.get_tanakh_name("Genesis") == "Gen")
+        self.assertTrue(books.get_tanakh_name("2 Chronicles") == "2%20Chron")
 
 
 if __name__ == "__main__":
