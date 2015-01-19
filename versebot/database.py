@@ -7,7 +7,7 @@ Copyright (c) 2015 Matthieu Grieger (MIT License)
 
 from config import *
 import psycopg2
-import urlparse
+import urllib.parse
 
 _conn = None
 
