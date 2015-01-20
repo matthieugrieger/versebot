@@ -12,6 +12,6 @@ def find_verses(message_body):
     a list of matches if found, None otherwise. """
     
     regex = (r"(?<=\[)(?P<book>[\d\w\s]+)(?P<chapter>\d+)\:?(?P<verse>\d+"
-        + r"\-?\d*)?\s*(?P<translation>[\w\-\d]+)?(?=\])")
+        + r"\-?\d*)?\s*\(?(?P<translation>[\w\-\d]+)?\)?(?=\])")
     
     return re.findall(regex, message_body)
