@@ -11,7 +11,7 @@ class Verse:
     def __init__(self, book, chapter, verse, translation):
         """ Initializes a Verse object with book, chapter, verse (if
         exists), and translation (if exists). """
-        self.book = book
-        self.chapter = chapter
-        self.verse = verse
-        self.translation = translation
+        self.book = book.lower().replace(" ", "")
+        self.chapter = int(chapter.replace(" ", ""))
+        self.verse = verse.replace(" ", "")
+        self.translation = translation.replace(" ", "")
