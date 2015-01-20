@@ -16,8 +16,8 @@ def connect():
     database is retrieved via Heroku environment variable."""
 
     global _conn
-    urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse(HEROKU_DB)
+    urllib.parse.uses_netloc.append("postgres")
+    url = urllib.parse.urlparse(HEROKU_DB)
     try:
         _conn = psycopg2.connect(
             database = url.path[1:],

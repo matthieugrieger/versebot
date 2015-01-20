@@ -6,7 +6,10 @@ Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
 import praw
+import database
 from config import *
+from strings import *
+from time import sleep
 
 def main():
     """ Main program. Continually checks message inbox for new comments to handle."""
@@ -15,6 +18,24 @@ def main():
         r.login(REDDIT_USERNAME, REDDIT_PASSWORD)
     except:
         exit()
+        
+    database.connect()
+    # Find supported translations here!
+    while True:
+        messages = r.get_unread()
+        for message in messages:
+            if message.subject == "username mention":
+                verses = regex.find_verses(message.body)
+                if verses != None:
+                    pass
+                else:
+                    message.reply(NO_VERSE_FOUND_MSG)
+            elif message.subject == "Edit Request":
+                pass
+            elif message.subject == "Delete Request":
+                pass
+            message.mark_as_read()
+        sleep(30)
 
 if __name__ == "__main__":
     main()
