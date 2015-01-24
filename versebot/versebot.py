@@ -10,6 +10,8 @@ import database
 from config import *
 from strings import *
 from time import sleep
+from response import Response
+from verse import Verse
 
 def main():
     """ Main program. Continually checks message inbox for new comments to handle."""
@@ -27,7 +29,10 @@ def main():
             if message.subject == "username mention":
                 verses = regex.find_verses(message.body)
                 if verses != None:
-                    pass
+                    response = Response(message)
+                    for verse in verses:
+                        response.add_verse(Verse(verse[0], verse[1], verse[2], verse[3]))
+                    message.reply(response.construct_message())
                 else:
                     message.reply(NO_VERSE_FOUND_MSG)
             elif message.subject == "Edit Request":
