@@ -7,6 +7,7 @@ Copyright (c) 2015 Matthieu Grieger (MIT License)
 
 import praw
 import database
+import regex
 from config import *
 from strings import *
 from time import sleep
@@ -34,7 +35,7 @@ def main():
                         response.add_verse(Verse(verse[0], verse[1], verse[2], verse[3]))
                     message.reply(response.construct_message())
                 else:
-                    message.reply(NO_VERSE_FOUND_MSG)
+                    r.send_message(message.author, NO_VERSE_FOUND_SUBJECT, NO_VERSE_FOUND_MSG)
             elif message.subject == "Edit Request":
                 pass
             elif message.subject == "Delete Request":
