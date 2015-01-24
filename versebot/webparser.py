@@ -1,7 +1,7 @@
 """
 VerseBot for reddit
 By Matthieu Grieger
-parser.py
+webparser.py
 Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
@@ -14,7 +14,11 @@ class Parser:
     def __init__(self):
         """ Initializes translations attribute and checks if there are any new translations
         to add to the database. """
-        self.translations = self.find_supported_translations().sort(key=len, reverse=True)
+        trans = self.find_supported_translations()
+        if trans is None:
+            self.translations = None
+        else:
+            self.translations = trans.sort(key=len, reverse=True)
         
     def find_supported_translations(self):
         """ Retrieves a list of supported translations from BibleGateway's translation
@@ -24,7 +28,9 @@ class Parser:
         
         page = urlopen(url)
         soup = BeautifulSoup(page.read())
-
+		
+		# It seems that BibleGateway has changed the layout of their versions page. This needs
+		# to be redone!
         translations = soup.find("select", {"class":"search-translation-select"})
         trans = translations.findAll("option")
         for t in trans:
