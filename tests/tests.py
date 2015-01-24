@@ -12,6 +12,7 @@ import os
 sys.path.append(os.path.join('..', 'versebot'))
 import database
 import books
+from webparser import Parser
 
 class TestBookRetrieval(unittest.TestCase):
     """ Test book retrieval and parsing functions. """
@@ -32,6 +33,15 @@ class TestBookRetrieval(unittest.TestCase):
         """ Tests TaggedTanakh URL book name retrieval. """
         self.assertTrue(books.get_tanakh_name("Genesis") == "Gen")
         self.assertTrue(books.get_tanakh_name("2 Chronicles") == "2%20Chron")
+        
+class TestBibleGatewayParsing(unittest.TestCase):
+	""" Tests parsing of BibleGateway webpages. """
+	
+	self.parser = Parser()
+	
+	def test_supported_translation_retrieval(self):
+		""" Tests retrieval of supported translations. """
+		self.assertTrue(len(self.parser.translations) != 0)
 
 
 if __name__ == "__main__":
