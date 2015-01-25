@@ -12,10 +12,11 @@ import os
 sys.path.append(os.path.join('..', 'versebot'))
 import database
 import books
-from webparser import Parser
+import regex
+import webparser
 
 class TestBookRetrieval(unittest.TestCase):
-    """ Test book retrieval and parsing functions. """
+    """ Tests book retrieval and parsing functions. """
     
     def test_book_standardization(self):
         """ Tests book conversion to standardized book names. """
@@ -34,14 +35,22 @@ class TestBookRetrieval(unittest.TestCase):
         self.assertTrue(books.get_tanakh_name("Genesis") == "Gen")
         self.assertTrue(books.get_tanakh_name("2 Chronicles") == "2%20Chron")
         
+        
 class TestBibleGatewayParsing(unittest.TestCase):
-	""" Tests parsing of BibleGateway webpages. """
-	
-	self.parser = Parser()
-	
-	def test_supported_translation_retrieval(self):
-		""" Tests retrieval of supported translations. """
-		self.assertTrue(len(self.parser.translations) != 0)
+    """ Tests parsing of BibleGateway webpages. """
+    
+    def test_supported_translation_retrieval(self):
+        """ Tests retrieval of supported translations. """
+        parser = webparser.Parser()
+        self.assertTrue(len(parser.translations) != 0)
+        
+
+class TestRegex(unittest.TestCase):
+    """ Tests regular expressions. """
+    
+    def test_verse_regex(self):
+        self.assertTrue(regex.find_verses("Testing testing! [genesis 5:3-5 (nrsv)]") != None)
+        self.assertTrue(regex.find_verses("[genesis (nrsv)") == None)
 
 
 if __name__ == "__main__":
