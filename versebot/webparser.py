@@ -23,7 +23,7 @@ class Parser:
     def find_supported_translations(self):
         """ Retrieves a list of supported translations from BibleGateway's translation
         page. """
-        url = "http://www.biblegateway.com/versions/"
+        url = "https://www.biblegateway.com/versions/"
         translations = list()
         
         page = urlopen(url)
@@ -31,8 +31,8 @@ class Parser:
 		
 		# It seems that BibleGateway has changed the layout of their versions page. This needs
 		# to be redone!
-        translations = soup.find("select", {"class":"search-translation-select"})
-        trans = translations.findAll("option")
+        translations_select = soup.find("select", {"class":"search-translation-select"})
+        trans = translations_select.findAll("option")
         for t in trans:
             if t.has_attr("value") and not t.has_attr("class"):
                 cur_trans = t["value"]
