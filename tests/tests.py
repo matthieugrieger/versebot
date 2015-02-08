@@ -44,6 +44,12 @@ class TestBibleGatewayParsing(unittest.TestCase):
         parser = webparser.Parser()
         self.assertTrue(len(parser.translations) != 0)
         
+    def test_bible_gateway_text_retrieval(self):
+        """ Tests the retrieval of BibleGateway verse contents. """
+        parser = webparser.Parser()
+        self.assertTrue("In the beginning, God created the heavens and the earth." in 
+            parser.get_bible_gateway_verse("Genesis", "1", "1", "esv"))
+        
 
 class TestRegex(unittest.TestCase):
     """ Tests regular expressions. """
