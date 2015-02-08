@@ -19,7 +19,7 @@ class Parser:
         self.translations.sort(key=len, reverse=True)
         
     def find_supported_translations(self):
-        """ Retrieves a list of supported translations from BibleGateway"s translation
+        """ Retrieves a list of supported translations from BibleGateway's translation
         page. """
         url = "https://www.biblegateway.com/versions/"
         translations = list()
