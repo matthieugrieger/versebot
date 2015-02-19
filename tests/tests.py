@@ -14,6 +14,7 @@ import database
 import books
 import regex
 import webparser
+import localbible
 
 class TestBookRetrieval(unittest.TestCase):
     """ Tests book retrieval and parsing functions. """
@@ -49,6 +50,15 @@ class TestBibleGatewayParsing(unittest.TestCase):
         parser = webparser.Parser()
         self.assertTrue("In the beginning, God created the heavens and the earth." in 
             parser.get_bible_gateway_verse("Genesis", "1", "1", "esv"))
+            
+class TestLocalBibleRetrieval(unittest.TestCase):
+    """ Tests verse text retrieval from local pickle files. """
+    
+    def test_local_text_retrieval(self):
+        """ Tests retrieval of Genesis 1:1 from NJPS pickle file. """
+        bible = localbible.LocalBible("NJPS", "JPS Tanakh (NJPS)", "Copyright", "../bibles/NJPS.pickle")
+        self.assertTrue("When God began to create heaven and earth—" in
+            bible.get_contents(1, 1, "1"))
         
 
 class TestRegex(unittest.TestCase):

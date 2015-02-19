@@ -13,6 +13,7 @@ from strings import *
 from time import sleep
 from response import Response
 from verse import Verse
+from webparser import WebParser
 
 class VerseBot:
     """ Main VerseBot class. """
@@ -26,7 +27,8 @@ class VerseBot:
             self.r.login(username, password)
         except:
             exit(1)
-        database.connect()
+        database.connect()  # Initialize connection to database.
+        self.parser = WebParser()  # Initialize web parser with updated translation list.
     
     def main_loop(self):
         """ Main inbox searching loop for finding verse quotation requests. """
@@ -50,6 +52,6 @@ class VerseBot:
             sleep(30)
             
 
+bot = VerseBot(REDDIT_USERNAME, REDDIT_PASSWORD)
 if __name__ == "__main__":
-    bot = VerseBot()
     bot.main_loop()

@@ -9,8 +9,8 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import re
 
-class Parser:
-    """ Parser class for BibleGateway parsing methods. """
+class WebParser:
+    """ WebParser class for BibleGateway parsing methods. """
     
     def __init__(self):
         """ Initializes translations attribute and checks if there are any new translations
