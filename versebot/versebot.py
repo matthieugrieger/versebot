@@ -36,7 +36,7 @@ class VerseBot:
         self.log.info("Connecting to database...")
         database.connect(self.log)  # Initialize connection to database.
         self.log.info("Successfully connected to database!")
-        self.parser = WebParser(self.log)  # Initialize web parser with updated translation list.
+        self.parser = WebParser()  # Initialize web parser with updated translation list.
     
     def main_loop(self):
         """ Main inbox searching loop for finding verse quotation requests. """
