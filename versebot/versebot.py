@@ -61,7 +61,7 @@ class VerseBot:
         
         verses = find_verses(message.body)
         if verses != None:
-            response = Response(message)
+            response = Response(message, self.parser)
             for verse in verses:
                 response.add_verse(Verse(verse[0], verse[1], verse[2], verse[3]))
             self.log.info("Replying to %s with verse quotations..." % message.author)

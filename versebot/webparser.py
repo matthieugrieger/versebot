@@ -47,10 +47,10 @@ class WebParser:
         
         if verse.verse is not None:
             url = ("https://www.biblegateway.com/passage/?search=%s+%s:%s&version=%s" 
-				% (verse.book, verse.chapter, verse.verse, verse.translation))
+                % (verse.book, verse.chapter, verse.verse, verse.translation))
         else:
             url = ("https://www.biblegateway.com/passage/?search=%s+%s&version=%s" 
-				% (verse.book, verse.chapter, verse.translation))
+                % (verse.book, verse.chapter, verse.translation))
 
         page = urlopen(url)
         soup = BeautifulSoup(page.read())
@@ -65,6 +65,8 @@ class WebParser:
 
         verse.verse_title = soup.find("span", {"class":"passage-display-bcv"}).get_text()
         verse.trans_title = soup.find("span", {"class":"passage-display-version"}).get_text()
+        verse.permalink = ("https://www.biblegateway.com/passage/?search=%s+%s&version=%s"
+            % (verse.book, verse.chapter, verse.translation))
 
         contents = ""
         numbers = re.compile(r"(\d+)")
