@@ -43,7 +43,8 @@ class VerseBot:
                             response.add_verse(Verse(verse[0], verse[1], verse[2], verse[3]))
                         message.reply(response.construct_message())
                     else:
-                        self.r.send_message(VERSEBOT_ADMIN, "Forwarded VerseBot Message", message.body)
+                        self.r.send_message(VERSEBOT_ADMIN, "Forwarded VerseBot Message", 
+							"%s\n\n[[Link to Original Message](%s)]" % (message.body, message.permalink))
                 elif message.subject == "Edit Request":
                     pass
                 elif message.subject == "Delete Request":
