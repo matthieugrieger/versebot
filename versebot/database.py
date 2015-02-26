@@ -11,7 +11,7 @@ import urllib.parse
 
 _conn = None
 
-def connect():
+def connect(logger):
     """ Connect to PostgreSQL database. The connection information for the
     database is retrieved via Heroku environment variable."""
 
@@ -27,6 +27,7 @@ def connect():
             port = url.port)
         return True
     except:
+        log.critical("Connection to database failed. Exiting...")
         exit()
 
 def update_book_stats(new_books, is_edit_or_delete=False):
