@@ -5,6 +5,8 @@ webparser.py
 Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
+from warnings import filterwarnings
+filterwarnings("ignore", category=DeprecationWarning)
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import re
