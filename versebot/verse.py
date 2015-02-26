@@ -15,3 +15,12 @@ class Verse:
         self.chapter = int(chapter.replace(" ", ""))
         self.verse = verse.replace(" ", "")
         self.translation = translation.replace(" ", "")
+        self.verse_title = ""
+        self.translation_title = ""
+        self.contents = ""
+        
+    def get_contents(self, parser):
+        """ Retrieves the contents of a Verse object if it exists in
+        the supported translation list. """
+        if self.translation in parser.translations:
+            self.contents = self.parser.get_bible_gateway_verse(self)

@@ -65,7 +65,7 @@ class VerseBot:
             for verse in verses:
                 response.add_verse(Verse(verse[0], verse[1], verse[2], verse[3]))
             self.log.info("Replying to %s with verse quotations..." % message.author)
-            message.reply(response.construct_message())
+            message.reply(response.construct_message(self.parser))
         else:
             self.log.info("No verses found in this message. Forwarding to /u/%s..." % VERSEBOT_ADMIN)
             self.r.send_message(VERSEBOT_ADMIN, "Forwarded VerseBot Message", 
@@ -82,6 +82,7 @@ class VerseBot:
         to be deleted. If the submitter of the delete request matches the author of the comment that triggered
         the VerseBot response, the comment will be deleted. The bot will then send a message to the user letting
         them know that their verse quotation comment has been removed. """
+        
 
 bot = VerseBot(REDDIT_USERNAME, REDDIT_PASSWORD)
 if __name__ == "__main__":
