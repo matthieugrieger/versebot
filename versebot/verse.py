@@ -26,7 +26,7 @@ class Verse:
         self.chapter = int(chapter.replace(" ", ""))
         self.verse = verse.replace(" ", "")
         if translation:
-            self.translation = translation.replace(" ", "")
+            self.translation = translation.upper().replace(" ", "")
         else:
             user_default = database.get_user_default_translation(user, self.bible_section)
             if user_default:
