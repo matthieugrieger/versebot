@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### February 27, 2015
+* Updated PRAW dependency.
+
 ### January 10, 2015
 * Added default translations for [/r/DebateACatholic](https://www.reddit.com/r/DebateACatholic).
 
