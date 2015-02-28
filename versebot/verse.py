@@ -18,7 +18,7 @@ class Verse:
         book_num = books.get_book_number(self.book)
         if book_num <= 39:
             self.bible_section = "Old Testament"
-        else if book_num <= 66:
+        elif book_num <= 66:
             self.bible_section = "New Testament"
         else:
             self.bible_section = "Deuterocanon"
@@ -38,7 +38,7 @@ class Verse:
                 else:
                     if self.bible_section == "Old Testament":
                         self.translation = "ESV"
-                    else if self.bible_section == "New Testament":
+                    elif self.bible_section == "New Testament":
                         self.translation = "ESV"
                     else:
                         self.translation = "NRSV"
