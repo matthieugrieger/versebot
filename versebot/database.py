@@ -43,7 +43,7 @@ def update_book_stats(new_books, is_edit_or_delete=False):
                 cur.execute("UPDATE book_stats SET count = count + %s WHERE book = %s", [book[1], book[0]])
     _conn.commit()
 
-def update_translation_stats(new_subreddits, is_edit_or_delete=False):
+def update_subreddit_stats(new_subreddits, is_edit_or_delete=False):
     """ Updates subreddit_stats table with subreddits that have recently used VerseBot.
     Alternatively, this function is also used to remove subreddit counts that were
     added by a comment that has been edited/deleted. """
@@ -60,3 +60,57 @@ def update_translation_stats(new_subreddits, is_edit_or_delete=False):
                     "(SELECT 1 FROM subreddit_stats WHERE sub = %(subreddit)s);",
                     {"subreddit":subreddit[0], "num":subreddit[1]})
     _conn.commit()
+
+def update_translation_stats(translations, is_edit_or_delete=False):
+    """ Updates translation_stats table with recently used translations. Alternatively,
+    this function is also used to remove translation counts that were added by a comment that has been
+    edited/deleted. """
+
+    for translation in translations.items():
+        trans_object = translation[0]
+        count = translation[1]
+        with _conn.cursor() as cur:
+            if is_edit_or_delete:
+                cur.execute("UPDATE translation_stats SET count = count - %s WHERE abbreviation = %s", [count, trans_object.abbreviation])
+            else:
+                cur.execute("UPDATE translation_stats SET count = count + %s WHERE abbreviation = %s", [count, trans_object.abbreviation])
+    _conn.commit()
+
+def update_translation_list(translations):
+    """ Updates translation_stats table with new translations that have been added. """
+    for translation in translations.items():
+        with _conn.cursor() as cur:
+            # Add translations here that don't already exist.
+
+def update_user_translation(username, ot_trans, nt_trans, deut_trans):
+    """ Updates user_translation table with new custom default translations specified by the user. """
+    with _conn.cursor() as cur:
+        # Update user translation preference here.
+
+def get_user_translation(username, bible_section):
+    """ Retrieves the default translation for the user in a certain section of the Bible. """
+    if bible_section == "Old Testament":
+        section = "ot_default"
+    elif bible_section == "New Testament":
+        section = "nt_default"
+    else:
+        section = "deut_default"
+    with _conn.cursor() as cur:
+        # Retrieve user-specified translation here, if exists.
+
+def update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans):
+    """ Updates subreddit_translation table with new custom default translations specified by a
+    moderator of a subreddit. """
+    with _conn.cursor() as cur:
+        # Update subreddit translation preference here.
+
+def get_subreddit_translation(subreddit, bible_section):
+    """ Retrieves the default translation for the subreddit in a certain section of the Bible. """
+    if bible_section == "Old Testament":
+        section = "ot_default"
+    elif bible_section == "New Testament":
+        section = "nt_default"
+    else:
+        section = "deut_default"
+    with _conn.cursor() as cur:
+        # Retrieve a moderator-specified subreddit translation here, if exists.
