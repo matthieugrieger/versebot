@@ -9,47 +9,69 @@ from warnings import filterwarnings
 filterwarnings("ignore", category=DeprecationWarning)
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from translation import Translation
 import re
 
 class WebParser:
     """ WebParser class for BibleGateway parsing methods. """
-    
+
     def __init__(self):
         """ Initializes translations attribute and checks if there are any new translations
         to add to the database. """
         self.translations = self.find_supported_translations()
-        self.translations.sort(key=len, reverse=True)
-        
+        self.translations.sort(key=lambda t: len(t.abbreviation), reverse=True)
+
     def find_supported_translations(self):
         """ Retrieves a list of supported translations from BibleGateway's translation
         page. """
         url = "https://www.biblegateway.com/versions/"
         translations = list()
-        
+
         page = urlopen(url)
         soup = BeautifulSoup(page.read())
-        
-        translations_select = soup.find("select", {"class":"search-translation-select"})
-        trans = translations_select.findAll("option")
+
+        trans = soup.findAll("tr", {"class":"language-row"})
         for t in trans:
-            if t.has_attr("value") and not t.has_attr("class"):
-                cur_trans = t["value"]
-                translations.append(cur_trans)
+            if not t.find("a").has_attr("title"):
+                t_text = t.find("td", {"class":"translation-name"}).get_text()
+                t_name = t_text[:t_text.rfind("(") - 1]
+                t_abbreviation = t_text[t_text.rfind("(") + 1:t_text.rfind(")")]
+                t_language = t["data-language"]
+                if t.find("span", {"class":"testament"}):
+                    section = t.find("span", {"class":"testament"}).get_text()
+                    if section == "OT":
+                        t_has_ot = True
+                        t_has_nt = False
+                        t_has_deut = False
+                    elif section == "NT":
+                        t_has_ot = False
+                        t_has_nt = True
+                        t_has_deut = False
+                    elif section == "Apocrypha":
+                        t_has_ot = True
+                        t_has_nt = True
+                        t_has_deut = True
+                else:
+                    t_has_ot = True
+                    t_has_nt = True
+                    t_has_deut = False
+                new_trans = Translation(t_name, t_abbreviation, t_language, t_has_ot, t_has_nt, t_has_deut)
+                translations.append(new_trans)
 
         # Add local translations to supported translations list
-        translations.append("NJPS")
-        
+        translations.append(Translation("JPS Tanakh", "JPS", "en", True, False, False))
+
         return translations
-        
+
     def get_bible_gateway_verse(self, verse):
         """ Retrieves the text for a user-supplied verse selection that can be found on BibleGateway. """
         url = "https://www.biblegateway.com/passage/?search=%s+%s:%s&version=%s"
-        
+
         if verse.verse is not None:
-            url = ("https://www.biblegateway.com/passage/?search=%s+%s:%s&version=%s" 
+            url = ("https://www.biblegateway.com/passage/?search=%s+%s:%s&version=%s"
                 % (verse.book, verse.chapter, verse.verse, verse.translation))
         else:
-            url = ("https://www.biblegateway.com/passage/?search=%s+%s&version=%s" 
+            url = ("https://www.biblegateway.com/passage/?search=%s+%s&version=%s"
                 % (verse.book, verse.chapter, verse.translation))
 
         page = urlopen(url)

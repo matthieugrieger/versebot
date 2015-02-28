@@ -28,7 +28,7 @@ def connect(logger):
         return True
     except:
         log.critical("Connection to database failed. Exiting...")
-        exit()
+        exit(1)
 
 def update_book_stats(new_books, is_edit_or_delete=False):
     """ Updates book_stats table with recently quoted books.
@@ -47,7 +47,7 @@ def update_translation_stats(new_subreddits, is_edit_or_delete=False):
     """ Updates subreddit_stats table with subreddits that have recently used VerseBot.
     Alternatively, this function is also used to remove subreddit counts that were
     added by a comment that has been edited/deleted. """
-    
+
     for subreddit in new_subreddits.items():
         with _conn.cursor() as cur:
             if is_edit_or_delete:
@@ -60,4 +60,3 @@ def update_translation_stats(new_subreddits, is_edit_or_delete=False):
                     "(SELECT 1 FROM subreddit_stats WHERE sub = %(subreddit)s);",
                     {"subreddit":subreddit[0], "num":subreddit[1]})
     _conn.commit()
-    
