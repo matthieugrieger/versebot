@@ -85,7 +85,11 @@ def update_translation_list(translations):
 def update_user_translation(username, ot_trans, nt_trans, deut_trans):
     """ Updates user_translation table with new custom default translations specified by the user. """
     with _conn.cursor() as cur:
-        # Update user translation preference here.
+        cur.execute("UPDATE user_translations SET ot_default = %(ot)s, nt_default = %(nt)s, deut_default = %(deut)s WHERE user = %(name)s;" +
+			"INSERT INTO user_translations (user, ot_default, nt_default, deut_default) SELECT %(name)s, %(ot)s, %(nt)s, %(deut)s" +
+			"WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE user = %(name)s);", 
+			{"user":username, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
+	_conn.commit()
 
 def get_user_translation(username, bible_section):
     """ Retrieves the default translation for the user in a certain section of the Bible. """
@@ -96,13 +100,21 @@ def get_user_translation(username, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        # Retrieve user-specified translation here, if exists.
+        cur.execute("SELECT %s FROM user_translations WHERE user = %s", [section, username])
+        try:
+			return cur.fetchone()
+		except ProgrammingError:
+			return None
 
 def update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans):
     """ Updates subreddit_translation table with new custom default translations specified by a
     moderator of a subreddit. """
     with _conn.cursor() as cur:
-        # Update subreddit translation preference here.
+        cur.execute("UPDATE subreddit_translations SET ot_default = %(ot)s, nt_default = %(nt)s, deut_default = %(deut)s WHERE sub = %(subreddit)s;" +
+			"INSERT INTO subreddit_translations (sub, ot_default, nt_default, deut_default) SELECT %(subreddit)s, %(ot)s, %(nt)s, %(deut)s" +
+			"WHERE NOT EXISTS (SELECT 1 FROM subreddit_translations WHERE sub = %(subreddit)s);", 
+			{"subreddit":subreddit, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
+	_conn.commit()
 
 def get_subreddit_translation(subreddit, bible_section):
     """ Retrieves the default translation for the subreddit in a certain section of the Bible. """
@@ -113,4 +125,8 @@ def get_subreddit_translation(subreddit, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        # Retrieve a moderator-specified subreddit translation here, if exists.
+        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = %s", [section, subreddit])
+        try:
+			return cur.fetchone()
+		except ProgrammingError:
+			return None
