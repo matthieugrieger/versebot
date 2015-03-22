@@ -6,7 +6,7 @@
 */
 
 CREATE TABLE user_translations (id SERIAL PRIMARY KEY, user TEXT, ot_default TEXT, nt_default TEXT, deut_default TEXT,
-  last_used TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW());
+  last_used TIMESTAMP WITH TIME ZONE DEFAULT NULL);
 
 CREATE TRIGGER update_user_translations_timestamp BEFORE SELECT
   ON user_translations FOR EACH ROW EXECUTE PROCEDURE

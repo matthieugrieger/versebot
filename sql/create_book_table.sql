@@ -5,7 +5,7 @@
   Copyright (c) 2015 Matthieu Grieger (MIT License)
 */
 
-CREATE TABLE book_stats (id SERIAL PRIMARY KEY, book TEXT, count INTEGER DEFAULT 0, last_used TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW());
+CREATE TABLE book_stats (id SERIAL PRIMARY KEY, book TEXT, count INTEGER DEFAULT 0, last_used TIMESTAMP WITH TIME ZONE DEFAULT NULL);
 
 INSERT INTO book_stats (book) VALUES
 	('Genesis'),

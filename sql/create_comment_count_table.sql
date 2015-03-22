@@ -5,7 +5,7 @@
   Copyright (c) 2015 Matthieu Grieger (MIT License)
 */
 
-CREATE TABLE comment_count (id SERIAL PRIMARY KEY, count INTEGER DEFAULT 0, last_used TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW());
+CREATE TABLE comment_count (id SERIAL PRIMARY KEY, count INTEGER DEFAULT 0, last_used TIMESTAMP WITH TIME ZONE DEFAULT NULL);
 
 CREATE TRIGGER update_comment_count_timestamp BEFORE UPDATE
   ON comment_count FOR EACH ROW EXECUTE PROCEDURE
