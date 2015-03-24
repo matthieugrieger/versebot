@@ -109,7 +109,7 @@ def update_translation_list(translations):
                 "(trans, name, lang, has_ot, has_nt, has_deut, available) SELECT '%(tran)s', '%(tname)s', '%(language)s', %(ot)s, %(nt)s, %(deut)s, "
                 "TRUE WHERE NOT EXISTS (SELECT 1 FROM translation_stats WHERE trans = '%(tran)s');" % 
                 {"tran":translation.abbreviation, "tname":translation.name.replace("'", "''"), "language":translation.language, "ot":translation.has_ot, 
-					"nt":translation.has_nt, "deut":translation.has_deut})
+                    "nt":translation.has_nt, "deut":translation.has_deut})
     _conn.commit()
     finish_translation_list_update()
     
@@ -165,3 +165,26 @@ def get_subreddit_translation(subreddit, bible_section):
             return cur.fetchone()
         except ProgrammingError:
             return None
+            
+
+def is_valid_translation(translation, book_num):
+    """ Checks the translations table for the supplied translation, and determines whether it is valid
+    for the book that the user wants to quote. If the translation is not valid (either it is not available, 
+    or it doesn't contain the book), the translation will either default to the subreddit default
+    or the global default. """
+    if book_num <= 39:
+        testament = "has_ot"
+    elif book_num <= 66:
+        testament = "has_nt"
+    else:
+        testament = "has_deut"
+    with _conn.cursor() as cur:
+        cur.execute("SELECT %s, available FROM translation_stats WHERE trans = %s;")
+        try:
+            in_testament, is_available = cur.fetchone()
+            if in_testament and is_available:
+                return True
+            else:
+                return False
+        except ProgrammingError:
+            return False
