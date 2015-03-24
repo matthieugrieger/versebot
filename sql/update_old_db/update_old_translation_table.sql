@@ -14,6 +14,7 @@ ALTER TABLE translation_stats ADD COLUMN lang TEXT;
 ALTER TABLE translation_stats ADD COLUMN has_ot BOOLEAN DEFAULT TRUE;
 ALTER TABLE translation_stats ADD COLUMN has_nt BOOLEAN DEFAULT TRUE;
 ALTER TABLE translation_stats ADD COLUMN has_deut BOOLEAN DEFAULT FALSE;
+ALTER TABLE translation_stats ADD COLUMN available BOOLEAN DEFAULT FALSE;
 
 ALTER TABLE translation_stats DISABLE TRIGGER update_translation_stats_timestamp;
 UPDATE translation_stats SET trans = 'NET Bible' WHERE trans = 'NET';
