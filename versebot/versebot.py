@@ -37,6 +37,9 @@ class VerseBot:
         database.connect(self.log)  # Initialize connection to database.
         self.log.info("Successfully connected to database!")
         self.parser = WebParser()  # Initialize web parser with updated translation list.
+        self.log.info("Updating translation list table...")
+        database.update_translation_list(self.parser.translations)
+        self.log.info("Translation list update successful!")
 
     def main_loop(self):
         """ Main inbox searching loop for finding verse quotation requests. """
@@ -70,7 +73,7 @@ class VerseBot:
                         verse[1],  # Chapter
                         verse[3],  # Translation
                         message.author,  # User
-                        message.permalink[24:message.permalink.find("/", 24)]  # Subreddit
+                        message.permalink[24:message.permalink.find("/", 24)],  # Subreddit
                         verse[2]))  # Verse
                     self.log.info("Replying to %s with verse quotations..." % message.author)
                     message.reply(response.construct_message(self.parser))
