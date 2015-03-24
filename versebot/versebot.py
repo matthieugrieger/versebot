@@ -48,11 +48,15 @@ class VerseBot:
             messages = self.r.get_unread()
             for message in messages:
                 if message.subject == "username mention":
-                    messages.respond_to_username_mention(message)
-                elif message.subject == "Edit Request":
-                    messages.respond_to_edit_request(message)
-                elif message.subject == "Delete Request":
-                    messages.respond_to_delete_request(message)
+                    self.respond_to_username_mention(message)
+                elif message.subject == "edit request":
+                    self.respond_to_edit_request(message)
+                elif message.subject == "delete request":
+                    self.respond_to_delete_request(message)
+                elif message.subject == "user translation default request":
+                    self.respond_to_user_translation_request(message)
+                elif message.subject == "subreddit translation default request":
+                    self.respond_to_subreddit_translation_request(message)
                 message.mark_as_read()
             sleep(30)
 
@@ -93,6 +97,18 @@ class VerseBot:
         to be deleted. If the submitter of the delete request matches the author of the comment that triggered
         the VerseBot response, the comment will be deleted. The bot will then send a message to the user letting
         them know that their verse quotation comment has been removed. """
+        
+    def respond_to_user_translation_request(self, message):
+        """ Responds to a user's default translation request. The bot will parse the message which contains the
+        desired translations, and will check them against the database to make sure they are valid. If they are
+        valid, the bot will respond with a confirmation message and add the defaults to the user_translations table. 
+        If not valid, the bot will respond with an error message. """
+        
+    def respond_to_subreddit_translation_request(self, message):
+        """ Responds to a subreddit's default translation request. The bot will parse the message which contains the
+        desired translations, and will check them against the database to make sure they are valid. If they are
+        valid, the bot will respond with a confirmation message and add the defaults to the subreddit_translations table. 
+        If not valid, the bot will respond with an error message. """
 
 
 bot = VerseBot(REDDIT_USERNAME, REDDIT_PASSWORD)
