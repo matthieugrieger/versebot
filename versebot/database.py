@@ -11,6 +11,7 @@ import urllib.parse
 
 _conn = None
 
+
 def connect(logger):
     """ Connect to PostgreSQL database. The connection information for the
     database is retrieved via Heroku environment variable."""
@@ -39,9 +40,9 @@ def update_book_stats(new_books, is_edit_or_delete=False):
     for book in new_books.items():
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE book_stats SET count = count - %s WHERE book = %s", [book[1], book[0]])
+                cur.execute("UPDATE book_stats SET count = count - %s WHERE book = '%s'", [book[1], book[0]])
             else:
-                cur.execute("UPDATE book_stats SET count = count + %s WHERE book = %s", [book[1], book[0]])
+                cur.execute("UPDATE book_stats SET count = count + %s WHERE book = '%s'", [book[1], book[0]])
     _conn.commit()
     
 
@@ -53,13 +54,13 @@ def update_subreddit_stats(new_subreddits, is_edit_or_delete=False):
     for subreddit in new_subreddits.items():
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE subreddit_stats SET count = count - %(num)s WHERE sub = %(subreddit)s;" 
+                cur.execute("UPDATE subreddit_stats SET count = count - %(num)s WHERE sub = '%(subreddit)s';" 
                      "DELETE FROM subreddit_stats WHERE count = 0;" % {"subreddit":subreddit[0], "num":subreddit[1]})
             else:
                 # I opted for this instead of upsert because it seemed simpler.
-                cur.execute("UPDATE subreddit_stats SET count = count + %(num)s WHERE sub = %(subreddit)s;"
-                    "INSERT INTO subreddit_stats (sub, count) SELECT %(subreddit)s, %(num)s WHERE NOT EXISTS"
-                    "(SELECT 1 FROM subreddit_stats WHERE sub = %(subreddit)s);" %
+                cur.execute("UPDATE subreddit_stats SET count = count + %(num)s WHERE sub = '%(subreddit)s';"
+                    "INSERT INTO subreddit_stats (sub, count) SELECT '%(subreddit)s', %(num)s WHERE NOT EXISTS"
+                    "(SELECT 1 FROM subreddit_stats WHERE sub = '%(subreddit)s');" %
                     {"subreddit":subreddit[0], "num":subreddit[1]})
     _conn.commit()
     
@@ -74,9 +75,9 @@ def update_translation_stats(translations, is_edit_or_delete=False):
         count = translation[1]
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE translation_stats SET count = count - %s WHERE abbreviation = %s", [count, trans_object.abbreviation])
+                cur.execute("UPDATE translation_stats SET count = count - %s WHERE abbreviation = '%s'", [count, trans_object.abbreviation])
             else:
-                cur.execute("UPDATE translation_stats SET count = count + %s WHERE abbreviation = %s", [count, trans_object.abbreviation])
+                cur.execute("UPDATE translation_stats SET count = count + %s WHERE abbreviation = '%s'", [count, trans_object.abbreviation])
     _conn.commit()
     
     
@@ -104,10 +105,10 @@ def update_translation_list(translations):
     prepare_translation_list_update()
     for translation in translations:
         with _conn.cursor() as cur:
-            cur.execute("UPDATE translation_stats SET available = TRUE WHERE trans = %(tran)s; INSERT INTO translation_stats "
-                "(trans, name, lang, has_ot, has_nt, has_deut, available) SELECT %(tran)s, %(tname)s, %(language)s, %(ot), %(nt), %(deut), "
-                "TRUE WHERE NOT EXISTS (SELECT 1 FROM translation_stats WHERE trans = %(tran)s);" % 
-                {"tran":translation.abbreviation, "tname":translation.name, "language":translation.language, "ot":translation.has_ot, 
+            cur.execute("UPDATE translation_stats SET available = TRUE WHERE trans = '%(tran)s'; INSERT INTO translation_stats "
+                "(trans, name, lang, has_ot, has_nt, has_deut, available) SELECT '%(tran)s', '%(tname)s', '%(language)s', %(ot)s, %(nt)s, %(deut)s, "
+                "TRUE WHERE NOT EXISTS (SELECT 1 FROM translation_stats WHERE trans = '%(tran)s');" % 
+                {"tran":translation.abbreviation, "tname":translation.name.replace("'", "''"), "language":translation.language, "ot":translation.has_ot, 
 					"nt":translation.has_nt, "deut":translation.has_deut})
     _conn.commit()
     finish_translation_list_update()
@@ -116,9 +117,9 @@ def update_translation_list(translations):
 def update_user_translation(username, ot_trans, nt_trans, deut_trans):
     """ Updates user_translation table with new custom default translations specified by the user. """
     with _conn.cursor() as cur:
-        cur.execute("UPDATE user_translations SET ot_default = %(ot)s, nt_default = %(nt)s, deut_default = %(deut)s WHERE user = %(name)s;"
-            "INSERT INTO user_translations (user, ot_default, nt_default, deut_default) SELECT %(name)s, %(ot)s, %(nt)s, %(deut)s"
-            "WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE user = %(name)s);" % 
+        cur.execute("UPDATE user_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE user = '%(name)s';"
+            "INSERT INTO user_translations (user, ot_default, nt_default, deut_default) SELECT '%(name)s', '%(ot)s', '%(nt)s', '%(deut)s'"
+            "WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE user = '%(name)s');" % 
             {"user":username, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
     _conn.commit()
 
@@ -132,7 +133,7 @@ def get_user_translation(username, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM user_translations WHERE user = %s", [section, username])
+        cur.execute("SELECT %s FROM user_translations WHERE user = '%s'", [section, username])
         try:
             return cur.fetchone()
         except ProgrammingError:
@@ -143,9 +144,9 @@ def update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans):
     """ Updates subreddit_translation table with new custom default translations specified by a
     moderator of a subreddit. """
     with _conn.cursor() as cur:
-        cur.execute("UPDATE subreddit_translations SET ot_default = %(ot)s, nt_default = %(nt)s, deut_default = %(deut)s WHERE sub = %(subreddit)s;"
-            "INSERT INTO subreddit_translations (sub, ot_default, nt_default, deut_default) SELECT %(subreddit)s, %(ot)s, %(nt)s, %(deut)s"
-            "WHERE NOT EXISTS (SELECT 1 FROM subreddit_translations WHERE sub = %(subreddit)s);" % 
+        cur.execute("UPDATE subreddit_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE sub = '%(subreddit)s';"
+            "INSERT INTO subreddit_translations (sub, ot_default, nt_default, deut_default) SELECT '%(subreddit)s', '%(ot)s', '%(nt)s', '%(deut)s'"
+            "WHERE NOT EXISTS (SELECT 1 FROM subreddit_translations WHERE sub = '%(subreddit)s');" % 
             {"subreddit":subreddit, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
     _conn.commit()
     
@@ -159,7 +160,7 @@ def get_subreddit_translation(subreddit, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = %s", [section, subreddit])
+        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = '%s'", [section, subreddit])
         try:
             return cur.fetchone()
         except ProgrammingError:
