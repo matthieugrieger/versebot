@@ -5,6 +5,8 @@ response.py
 Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
+from config import REDDIT_USERNAME
+
 class Response:
     """ Class that holds the properties and methods of a comment 
     response. """
@@ -32,7 +34,19 @@ class Response:
                 self.response += ("[**%s %d | %s**](%s)\n"
                     % (verse.book, verse.chapter, verse.translation_title, verse.permalink))
             self.response += verse.contents
-        self.response += "\n\n***"
+        self.response += "\n"
+        self.response += get_comment_footer()
         
     def get_comment_footer(self):
-        return "The comment footer will go here."
+		""" Returns the footer for the comment. """
+        return ("\n***\n[^Code](https://github.com/matthieugrieger/versebot) ^|"
+			" ^/r/VerseBot ^| [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|"
+			"[^FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq) ^|"
+			"[^Changelog](https://github.com/matthieugrieger/versebot/blob/master/CHANGELOG.md) ^|"
+			"[^Stats](http://matthieugrieger.com/versebot) \n\n"
+			"^All ^texts ^provided ^by [^BibleGateway](http://biblegateway.com) ^and [^Mechon ^Mamre](http://mechon-mamre.org) \n\n"
+			" ^**Mistake?** ^%(user)s ^can [^edit](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit&message={%(link)s} "
+			"Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax." 
+			" ^or [^delete](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete&message={%(link)s} "
+			"This+action+cannot+be+reversed!) ^this ^comment." 
+			% {"user":self.message.author, "bot":REDDIT_USERNAME, "link":self.message.permalink})
