@@ -36,17 +36,18 @@ class Response:
             self.response += verse.contents
         self.response += "\n"
         self.response += get_comment_footer()
+        return self.response
         
     def get_comment_footer(self):
-		""" Returns the footer for the comment. """
+        """ Returns the footer for the comment. """
         return ("\n***\n[^Code](https://github.com/matthieugrieger/versebot) ^|"
-			" ^/r/VerseBot ^| [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|"
-			"[^FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq) ^|"
-			"[^Changelog](https://github.com/matthieugrieger/versebot/blob/master/CHANGELOG.md) ^|"
-			"[^Stats](http://matthieugrieger.com/versebot) \n\n"
-			"^All ^texts ^provided ^by [^BibleGateway](http://biblegateway.com) ^and [^Mechon ^Mamre](http://mechon-mamre.org) \n\n"
-			" ^**Mistake?** ^%(user)s ^can [^edit](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit&message={%(link)s} "
-			"Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax." 
-			" ^or [^delete](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete&message={%(link)s} "
-			"This+action+cannot+be+reversed!) ^this ^comment." 
-			% {"user":self.message.author, "bot":REDDIT_USERNAME, "link":self.message.permalink})
+            " ^/r/VerseBot ^| [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|"
+            "[^FAQ](https://github.com/matthieugrieger/versebot/blob/master/docs/VerseBot%20Info.md#faq) ^|"
+            "[^Changelog](https://github.com/matthieugrieger/versebot/blob/master/CHANGELOG.md) ^|"
+            "[^Stats](http://matthieugrieger.com/versebot) \n\n"
+            "^All ^texts ^provided ^by [^BibleGateway](http://biblegateway.com) ^and [^Mechon ^Mamre](http://mechon-mamre.org) \n\n"
+            " ^**Mistake?** ^%(user)s ^can [^edit](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit&message={%(link)s} "
+            "Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax." 
+            " ^or [^delete](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete&message={%(link)s} "
+            "This+action+cannot+be+reversed!) ^this ^comment." 
+            % {"user":self.message.author, "bot":REDDIT_USERNAME, "link":self.message.permalink})
