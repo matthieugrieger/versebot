@@ -22,6 +22,15 @@ class Response:
         """ Adds a verse to the verse list. """
         self.verse_list.append(verse)
         
+    def is_duplicate_verse(self, verse):
+        """ Checks the incoming verse against the verse list to make sure
+        it is not a duplicate. """
+        for v in self.verse_list:
+            if (v.book == verse.book and v.chapter == verse.chapter and 
+                v.verse == verse.verse and v.translation == verse.translation):
+                return True
+        return False
+        
     def construct_message(self):
         """ Constructs a message response. """
         for verse in self.verse_list:

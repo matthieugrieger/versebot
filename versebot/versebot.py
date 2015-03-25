@@ -79,7 +79,8 @@ class VerseBot:
                         message.author,  # User
                         message.permalink[24:message.permalink.find("/", 24)],  # Subreddit
                         verse[2])  # Verse
-                    response.add_verse(v)
+                    if not response.is_duplicate_verse(v):
+                        response.add_verse(v)
             if len(response.verse_list) != 0:
                 self.log.info("Replying to %s with verse quotations..." % message.author)
                 message.reply(response.construct_message())
