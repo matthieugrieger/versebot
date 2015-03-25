@@ -35,17 +35,21 @@ class Response:
         """ Constructs a message response. """
         for verse in self.verse_list:
             verse.get_contents(self.parser)
-            if verse.verse != "0":
-                self.response += ("[**%s %d:%s | %s**](%s)\n\n>"
-                    % (verse.book, verse.chapter, verse.verse, verse.translation_title, 
-                        verse.permalink))
-            else:
-                self.response += ("[**%s %d | %s**](%s)\n\n>"
-                    % (verse.book, verse.chapter, verse.translation_title, verse.permalink))
-            self.response += verse.contents
-            self.response += "\n\n"
-        self.response += self.get_comment_footer()
-        return self.response
+            if verse.contents is not None:
+                if verse.verse is not None:
+                    self.response += ("[**%s %d:%s | %s**](%s)\n\n>"
+                        % (verse.book, verse.chapter, verse.verse, verse.translation_title, 
+                            verse.permalink))
+                else:
+                    self.response += ("[**%s %d | %s**](%s)\n\n>"
+                        % (verse.book, verse.chapter, verse.translation_title, verse.permalink))
+                self.response += verse.contents
+                self.response += "\n\n"
+        if self.response == "":
+            return None
+        else:
+            self.response += self.get_comment_footer()
+            return self.response
         
     def get_comment_footer(self):
         """ Returns the footer for the comment. """

@@ -11,7 +11,7 @@ import books
 class Verse:
     """ Class that holds the properties and methods of a Verse object. """
 
-    def __init__(self, book, chapter, translation, user, subreddit, verse="0"):
+    def __init__(self, book, chapter, translation, user, subreddit, verse):
         """ Initializes a Verse object with book, chapter, verse (if
         exists), and translation (if exists). """
         self.book = book
@@ -24,7 +24,10 @@ class Verse:
             self.bible_section = "Deuterocanon"
 
         self.chapter = int(chapter.replace(" ", ""))
-        self.verse = verse.replace(" ", "")
+        if verse != "":
+            self.verse = verse.replace(" ", "")
+        else:
+            self.verse = None
         if translation != "":
             trans = translation.upper().replace(" ", "")
             if database.is_valid_translation(trans, self.bible_section):

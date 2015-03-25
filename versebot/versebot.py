@@ -82,8 +82,10 @@ class VerseBot:
                     if not response.is_duplicate_verse(v):
                         response.add_verse(v)
             if len(response.verse_list) != 0:
-                self.log.info("Replying to %s with verse quotations..." % message.author)
-                message.reply(response.construct_message())
+                message_response = response.construct_message()
+                if message_response is not None:
+                    self.log.info("Replying to %s with verse quotations..." % message.author)
+                    message.reply(message_response)
         else:
             self.log.info("No verses found in this message. Forwarding to /u/%s..." % VERSEBOT_ADMIN)
             self.r.send_message(VERSEBOT_ADMIN, "Forwarded VerseBot Message",

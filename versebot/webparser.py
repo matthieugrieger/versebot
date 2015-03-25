@@ -79,11 +79,8 @@ class WebParser:
 
         verses = soup.findAll("span", {"class":"text"})
 
-        # Check to make sure that verses have been retrieved. Some translations only support
-        # Old Testament or New Testament, meaning that some queries will not return any
-        # verses.
         if verses == []:
-            return False
+            return None, None, None, None
 
         verse_title = soup.find("span", {"class":"passage-display-bcv"}).get_text()
         trans_title = soup.find("span", {"class":"passage-display-version"}).get_text()
