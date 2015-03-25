@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### March 25, 2015
+* Fixed "Back" appearing at the end of every verse.
+
 ### February 27, 2015
 * Updated PRAW dependency.
 
