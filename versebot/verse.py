@@ -26,6 +26,12 @@ class Verse:
         self.chapter = int(chapter.replace(" ", ""))
         if verse != "":
             self.verse = verse.replace(" ", "")
+            if "-" in self.verse:
+                start_verse, end_verse = self.verse.split("-")
+                if int(start_verse) > int(end_verse):
+                    self.verse = None
+                elif int(start_verse) == int(end_verse):
+                    self.verse = start_verse
         else:
             self.verse = None
         if translation != "":
