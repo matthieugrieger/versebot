@@ -10,7 +10,8 @@ def get_book(name):
     provided by the user. """
     
     books = {
-        "gen":"Genesis",  # Old Testament
+        "genesis":"Genesis",  # Old Testament
+        "gen":"Genesis",
         "gn":"Genesis",
         "bereshit":"Genesis",
         "exodus":"Exodus",
@@ -257,7 +258,7 @@ def get_book(name):
         converted_name = books[name.lower().replace(" ", "")]
         return converted_name
     except KeyError:
-        return False
+        return None
         
 def get_book_number(book_name):
     """ Find appropriate book number for book name. This is used in
@@ -353,7 +354,7 @@ def get_book_number(book_name):
         book_number = book_numbers[book_name]
         return book_number
     except KeyError:
-        return False
+        return None
         
 def get_tanakh_name(book_name):
     """ Retrieves the book name used in TaggedTanakh URLs. """

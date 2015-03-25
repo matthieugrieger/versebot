@@ -71,16 +71,18 @@ class VerseBot:
         if verses != None:
             response = Response(message, self.parser)
             for verse in verses:
-                book_name = books.get_book(verse[0].lower().replace(" ", ""))
-                if book_name:
-                    response.add_verse(Verse(book_name,  # Book
+                book_name = books.get_book(verse[0])
+                if book_name is not None:
+                    v = Verse(book_name,  # Book
                         verse[1],  # Chapter
                         verse[3],  # Translation
                         message.author,  # User
                         message.permalink[24:message.permalink.find("/", 24)],  # Subreddit
-                        verse[2]))  # Verse
-                    self.log.info("Replying to %s with verse quotations..." % message.author)
-                    message.reply(response.construct_message(self.parser))
+                        verse[2])  # Verse
+                    response.add_verse(v)
+            if len(response.verse_list) != 0:
+                self.log.info("Replying to %s with verse quotations..." % message.author)
+                message.reply(response.construct_message())
         else:
             self.log.info("No verses found in this message. Forwarding to /u/%s..." % VERSEBOT_ADMIN)
             self.r.send_message(VERSEBOT_ADMIN, "Forwarded VerseBot Message",

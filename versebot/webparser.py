@@ -85,9 +85,9 @@ class WebParser:
         if verses == []:
             return False
 
-        verse.verse_title = soup.find("span", {"class":"passage-display-bcv"}).get_text()
-        verse.trans_title = soup.find("span", {"class":"passage-display-version"}).get_text()
-        verse.permalink = ("https://www.biblegateway.com/passage/?search=%s+%s&version=%s"
+        verse_title = soup.find("span", {"class":"passage-display-bcv"}).get_text()
+        trans_title = soup.find("span", {"class":"passage-display-version"}).get_text()
+        permalink = ("https://www.biblegateway.com/passage/?search=%s+%s&version=%s"
             % (verse.book, verse.chapter, verse.translation))
 
         contents = ""
@@ -98,7 +98,7 @@ class WebParser:
             if v.parent.name != "h3" and v.parent.name != "h4":
                 if "<span class=\"chapternum\">" in str(v):
                     text = v.get_text().replace(str(verse.chapter), "1") + " "
-                elif v.get_text() == "Back":
+                elif v.get_text().replace(" ", "") == "Back":
                     text = ""
                 else:
                     text = v.get_text() + " "
@@ -108,4 +108,4 @@ class WebParser:
 
             contents += re.sub(r"\[\w\]", "", text)
 
-        return contents
+        return contents, verse_title, trans_title, permalink

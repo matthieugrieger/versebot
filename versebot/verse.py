@@ -25,30 +25,38 @@ class Verse:
 
         self.chapter = int(chapter.replace(" ", ""))
         self.verse = verse.replace(" ", "")
-        if translation:
-            self.translation = translation.upper().replace(" ", "")
-        else:
-            user_default = database.get_user_default_translation(user, self.bible_section)
-            if user_default:
-                self.translation = user_default
+        if translation != "":
+            trans = translation.upper().replace(" ", "")
+            if database.is_valid_translation(trans, self.bible_section):
+                self.translation = trans
             else:
-                subreddit_default = database.get_subreddit_default_translation(subreddit, self.bible_section)
-                if subreddit_default:
-                    self.translation = subreddit_default
-                else:
-                    if self.bible_section == "Old Testament":
-                        self.translation = "ESV"
-                    elif self.bible_section == "New Testament":
-                        self.translation = "ESV"
-                    else:
-                        self.translation = "NRSV"
+                self.determine_translation(user, subreddit)
+        else:
+            self.determine_translation(user, subreddit)
 
         self.verse_title = ""
         self.translation_title = ""
         self.contents = ""
+        self.permalink = ""
+        
+    def determine_translation(self, user, subreddit):
+        """ Determines which translation should be used when either the user does not provide
+        a translation, or when the user provides an invalid translation. """
+        user_default = database.get_user_translation(user.name, self.bible_section)
+        if user_default:
+            self.translation = user_default
+        else:
+            subreddit_default = database.get_subreddit_translation(subreddit, self.bible_section)
+            if subreddit_default:
+                self.translation = subreddit_default
+            else:
+                if self.bible_section == "Old Testament":
+                    self.translation = "ESV"
+                elif self.bible_section == "New Testament":
+                    self.translation = "ESV"
+                else:
+                    self.translation = "NRSV"
 
     def get_contents(self, parser):
-        """ Retrieves the contents of a Verse object if it exists in
-        the supported translation list. """
-        if self.translation in parser.translations:
-            self.contents = self.parser.get_bible_gateway_verse(self)
+        """ Retrieves the contents of a Verse object. """
+        self.contents, self.verse_title, self.translation_title, self.permalink = parser.get_bible_gateway_verse(self)

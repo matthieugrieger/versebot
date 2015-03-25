@@ -8,6 +8,7 @@ Copyright (c) 2015 Matthieu Grieger (MIT License)
 import unittest
 import sys
 import os
+import logging
 
 sys.path.append(os.path.join('..', 'versebot'))
 import database
@@ -48,9 +49,10 @@ class TestBibleGatewayParsing(unittest.TestCase):
     def test_bible_gateway_text_retrieval(self):
         """ Tests the retrieval of BibleGateway verse contents. """
         parser = webparser.WebParser()
-        v = verse.Verse("Genesis", "1", "esv", verse="1")
+        database.connect(logging.getLogger("versebot"))
+        v = verse.Verse("Genesis", "1", "esv", "mgrieger", "VerseBot", verse="1")
         self.assertTrue("In the beginning, God created the heavens and the earth." in 
-            parser.get_bible_gateway_verse(v))
+            parser.get_bible_gateway_verse(v)[0])
         
 
 class TestRegex(unittest.TestCase):

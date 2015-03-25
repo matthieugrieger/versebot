@@ -40,9 +40,9 @@ def update_book_stats(new_books, is_edit_or_delete=False):
     for book in new_books.items():
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE book_stats SET count = count - %s WHERE book = '%s'", [book[1], book[0]])
+                cur.execute("UPDATE book_stats SET count = count - %s WHERE book = %s", [book[1], book[0]])
             else:
-                cur.execute("UPDATE book_stats SET count = count + %s WHERE book = '%s'", [book[1], book[0]])
+                cur.execute("UPDATE book_stats SET count = count + %s WHERE book = %s", [book[1], book[0]])
     _conn.commit()
     
 
@@ -75,9 +75,9 @@ def update_translation_stats(translations, is_edit_or_delete=False):
         count = translation[1]
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE translation_stats SET count = count - %s WHERE abbreviation = '%s'", [count, trans_object.abbreviation])
+                cur.execute("UPDATE translation_stats SET count = count - %s WHERE abbreviation = %s", [count, trans_object.abbreviation])
             else:
-                cur.execute("UPDATE translation_stats SET count = count + %s WHERE abbreviation = '%s'", [count, trans_object.abbreviation])
+                cur.execute("UPDATE translation_stats SET count = count + %s WHERE abbreviation = %s", [count, trans_object.abbreviation])
     _conn.commit()
     
     
@@ -117,9 +117,9 @@ def update_translation_list(translations):
 def update_user_translation(username, ot_trans, nt_trans, deut_trans):
     """ Updates user_translation table with new custom default translations specified by the user. """
     with _conn.cursor() as cur:
-        cur.execute("UPDATE user_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE user = '%(name)s';"
+        cur.execute("UPDATE user_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE username = '%(name)s';"
             "INSERT INTO user_translations (user, ot_default, nt_default, deut_default) SELECT '%(name)s', '%(ot)s', '%(nt)s', '%(deut)s'"
-            "WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE user = '%(name)s');" % 
+            "WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE username = '%(name)s');" % 
             {"user":username, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
     _conn.commit()
 
@@ -133,10 +133,10 @@ def get_user_translation(username, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM user_translations WHERE user = '%s'", [section, username])
+        cur.execute("SELECT %s FROM user_translations WHERE username = %s", [section, username])
         try:
             return cur.fetchone()
-        except ProgrammingError:
+        except psycopg2.ProgrammingError:
             return None
             
 
@@ -160,31 +160,31 @@ def get_subreddit_translation(subreddit, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = '%s'", [section, subreddit])
+        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = %s", [section, subreddit])
         try:
             return cur.fetchone()
-        except ProgrammingError:
+        except psycopg2.ProgrammingError:
             return None
             
 
-def is_valid_translation(translation, book_num):
+def is_valid_translation(translation, testament):
     """ Checks the translations table for the supplied translation, and determines whether it is valid
     for the book that the user wants to quote. If the translation is not valid (either it is not available, 
     or it doesn't contain the book), the translation will either default to the subreddit default
     or the global default. """
-    if book_num <= 39:
+    if testament == "Old Testament":
         testament = "has_ot"
-    elif book_num <= 66:
+    elif testament == "New Testament":
         testament = "has_nt"
     else:
         testament = "has_deut"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s, available FROM translation_stats WHERE trans = %s;")
+        cur.execute("SELECT %s, available FROM translation_stats WHERE trans = %s;", [testament, translation])
         try:
             in_testament, is_available = cur.fetchone()
             if in_testament and is_available:
                 return True
             else:
                 return False
-        except ProgrammingError:
+        except (psycopg2.ProgrammingError, ValueError):
             return False
