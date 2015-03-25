@@ -9,6 +9,7 @@ import praw
 import database
 import logging
 import books
+import requests
 from config import *
 from time import sleep
 from webparser import WebParser
@@ -85,7 +86,15 @@ class VerseBot:
                 message_response = response.construct_message()
                 if message_response is not None:
                     self.log.info("Replying to %s with verse quotations..." % message.author)
-                    message.reply(message_response)
+                    try:
+                        message.reply(message_response)
+                    except requests.exceptions.HTTPError, err:
+                        # The bot is banned. :(
+                        if str(err) == "403 Client Error: Forbidden":
+                            self.log.warning("Banned from subreddit. Skipping message.")
+                    except praw.errors.APIException, err:
+                        if err.error_type in ("TOO_OLD", "DELETED_LINK", "DELETED_COMMENT"):
+                            self.log.warning("An error occurred while replying with error_type %s." % err.error_type)
         else:
             self.log.info("No verses found in this message. Forwarding to /u/%s..." % VERSEBOT_ADMIN)
             self.r.send_message(VERSEBOT_ADMIN, "Forwarded VerseBot Message",
