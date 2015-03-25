@@ -88,11 +88,11 @@ class VerseBot:
                     self.log.info("Replying to %s with verse quotations..." % message.author)
                     try:
                         message.reply(message_response)
-                    except requests.exceptions.HTTPError, err:
+                    except requests.exceptions.HTTPError as err:
                         # The bot is banned. :(
                         if str(err) == "403 Client Error: Forbidden":
                             self.log.warning("Banned from subreddit. Skipping message.")
-                    except praw.errors.APIException, err:
+                    except praw.errors.APIException as err:
                         if err.error_type in ("TOO_OLD", "DELETED_LINK", "DELETED_COMMENT"):
                             self.log.warning("An error occurred while replying with error_type %s." % err.error_type)
         else:
