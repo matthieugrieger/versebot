@@ -1,5 +1,8 @@
 # VerseBot Changelog
 
+### March 27, 2015
+* Added default translations for [/r/TelaIgne](https://www.reddit.com/r/TelaIgne).
+
 ### March 25, 2015
 * Fixed "Back" appearing at the end of every verse.
 

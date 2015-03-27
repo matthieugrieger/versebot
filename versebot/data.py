@@ -96,8 +96,8 @@ def get_default_translation(subreddit, book_num):
 	default translation are not listed in default_translations, as this is the overall
 	default translation for the bot. """
 	
-	default_translations = {'Catholicism':'NABRE', 'Judaism':'NJPS', 'AcademicBiblical':'NRSV', 'Protestantism':'KJV', 'latterdaysaints':'KJV', 'divineoffice':'NABRE', 'Lectionary':'NRSV', 'Resurrexi':'NABRE', '3OP':'NABRE', 'DebateACatholic':'NABRE'}
-	default_deutero_translations = {'Catholicism':'DRA', 'Resurrexi':'DRA', '3OP':'DRA', 'DebateACatholic':'DRA'}
+	default_translations = {'Catholicism':'NABRE', 'Judaism':'NJPS', 'AcademicBiblical':'NRSV', 'Protestantism':'KJV', 'latterdaysaints':'KJV', 'divineoffice':'NABRE', 'Lectionary':'NRSV', 'Resurrexi':'NABRE', '3OP':'NABRE', 'DebateACatholic':'NABRE', 'TelaIgne':'NABRE'}
+	default_deutero_translations = {'Catholicism':'DRA', 'Resurrexi':'DRA', '3OP':'DRA', 'DebateACatholic':'DRA', 'TelaIgne':'DRA'}
 
 	if book_num >= 67:
 		if book_num != 74 and book_num != 75: # Not all translations support 3 and 4 Maccabees (just in case)
