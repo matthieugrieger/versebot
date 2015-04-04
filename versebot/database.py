@@ -6,6 +6,8 @@ Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
 from config import *
+from regex import find_already_quoted_verses
+from books import get_book_number
 import psycopg2
 import urllib.parse
 
@@ -71,13 +73,13 @@ def update_translation_stats(translations, is_edit_or_delete=False):
     edited/deleted. """
 
     for translation in translations.items():
-        trans_object = translation[0]
+        trans = translation[0]
         count = translation[1]
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE translation_stats SET count = count - %s WHERE abbreviation = %s", [count, trans_object.abbreviation])
+                cur.execute("UPDATE translation_stats SET count = count - %s WHERE trans = %s", [count, trans])
             else:
-                cur.execute("UPDATE translation_stats SET count = count + %s WHERE abbreviation = %s", [count, trans_object.abbreviation])
+                cur.execute("UPDATE translation_stats SET count = count + %s WHERE trans = %s", [count, trans])
     _conn.commit()
     
     
@@ -85,6 +87,7 @@ def prepare_translation_list_update():
     """ Prepares the translation_stats table for a translation list update. Timestamp update triggers must be disabled so as to not mess up
     the actual timestamps. For all translations, available is set to false. The translations that are currently available will later be set
     to true. """
+    
     with _conn.cursor() as cur:
         cur.execute("ALTER TABLE translation_stats DISABLE TRIGGER update_translation_stats_timestamp;" 
             "UPDATE translation_stats SET available = FALSE;")
@@ -93,6 +96,7 @@ def prepare_translation_list_update():
     
 def finish_translation_list_update():
     """ Simply re-enables the timestamp update trigger after the translation list update has completed. """
+    
     with _conn.cursor() as cur:
         cur.execute("ALTER TABLE translation_stats ENABLE TRIGGER update_translation_stats_timestamp;")
     _conn.commit()
@@ -102,6 +106,7 @@ def update_translation_list(translations):
     """ Updates translation_stats table with new translations that have been added. This query will also reset the available column for ALL
     translations to false, and then reset them to true individually if the translation exists in the local list of translations. This prevents
     users from trying to use translations within the database that are not officially supported anymore."""
+    
     prepare_translation_list_update()
     for translation in translations:
         with _conn.cursor() as cur:
@@ -116,6 +121,7 @@ def update_translation_list(translations):
 
 def update_user_translation(username, ot_trans, nt_trans, deut_trans):
     """ Updates user_translation table with new custom default translations specified by the user. """
+    
     with _conn.cursor() as cur:
         cur.execute("UPDATE user_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE username = '%(name)s';"
             "INSERT INTO user_translations (user, ot_default, nt_default, deut_default) SELECT '%(name)s', '%(ot)s', '%(nt)s', '%(deut)s'"
@@ -126,6 +132,7 @@ def update_user_translation(username, ot_trans, nt_trans, deut_trans):
 
 def get_user_translation(username, bible_section):
     """ Retrieves the default translation for the user in a certain section of the Bible. """
+    
     if bible_section == "Old Testament":
         section = "ot_default"
     elif bible_section == "New Testament":
@@ -143,6 +150,7 @@ def get_user_translation(username, bible_section):
 def update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans):
     """ Updates subreddit_translation table with new custom default translations specified by a
     moderator of a subreddit. """
+    
     with _conn.cursor() as cur:
         cur.execute("UPDATE subreddit_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE sub = '%(subreddit)s';"
             "INSERT INTO subreddit_translations (sub, ot_default, nt_default, deut_default) SELECT '%(subreddit)s', '%(ot)s', '%(nt)s', '%(deut)s'"
@@ -153,6 +161,7 @@ def update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans):
 
 def get_subreddit_translation(subreddit, bible_section):
     """ Retrieves the default translation for the subreddit in a certain section of the Bible. """
+    
     if bible_section == "Old Testament":
         section = "ot_default"
     elif bible_section == "New Testament":
@@ -172,6 +181,7 @@ def is_valid_translation(translation, testament):
     for the book that the user wants to quote. If the translation is not valid (either it is not available, 
     or it doesn't contain the book), the translation will either default to the subreddit default
     or the global default. """
+    
     if testament == "Old Testament":
         testament = "has_ot"
     elif testament == "New Testament":
@@ -188,3 +198,68 @@ def is_valid_translation(translation, testament):
                 return False
         except (psycopg2.ProgrammingError, ValueError):
             return False
+            
+
+def update_db_stats(verse_list):
+    """ Iterates through all verses in verse_list and adds them to dicts
+    to pass to the database update functions. """
+    
+    books = dict()
+    translations = dict()
+    subreddits = dict()
+    
+    for verse in verse_list:
+        book = verse.book
+        translation = verse.translation
+        subreddit = verse.subreddit
+        
+        if book in books:
+            books[book] += 1
+        else:
+            books[book] = 1
+        
+        if translation in translations:
+            translations[translation] += 1
+        else:
+            translations[translation] = 1
+        
+        if subreddit in subreddits:
+            subreddits[subreddit] += 1
+        else:
+            subreddits[subreddit] = 1
+            
+    update_book_stats(books)
+    update_translation_stats(translations)
+    update_subreddit_stats(subreddits)
+            
+
+def remove_invalid_statistics(message, subreddit):
+    """ Performs necessary database operations to fix invalid statistics after a user has requested a comment
+    to be edited or deleted. """
+    
+    invalid_verses = find_already_quoted_verses(message)
+    invalid_books = dict()
+    invalid_trans = dict()
+    invalid_sub = dict()
+    
+    for verse in invalid_verses:
+        book = verse[0].rstrip()
+        translation = verse[1]
+        if book in invalid_books:
+            invalid_books[book] += 1
+        else:
+            invalid_books[book] = 1
+        
+        if translation in invalid_trans:
+            invalid_trans[translation] += 1
+        else:
+            invalid_trans[translation] = 1
+        
+        if subreddit in invalid_sub:
+            invalid_sub[subreddit] += 1
+        else:
+            invalid_sub[subreddit] = 1
+            
+    update_book_stats(invalid_books, is_edit_or_delete=True)
+    update_translation_stats(invalid_trans, is_edit_or_delete=True)
+    update_subreddit_stats(invalid_sub, is_edit_or_delete=True)

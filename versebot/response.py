@@ -11,12 +11,16 @@ class Response:
     """ Class that holds the properties and methods of a comment 
     response. """
     
-    def __init__(self, message, parser):
+    def __init__(self, message, parser, link=None):
         """ Initializes a Response object. """
         self.verse_list = list()
         self.message = message
         self.parser = parser
         self.response = ""
+        if link is not None:
+            self.link = link
+        else:
+            self.link = self.message.permalink
         
     def add_verse(self, verse):
         """ Adds a verse to the verse list. """
@@ -59,8 +63,8 @@ class Response:
             " [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/CHANGELOG.md) ^|"
             " [^Stats](http://matthieugrieger.com/versebot) \n\n"
             "^All ^texts ^provided ^by [^BibleGateway](http://biblegateway.com) ^and [^Mechon ^Mamre](http://mechon-mamre.org)^. \n\n"
-            " ^**Mistake?** ^%(user)s ^can [^edit](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit&message={%(link)s} "
+            " ^**Mistake?** ^%(user)s ^can [^edit](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit+request&message={%(link)s} "
             "Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)" 
-            " ^or [^delete](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete&message={%(link)s} "
+            " ^or [^delete](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete+request&message={%(link)s} "
             "This+action+cannot+be+reversed!) ^this ^comment." 
-            % {"user":self.message.author, "bot":REDDIT_USERNAME, "link":self.message.permalink})
+            % {"user":self.message.author, "bot":REDDIT_USERNAME, "link":self.link})

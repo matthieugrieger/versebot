@@ -69,7 +69,7 @@ class VerseBot:
         forwarded to the VerseBot admin for review. """
 
         verses = find_verses(message.body)
-        if verses != None:
+        if verses is not None:
             response = Response(message, self.parser)
             for verse in verses:
                 book_name = books.get_book(verse[0])
@@ -88,6 +88,7 @@ class VerseBot:
                     self.log.info("Replying to %s with verse quotations..." % message.author)
                     try:
                         message.reply(message_response)
+                        database.update_db_stats(response.verse_list)
                     except requests.exceptions.HTTPError as err:
                         # The bot is banned. :(
                         if str(err) == "403 Client Error: Forbidden":
@@ -105,12 +106,88 @@ class VerseBot:
         quotations. These will replace the quotations that were placed in the original response to the
         user. Once the comment has been successfully edited, the bot then sends a message to the user
         letting them know that their verse quotations have been updated. """
-
+        
+        try:
+            comment_url = message.body[1:message.body.find("}")]
+            comment = self.r.get_submission(comment_url)
+        except:
+            message.reply("An error occurred while processing your edit request. "
+                "Please make sure that you do not modify the subject line of your message to %s."
+                % REDDIT_USERNAME)
+            return
+        
+        if message.author == comment.author and comment:
+            verses = find_verses(message.body)
+            if verses is not None:
+                for reply in comment.comments[0].replies:
+                    if str(reply.author) == REDDIT_USERNAME:
+                        try:
+                            self.log.info("%s has requested a comment edit..." % comment.author)
+                            link = reply.permalink[24:comment.permalink.find("/", 24)]
+                            response = Response(message, self.parser, comment_url)
+                            for verse in verses:
+                                book_name = books.get_book(verse[0])
+                                if book_name is not None:
+                                    v = Verse(book_name,  # Book
+                                        verse[1],  # Chapter
+                                        verse[3],  # Translation
+                                        message.author,  # User
+                                        link,  # Subreddit
+                                        verse[2])  # Verse
+                                    if not response.is_duplicate_verse(v):
+                                        response.add_verse(v)
+                            if len(response.verse_list) != 0:
+                                message_response = ("*^This ^comment ^has ^been ^edited ^by ^%s.*\n\n" % message.author)
+                                message_response += response.construct_message()
+                                if message_response is not None:
+                                    self.log.info("Editing %s's comment with updated verse quotations..." % message.author)
+                                    database.remove_invalid_statistics(reply.body, link)
+                                    reply.edit(message_response)
+                                    database.update_db_stats(response.verse_list)
+                                    message.mark_as_read()
+                                    message.reply("[Your triggered %s response](%s) has been successfully edited to reflect"
+                                        " your updated quotations." % (REDDIT_USERNAME, comment_url))
+                                    break
+                        except:
+                            raise
+                            self.log.warning("Comment edit failed. Will try again later...")
+                            break
+            else:
+                message.mark_as_read()
+        else:
+            message.mark_as_read()
+                                
     def respond_to_delete_request(self, message):
         """ Responds to a delete request. The bot will attempt to open the comment which has been requested
         to be deleted. If the submitter of the delete request matches the author of the comment that triggered
         the VerseBot response, the comment will be deleted. The bot will then send a message to the user letting
         them know that their verse quotation comment has been removed. """
+        
+        try:
+            comment_url = message.body[1:message.body.find("}")]
+            comment = self.r.get_submission(comment_url)
+        except:
+            message.reply("An error occurred while processing your deletion request. "
+                "Please make sure that you do not modify the subject line of your message to %s."
+                % REDDIT_USERNAME)
+            return
+            
+        if message.author == comment.author and comment:
+            for reply in comment.comments[0].replies:
+                if str(reply.author) == REDDIT_USERNAME:
+                    try:
+                        self.log.info("%s has requested a comment deletion..." % comment.author)
+                        link = reply.permalink[24:comment.permalink.find("/", 24)]
+                        database.remove_invalid_statistics(reply.body, link)
+                        reply.delete()
+                        message.mark_as_read()
+                        message.reply("%s's response to [your comment](%s) has been deleted. "
+                            "Sorry for any inconvenience!" % (REDDIT_USERNAME, comment_url))
+                        break
+                    except:
+                        self.log.warning("Comment deletion failed. Will try again later...")
+        else:
+            message.mark_as_read()
         
     def respond_to_user_translation_request(self, message):
         """ Responds to a user's default translation request. The bot will parse the message which contains the

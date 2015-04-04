@@ -80,9 +80,8 @@ class WebParser:
         verses = soup.findAll("span", {"class":"text"})
 
         if verses == []:
-            return None, None, None, None
+            return None, None, None
 
-        verse_title = soup.find("span", {"class":"passage-display-bcv"}).get_text()
         trans_title = soup.find("span", {"class":"passage-display-version"}).get_text()
         permalink = ("https://www.biblegateway.com/passage/?search=%s+%s&version=%s"
             % (verse.book, verse.chapter, verse.translation))
@@ -105,4 +104,4 @@ class WebParser:
 
             contents += re.sub(r"\[\w\]", "", text)
 
-        return contents, verse_title, trans_title, permalink
+        return contents, trans_title, permalink

@@ -12,7 +12,21 @@ def find_verses(message_body):
     a list of matches if found, None otherwise. """
     
     regex = (r"(?<=\[)(?P<book>[\d\w\s]+)(?P<chapter>\d+)\:?(?P<verse>\d+"
-        + r"\-?\d*)?\s*\(?(?P<translation>[\w\-\d]+)?\)?(?=\])")
+        r"\-?\d*)?\s*\(?(?P<translation>[\w\-\d]+)?\)?(?=\])")
+    
+    matches = re.findall(regex, message_body)
+    if len(matches) == 0:
+        return None
+    else:
+        return matches
+        
+
+def find_already_quoted_verses(message_body):
+    """ Uses regex to search an existing VerseBot response for verse
+    quotations. Used for removing invalid statistics from database. """
+
+    regex = (r"\[\*\*(?P<book>[\d\w\s]+)\d+\:?\d*\-?\d*\s\|\s[\w\d\s]+"
+        r"\((?P<translation>[\w\-\d]+)?\)")
     
     matches = re.findall(regex, message_body)
     if len(matches) == 0:

@@ -15,6 +15,7 @@ class Verse:
         """ Initializes a Verse object with book, chapter, verse (if
         exists), and translation (if exists). """
         self.book = book
+        self.subreddit = subreddit
         book_num = books.get_book_number(self.book)
         if book_num <= 39:
             self.bible_section = "Old Testament"
@@ -43,7 +44,6 @@ class Verse:
         else:
             self.determine_translation(user, subreddit)
 
-        self.verse_title = ""
         self.translation_title = ""
         self.contents = ""
         self.permalink = ""
@@ -68,4 +68,4 @@ class Verse:
 
     def get_contents(self, parser):
         """ Retrieves the contents of a Verse object. """
-        self.contents, self.verse_title, self.translation_title, self.permalink = parser.get_bible_gateway_verse(self)
+        self.contents, self.translation_title, self.permalink = parser.get_bible_gateway_verse(self)
