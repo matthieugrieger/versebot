@@ -32,7 +32,7 @@ def connect(logger):
     except:
         log.critical("Connection to database failed. Exiting...")
         exit(1)
-        
+
 
 def update_book_stats(new_books, is_edit_or_delete=False):
     """ Updates book_stats table with recently quoted books.
@@ -46,7 +46,7 @@ def update_book_stats(new_books, is_edit_or_delete=False):
             else:
                 cur.execute("UPDATE book_stats SET count = count + %s WHERE book = %s", [book[1], book[0]])
     _conn.commit()
-    
+
 
 def update_subreddit_stats(new_subreddits, is_edit_or_delete=False):
     """ Updates subreddit_stats table with subreddits that have recently used VerseBot.
@@ -56,7 +56,7 @@ def update_subreddit_stats(new_subreddits, is_edit_or_delete=False):
     for subreddit in new_subreddits.items():
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE subreddit_stats SET count = count - %(num)s WHERE sub = '%(subreddit)s';" 
+                cur.execute("UPDATE subreddit_stats SET count = count - %(num)s WHERE sub = '%(subreddit)s';"
                      "DELETE FROM subreddit_stats WHERE count = 0;" % {"subreddit":subreddit[0], "num":subreddit[1]})
             else:
                 # I opted for this instead of upsert because it seemed simpler.
@@ -65,7 +65,7 @@ def update_subreddit_stats(new_subreddits, is_edit_or_delete=False):
                     "(SELECT 1 FROM subreddit_stats WHERE sub = '%(subreddit)s');" %
                     {"subreddit":subreddit[0], "num":subreddit[1]})
     _conn.commit()
-    
+
 
 def update_translation_stats(translations, is_edit_or_delete=False):
     """ Updates translation_stats table with recently used translations. Alternatively,
@@ -81,58 +81,59 @@ def update_translation_stats(translations, is_edit_or_delete=False):
             else:
                 cur.execute("UPDATE translation_stats SET count = count + %s WHERE trans = %s", [count, trans])
     _conn.commit()
-    
-    
+
+
 def prepare_translation_list_update():
     """ Prepares the translation_stats table for a translation list update. Timestamp update triggers must be disabled so as to not mess up
     the actual timestamps. For all translations, available is set to false. The translations that are currently available will later be set
     to true. """
-    
+
     with _conn.cursor() as cur:
-        cur.execute("ALTER TABLE translation_stats DISABLE TRIGGER update_translation_stats_timestamp;" 
+        cur.execute("ALTER TABLE translation_stats DISABLE TRIGGER update_translation_stats_timestamp;"
             "UPDATE translation_stats SET available = FALSE;")
     _conn.commit()
-    
-    
+
+
 def finish_translation_list_update():
     """ Simply re-enables the timestamp update trigger after the translation list update has completed. """
-    
+
     with _conn.cursor() as cur:
         cur.execute("ALTER TABLE translation_stats ENABLE TRIGGER update_translation_stats_timestamp;")
     _conn.commit()
-    
+
 
 def update_translation_list(translations):
     """ Updates translation_stats table with new translations that have been added. This query will also reset the available column for ALL
     translations to false, and then reset them to true individually if the translation exists in the local list of translations. This prevents
     users from trying to use translations within the database that are not officially supported anymore."""
-    
+
     prepare_translation_list_update()
     for translation in translations:
         with _conn.cursor() as cur:
             cur.execute("UPDATE translation_stats SET available = TRUE WHERE trans = '%(tran)s'; INSERT INTO translation_stats "
                 "(trans, name, lang, has_ot, has_nt, has_deut, available) SELECT '%(tran)s', '%(tname)s', '%(language)s', %(ot)s, %(nt)s, %(deut)s, "
-                "TRUE WHERE NOT EXISTS (SELECT 1 FROM translation_stats WHERE trans = '%(tran)s');" % 
-                {"tran":translation.abbreviation, "tname":translation.name.replace("'", "''"), "language":translation.language, "ot":translation.has_ot, 
+                "TRUE WHERE NOT EXISTS (SELECT 1 FROM translation_stats WHERE trans = '%(tran)s');" %
+                {"tran":translation.abbreviation, "tname":translation.name.replace("'", "''"), "language":translation.language, "ot":translation.has_ot,
                     "nt":translation.has_nt, "deut":translation.has_deut})
     _conn.commit()
     finish_translation_list_update()
-    
+
 
 def update_user_translation(username, ot_trans, nt_trans, deut_trans):
     """ Updates user_translation table with new custom default translations specified by the user. """
-    
+
     with _conn.cursor() as cur:
         cur.execute("UPDATE user_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE username = '%(name)s';"
             "INSERT INTO user_translations (user, ot_default, nt_default, deut_default) SELECT '%(name)s', '%(ot)s', '%(nt)s', '%(deut)s'"
-            "WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE username = '%(name)s');" % 
+            "WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE username = '%(name)s');" %
             {"user":username, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
     _conn.commit()
 
 
 def get_user_translation(username, bible_section):
     """ Retrieves the default translation for the user in a certain section of the Bible. """
-    
+    translation = None
+
     if bible_section == "Old Testament":
         section = "ot_default"
     elif bible_section == "New Testament":
@@ -140,28 +141,38 @@ def get_user_translation(username, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM user_translations WHERE username = %s", [section, username])
+        cur.execute("SELECT %s FROM user_translations WHERE username = %s; UPDATE user_translations SET last_used = NOW() WHERE username = %s", [section, username, username])
         try:
-            return cur.fetchone()
+            translation = cur.fetchone()
         except psycopg2.ProgrammingError:
-            return None
-            
+            translation = None
+    _conn.commit()
+    return translation
+
+
+def clean_user_translations():
+    """ Removes user translation entries that haven't been used for 90 days or more to save on database space.
+    This function is called approximately every 24 hours due to Heroku automatically restarting apps every 24 hours. """
+    with _conn.cursor() as cur:
+        cur.execute("DELETE FROM user_translations WHERE last_used < (NOW() - INTERVAL '90 DAYS')")
+    _conn.commit()
+
 
 def update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans):
     """ Updates subreddit_translation table with new custom default translations specified by a
     moderator of a subreddit. """
-    
+
     with _conn.cursor() as cur:
         cur.execute("UPDATE subreddit_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE sub = '%(subreddit)s';"
             "INSERT INTO subreddit_translations (sub, ot_default, nt_default, deut_default) SELECT '%(subreddit)s', '%(ot)s', '%(nt)s', '%(deut)s'"
-            "WHERE NOT EXISTS (SELECT 1 FROM subreddit_translations WHERE sub = '%(subreddit)s');" % 
+            "WHERE NOT EXISTS (SELECT 1 FROM subreddit_translations WHERE sub = '%(subreddit)s');" %
             {"subreddit":subreddit, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
     _conn.commit()
-    
+
 
 def get_subreddit_translation(subreddit, bible_section):
     """ Retrieves the default translation for the subreddit in a certain section of the Bible. """
-    
+
     if bible_section == "Old Testament":
         section = "ot_default"
     elif bible_section == "New Testament":
@@ -174,14 +185,14 @@ def get_subreddit_translation(subreddit, bible_section):
             return cur.fetchone()
         except psycopg2.ProgrammingError:
             return None
-            
+
 
 def is_valid_translation(translation, testament):
     """ Checks the translations table for the supplied translation, and determines whether it is valid
-    for the book that the user wants to quote. If the translation is not valid (either it is not available, 
+    for the book that the user wants to quote. If the translation is not valid (either it is not available,
     or it doesn't contain the book), the translation will either default to the subreddit default
     or the global default. """
-    
+
     if testament == "Old Testament":
         testament = "has_ot"
     elif testament == "New Testament":
@@ -198,50 +209,50 @@ def is_valid_translation(translation, testament):
                 return False
         except (psycopg2.ProgrammingError, ValueError):
             return False
-            
+
 
 def update_db_stats(verse_list):
     """ Iterates through all verses in verse_list and adds them to dicts
     to pass to the database update functions. """
-    
+
     books = dict()
     translations = dict()
     subreddits = dict()
-    
+
     for verse in verse_list:
         book = verse.book
         translation = verse.translation
         subreddit = verse.subreddit
-        
+
         if book in books:
             books[book] += 1
         else:
             books[book] = 1
-        
+
         if translation in translations:
             translations[translation] += 1
         else:
             translations[translation] = 1
-        
+
         if subreddit in subreddits:
             subreddits[subreddit] += 1
         else:
             subreddits[subreddit] = 1
-            
+
     update_book_stats(books)
     update_translation_stats(translations)
     update_subreddit_stats(subreddits)
-            
+
 
 def remove_invalid_statistics(message, subreddit):
     """ Performs necessary database operations to fix invalid statistics after a user has requested a comment
     to be edited or deleted. """
-    
+
     invalid_verses = find_already_quoted_verses(message)
     invalid_books = dict()
     invalid_trans = dict()
     invalid_sub = dict()
-    
+
     for verse in invalid_verses:
         book = verse[0].rstrip()
         translation = verse[1]
@@ -249,17 +260,17 @@ def remove_invalid_statistics(message, subreddit):
             invalid_books[book] += 1
         else:
             invalid_books[book] = 1
-        
+
         if translation in invalid_trans:
             invalid_trans[translation] += 1
         else:
             invalid_trans[translation] = 1
-        
+
         if subreddit in invalid_sub:
             invalid_sub[subreddit] += 1
         else:
             invalid_sub[subreddit] = 1
-            
+
     update_book_stats(invalid_books, is_edit_or_delete=True)
     update_translation_stats(invalid_trans, is_edit_or_delete=True)
     update_subreddit_stats(invalid_sub, is_edit_or_delete=True)

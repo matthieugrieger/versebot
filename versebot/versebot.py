@@ -41,6 +41,9 @@ class VerseBot:
         self.log.info("Updating translation list table...")
         database.update_translation_list(self.parser.translations)
         self.log.info("Translation list update successful!")
+        self.log.info("Cleaning old user translation entries...")
+        database.clean_user_translations()
+        self.log.info("User translation cleaning successful!")
 
     def main_loop(self):
         """ Main inbox searching loop for finding verse quotation requests. """
@@ -106,7 +109,7 @@ class VerseBot:
         quotations. These will replace the quotations that were placed in the original response to the
         user. Once the comment has been successfully edited, the bot then sends a message to the user
         letting them know that their verse quotations have been updated. """
-        
+
         try:
             comment_url = message.body[1:message.body.find("}")]
             comment = self.r.get_submission(comment_url)
@@ -115,7 +118,7 @@ class VerseBot:
                 "Please make sure that you do not modify the subject line of your message to %s."
                 % REDDIT_USERNAME)
             return
-        
+
         if message.author == comment.author and comment:
             verses = find_verses(message.body)
             if verses is not None:
@@ -156,13 +159,13 @@ class VerseBot:
                 message.mark_as_read()
         else:
             message.mark_as_read()
-                                
+
     def respond_to_delete_request(self, message):
         """ Responds to a delete request. The bot will attempt to open the comment which has been requested
         to be deleted. If the submitter of the delete request matches the author of the comment that triggered
         the VerseBot response, the comment will be deleted. The bot will then send a message to the user letting
         them know that their verse quotation comment has been removed. """
-        
+
         try:
             comment_url = message.body[1:message.body.find("}")]
             comment = self.r.get_submission(comment_url)
@@ -171,7 +174,7 @@ class VerseBot:
                 "Please make sure that you do not modify the subject line of your message to %s."
                 % REDDIT_USERNAME)
             return
-            
+
         if message.author == comment.author and comment:
             for reply in comment.comments[0].replies:
                 if str(reply.author) == REDDIT_USERNAME:
@@ -188,17 +191,17 @@ class VerseBot:
                         self.log.warning("Comment deletion failed. Will try again later...")
         else:
             message.mark_as_read()
-        
+
     def respond_to_user_translation_request(self, message):
         """ Responds to a user's default translation request. The bot will parse the message which contains the
         desired translations, and will check them against the database to make sure they are valid. If they are
-        valid, the bot will respond with a confirmation message and add the defaults to the user_translations table. 
+        valid, the bot will respond with a confirmation message and add the defaults to the user_translations table.
         If not valid, the bot will respond with an error message. """
-        
+
     def respond_to_subreddit_translation_request(self, message):
         """ Responds to a subreddit's default translation request. The bot will parse the message which contains the
         desired translations, and will check them against the database to make sure they are valid. If they are
-        valid, the bot will respond with a confirmation message and add the defaults to the subreddit_translations table. 
+        valid, the bot will respond with a confirmation message and add the defaults to the subreddit_translations table.
         If not valid, the bot will respond with an error message. """
 
 
