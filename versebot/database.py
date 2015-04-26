@@ -124,9 +124,9 @@ def update_user_translation(username, ot_trans, nt_trans, deut_trans):
 
     with _conn.cursor() as cur:
         cur.execute("UPDATE user_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE username = '%(name)s';"
-            "INSERT INTO user_translations (user, ot_default, nt_default, deut_default) SELECT '%(name)s', '%(ot)s', '%(nt)s', '%(deut)s'"
+            "INSERT INTO user_translations (username, ot_default, nt_default, deut_default) SELECT '%(name)s', '%(ot)s', '%(nt)s', '%(deut)s'"
             "WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE username = '%(name)s');" %
-            {"user":username, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
+            {"name":username, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
     _conn.commit()
 
 

@@ -204,7 +204,7 @@ class VerseBot:
                 and database.is_valid_translation(nt_trans, "New Testament")
                 and database.is_valid_translation(deut_trans, "Deuterocanon")):
                 database.update_user_translation(str(message.author), ot_trans, nt_trans, deut_trans)
-                message.reply("Your default translations have been successfully been updated!")
+                message.reply("Your default translations have been updated successfully!")
             else:
                 message.reply("One or more of your translation choices is invalid. Please review your choices"
                     " and try again.")
