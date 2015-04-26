@@ -14,7 +14,7 @@ from config import *
 from time import sleep
 from webparser import WebParser
 from verse import Verse
-from regex import find_verses
+from regex import find_verses, find_default_translations, find_subreddit_in_request
 from response import Response
 
 class VerseBot:
@@ -198,11 +198,49 @@ class VerseBot:
         valid, the bot will respond with a confirmation message and add the defaults to the user_translations table.
         If not valid, the bot will respond with an error message. """
 
+        ot_trans, nt_trans, deut_trans = find_default_translations(message.body)
+        if ot_trans is not None:
+            if (database.is_valid_translation(ot_trans, "Old Testament")
+                and database.is_valid_translation(nt_trans, "New Testament")
+                and database.is_valid_translation(deut_trans, "Deuterocanon")):
+                database.update_user_translation(str(message.author), ot_trans, nt_trans, deut_trans)
+                message.reply("Your default translations have been successfully been updated!")
+            else:
+                message.reply("One or more of your translation choices is invalid. Please review your choices"
+                    " and try again.")
+        else:
+            message.reply("Your default translation request does not match the required format. Please do not edit"
+                " the message after generating it from the website.")
+        message.mark_as_read()
+
+
     def respond_to_subreddit_translation_request(self, message):
         """ Responds to a subreddit's default translation request. The bot will parse the message which contains the
         desired translations, and will check them against the database to make sure they are valid. If they are
         valid, the bot will respond with a confirmation message and add the defaults to the subreddit_translations table.
         If not valid, the bot will respond with an error message. """
+
+        subreddit = find_subreddit_in_request(message.body)
+        if message.author in self.r.get_moderators(subreddit):
+            ot_trans, nt_trans, deut_trans = find_default_translations(message.body)
+            if ot_trans is not None:
+                if (database.is_valid_translation(ot_trans, "Old Testament")
+                    and database.is_valid_translation(nt_trans, "New Testament")
+                    and database.is_valid_translation(deut_trans, "Deuterocanon")):
+                    database.update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans)
+                    self.r.send_message("/r/" + subreddit, "/r/%s Default Translation Change Confirmation" % subreddit,
+                        "The default /u/%s translation for this subreddit has been changed by /u/%s to the following:\n\n"
+                        "Old Testament: %s\nNew Testament: %s\nDeuterocanon: %s\n\nIf this is a mistake,"
+                        " please [click here](http://matthieugrieger.com/versebot#subreddit-translation-default)"
+                        " to submit a new request." % (subreddit, REDDIT_USERNAME, str(message.author), ot_trans, nt_trans,
+                            deut_trans))
+                else:
+                    message.reply("One or more of your translation choices is invalid. Please review your choices"
+                    " and try again.")
+            else:
+                message.reply("YOur default translation request does not match the required format. Please do not edit"
+                " the message after generating it from the website.")
+        message.mark_as_read()
 
 
 bot = VerseBot(REDDIT_USERNAME, REDDIT_PASSWORD)
