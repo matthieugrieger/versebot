@@ -47,11 +47,11 @@ class Verse:
         self.translation_title = ""
         self.contents = ""
         self.permalink = ""
-        
+
     def determine_translation(self, user, subreddit):
         """ Determines which translation should be used when either the user does not provide
         a translation, or when the user provides an invalid translation. """
-        user_default = database.get_user_translation(user.name, self.bible_section)
+        user_default = database.get_user_translation(user, self.bible_section)
         if user_default:
             self.translation = user_default
         else:

@@ -123,7 +123,7 @@ def update_user_translation(username, ot_trans, nt_trans, deut_trans):
     """ Updates user_translation table with new custom default translations specified by the user. """
 
     with _conn.cursor() as cur:
-        cur.execute("UPDATE user_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE username = '%(name)s';"
+        cur.execute("UPDATE user_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s', last_used = NOW() WHERE username = '%(name)s';"
             "INSERT INTO user_translations (username, ot_default, nt_default, deut_default) SELECT '%(name)s', '%(ot)s', '%(nt)s', '%(deut)s'"
             "WHERE NOT EXISTS (SELECT 1 FROM user_translations WHERE username = '%(name)s');" %
             {"name":username, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
@@ -141,11 +141,12 @@ def get_user_translation(username, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM user_translations WHERE username = %s; UPDATE user_translations SET last_used = NOW() WHERE username = %s", [section, username, username])
+        cur.execute("SELECT %s FROM user_translations WHERE username = %s;", [section, str(username)])
         try:
             translation = cur.fetchone()
         except psycopg2.ProgrammingError:
             translation = None
+        cur.execute("UPDATE user_translations SET last_used = NOW() WHERE username = %s", [str(username)])
     _conn.commit()
     return translation
 
@@ -163,7 +164,7 @@ def update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans):
     moderator of a subreddit. """
 
     with _conn.cursor() as cur:
-        cur.execute("UPDATE subreddit_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s' WHERE sub = '%(subreddit)s';"
+        cur.execute("UPDATE subreddit_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s', created = NOW() WHERE sub = '%(subreddit)s';"
             "INSERT INTO subreddit_translations (sub, ot_default, nt_default, deut_default) SELECT '%(subreddit)s', '%(ot)s', '%(nt)s', '%(deut)s'"
             "WHERE NOT EXISTS (SELECT 1 FROM subreddit_translations WHERE sub = '%(subreddit)s');" %
             {"subreddit":subreddit, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
@@ -207,7 +208,7 @@ def is_valid_translation(translation, testament):
                 return True
             else:
                 return False
-        except (psycopg2.ProgrammingError, ValueError):
+        except (psycopg2.ProgrammingError, ValueError, TypeError):
             return False
 
 

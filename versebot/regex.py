@@ -53,10 +53,10 @@ def find_subreddit_in_request(message_body):
     """ Uses regex to search a private message for a subreddit when a
     user sends a default translation request. """
 
-    regex = (r"Subreddit\:\s(?P<subreddit>[\w\d_]+)")
+    regex = (r"Subreddit\:\s(?P<subreddit>[\w\d_]+),")
 
     match = re.findall(regex, message_body)
     if len(match) == 0:
         return None
     else:
-        return match[0][0]
+        return match[0]

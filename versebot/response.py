@@ -8,9 +8,9 @@ Copyright (c) 2015 Matthieu Grieger (MIT License)
 from config import REDDIT_USERNAME
 
 class Response:
-    """ Class that holds the properties and methods of a comment 
+    """ Class that holds the properties and methods of a comment
     response. """
-    
+
     def __init__(self, message, parser, link=None):
         """ Initializes a Response object. """
         self.verse_list = list()
@@ -21,20 +21,20 @@ class Response:
             self.link = link
         else:
             self.link = self.message.permalink
-        
+
     def add_verse(self, verse):
         """ Adds a verse to the verse list. """
         self.verse_list.append(verse)
-        
+
     def is_duplicate_verse(self, verse):
         """ Checks the incoming verse against the verse list to make sure
         it is not a duplicate. """
         for v in self.verse_list:
-            if (v.book == verse.book and v.chapter == verse.chapter and 
+            if (v.book == verse.book and v.chapter == verse.chapter and
                 v.verse == verse.verse and v.translation == verse.translation):
                 return True
         return False
-        
+
     def construct_message(self):
         """ Constructs a message response. """
         for verse in self.verse_list:
@@ -42,7 +42,7 @@ class Response:
             if verse.contents is not None:
                 if verse.verse is not None:
                     self.response += ("[**%s %d:%s | %s**](%s)\n\n>"
-                        % (verse.book, verse.chapter, verse.verse, verse.translation_title, 
+                        % (verse.book, verse.chapter, verse.verse, verse.translation_title,
                             verse.permalink))
                 else:
                     self.response += ("[**%s %d | %s**](%s)\n\n>"
@@ -54,7 +54,7 @@ class Response:
         else:
             self.response += self.get_comment_footer()
             return self.response
-        
+
     def get_comment_footer(self):
         """ Returns the footer for the comment. """
         return ("\n***\n[^Code](https://github.com/matthieugrieger/versebot) ^|"
@@ -63,8 +63,8 @@ class Response:
             " [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/CHANGELOG.md) ^|"
             " [^Stats](http://matthieugrieger.com/versebot) \n\n"
             "^All ^texts ^provided ^by [^BibleGateway](http://biblegateway.com) ^and [^Mechon ^Mamre](http://mechon-mamre.org)^. \n\n"
-            " ^**Mistake?** ^%(user)s ^can [^edit](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit+request&message={%(link)s} "
-            "Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)" 
-            " ^or [^delete](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete+request&message={%(link)s} "
-            "This+action+cannot+be+reversed!) ^this ^comment." 
+            " ^Mistake? ^%(user)s ^can [^**edit**](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit+request&message={%(link)s} "
+            "Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)"
+            " ^or [^**delete**](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete+request&message={%(link)s} "
+            "This+action+cannot+be+reversed!) ^this ^comment."
             % {"user":self.message.author, "bot":REDDIT_USERNAME, "link":self.link})
