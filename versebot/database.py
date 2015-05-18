@@ -20,7 +20,7 @@ def connect(logger):
 
     global _conn
     urllib.parse.uses_netloc.append("postgres")
-    url = urllib.parse.urlparse(HEROKU_DB)
+    url = urllib.parse.urlparse(DATABASE_URL)
     try:
         _conn = psycopg2.connect(
             database = url.path[1:],
