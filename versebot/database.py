@@ -42,9 +42,9 @@ def update_book_stats(new_books, is_edit_or_delete=False):
     for book in new_books.items():
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE book_stats SET count = count - %s WHERE book = %s", [book[1], book[0]])
+                cur.execute("UPDATE book_stats SET count = count - %d WHERE book = '%s'" % (book[1], book[0]))
             else:
-                cur.execute("UPDATE book_stats SET count = count + %s WHERE book = %s", [book[1], book[0]])
+                cur.execute("UPDATE book_stats SET count = count + %d WHERE book = '%s'" % (book[1], book[0]))
     _conn.commit()
 
 
@@ -77,9 +77,9 @@ def update_translation_stats(translations, is_edit_or_delete=False):
         count = translation[1]
         with _conn.cursor() as cur:
             if is_edit_or_delete:
-                cur.execute("UPDATE translation_stats SET count = count - %s WHERE trans = %s", [count, trans])
+                cur.execute("UPDATE translation_stats SET count = count - %d WHERE trans = '%s'" % (count, trans))
             else:
-                cur.execute("UPDATE translation_stats SET count = count + %s WHERE trans = %s", [count, trans])
+                cur.execute("UPDATE translation_stats SET count = count + %d WHERE trans = '%s'" % (count, trans))
     _conn.commit()
 
 
@@ -141,12 +141,12 @@ def get_user_translation(username, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM user_translations WHERE username = %s;", [section, str(username)])
+        cur.execute("SELECT %s FROM user_translations WHERE username = '%s';" % (section, str(username)))
         try:
-            translation = cur.fetchone()
+            translation = cur.fetchone()[0]
         except psycopg2.ProgrammingError:
             translation = None
-        cur.execute("UPDATE user_translations SET last_used = NOW() WHERE username = %s", [str(username)])
+        cur.execute("UPDATE user_translations SET last_used = NOW() WHERE username = '%s'" % str(username))
     _conn.commit()
     return translation
 
@@ -181,9 +181,9 @@ def get_subreddit_translation(subreddit, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = %s", [section, subreddit])
+        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = '%s'" % (section, subreddit))
         try:
-            return cur.fetchone()
+            return cur.fetchone()[0]
         except psycopg2.ProgrammingError:
             return None
 
@@ -201,7 +201,7 @@ def is_valid_translation(translation, testament):
     else:
         testament = "has_deut"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s, available FROM translation_stats WHERE trans = %s;", [testament, translation])
+        cur.execute("SELECT %s, available FROM translation_stats WHERE trans = '%s';" % (testament, translation))
         try:
             in_testament, is_available = cur.fetchone()
             if in_testament and is_available:
