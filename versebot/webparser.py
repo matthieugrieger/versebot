@@ -69,10 +69,10 @@ class WebParser:
 
         if verse.verse is not None:
             url = ("https://www.biblegateway.com/passage/?search=%s+%s:%s&version=%s"
-                % (verse.book, verse.chapter, verse.verse, verse.translation))
+                % (verse.book.replace(" ", "%20"), verse.chapter, verse.verse, verse.translation))
         else:
             url = ("https://www.biblegateway.com/passage/?search=%s+%s&version=%s"
-                % (verse.book, verse.chapter, verse.translation))
+                % (verse.book.replace(" ", "%20"), verse.chapter, verse.translation))
 
         page = urlopen(url)
         soup = BeautifulSoup(page.read())
