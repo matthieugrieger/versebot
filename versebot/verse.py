@@ -15,7 +15,7 @@ class Verse:
         """ Initializes a Verse object with book, chapter, verse (if
         exists), and translation (if exists). """
         self.book = book
-        self.subreddit = subreddit
+        self.subreddit = subreddit.lower()
         book_num = books.get_book_number(self.book)
         if book_num <= 39:
             self.bible_section = "Old Testament"

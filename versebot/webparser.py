@@ -47,7 +47,7 @@ class WebParser:
                         t_has_ot = False
                         t_has_nt = True
                         t_has_deut = False
-                    elif section == "Apocrypha":
+                    elif section == "with Apocrypha":
                         t_has_ot = True
                         t_has_nt = True
                         t_has_deut = True

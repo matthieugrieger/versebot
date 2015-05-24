@@ -144,7 +144,7 @@ def get_user_translation(username, bible_section):
         cur.execute("SELECT %s FROM user_translations WHERE username = '%s';" % (section, str(username)))
         try:
             translation = cur.fetchone()[0]
-        except psycopg2.ProgrammingError:
+        except (psycopg2.ProgrammingError, TypeError) as e:
             translation = None
         cur.execute("UPDATE user_translations SET last_used = NOW() WHERE username = '%s'" % str(username))
     _conn.commit()
@@ -167,7 +167,7 @@ def update_subreddit_translation(subreddit, ot_trans, nt_trans, deut_trans):
         cur.execute("UPDATE subreddit_translations SET ot_default = '%(ot)s', nt_default = '%(nt)s', deut_default = '%(deut)s', created = NOW() WHERE sub = '%(subreddit)s';"
             "INSERT INTO subreddit_translations (sub, ot_default, nt_default, deut_default) SELECT '%(subreddit)s', '%(ot)s', '%(nt)s', '%(deut)s'"
             "WHERE NOT EXISTS (SELECT 1 FROM subreddit_translations WHERE sub = '%(subreddit)s');" %
-            {"subreddit":subreddit, "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
+            {"subreddit":subreddit.lower(), "ot":ot_trans, "nt":nt_trans, "deut":deut_trans})
     _conn.commit()
 
 
@@ -181,10 +181,11 @@ def get_subreddit_translation(subreddit, bible_section):
     else:
         section = "deut_default"
     with _conn.cursor() as cur:
-        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = '%s'" % (section, subreddit))
+        cur.execute("SELECT %s FROM subreddit_translations WHERE sub = '%s';" % (section, subreddit.lower()))
         try:
-            return cur.fetchone()[0]
-        except psycopg2.ProgrammingError:
+            trans = cur.fetchone()[0]
+            return trans
+        except (psycopg2.ProgrammingError, TypeError) as e:
             return None
 
 
