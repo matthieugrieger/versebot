@@ -33,8 +33,16 @@ class Verse:
                     self.verse = None
                 elif int(start_verse) == int(end_verse):
                     self.verse = start_verse
+                    end_verse = int(start_verse)
+                self.start_verse = int(start_verse)
+                self.end_verse = int(end_verse)
+            else:
+                self.start_verse = int(self.verse)
+                self.end_verse = self.start_verse
         else:
             self.verse = None
+            self.start_verse = 0
+            self.end_verse = 0
         if translation != "":
             trans = translation.upper().replace(" ", "")
             if database.is_valid_translation(trans, self.bible_section):
@@ -68,4 +76,4 @@ class Verse:
 
     def get_contents(self, parser):
         """ Retrieves the contents of a Verse object. """
-        self.contents, self.translation_title, self.permalink = parser.get_bible_gateway_verse(self)
+        self.contents, self.translation_title, self.permalink = parser.get_web_contents(self)
