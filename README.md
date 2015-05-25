@@ -4,7 +4,7 @@
 
 * [Usage](#usage)
   * [Making Verse Quotations](#making-verse-quotations)
-  * [Editing/Deleting a VerseBot Comment](#editing-deleting-a-versebot-comment)
+  * [Editing/Deleting a VerseBot Comment](#editingdeleting-a-versebot-comment)
   * [Setting a Default Translation](#setting-a-default-translation)
 * [Authors](#authors)
 * [License](#license)
