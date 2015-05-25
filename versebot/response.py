@@ -5,7 +5,7 @@ response.py
 Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
-from config import REDDIT_USERNAME
+from config import REDDIT_USERNAME, MAXIMUM_MESSAGE_LENGTH
 
 class Response:
     """ Class that holds the properties and methods of a comment
@@ -52,8 +52,44 @@ class Response:
         if self.response == "":
             return None
         else:
+            if self.exceeds_max_length():
+                self.response = self.generate_overflow_response()
             self.response += self.get_comment_footer()
             return self.response
+
+    def exceeds_max_length(self):
+        """ Returns true if the current response exceeds the maximum comment
+        length, returns false otherwise. """
+
+        return len(self.response) > MAXIMUM_MESSAGE_LENGTH
+
+    def generate_overflow_response(self):
+        """ Constructs and generates an overflow comment whenever the comment
+        exceeds the character limit set by MAXIMUM_MESSAGE_LENGTH. Instead of posting
+        the contents of the verse(s) in the comment, it links to webpages that contain
+        the contents of the verse(s). """
+
+        comment = ("The contents of the verse(s) you quoted exceed the %d character limit."
+        " Instead, here are links to the verse(s)!\n\n" % MAXIMUM_MESSAGE_LENGTH)
+
+        for verse in self.verse_list:
+            if verse.translation == "JPS":
+                overflow_link = verse.permalink
+            else:
+                if verse.verse is not None:
+                    overflow_link = ("https://www.biblegateway.com/passage/?search=%s+%s:%s&version=%s"
+                        % (verse.book, verse.chapter, verse.verse, verse.translation))
+                else:
+                    overflow_link = verse.permalink
+
+            if verse.verse is not None:
+                comment += ("- [%s %d:%s (%s)](%s)\n\n" % (verse.book, verse.chapter,
+                    verse.verse, verse.translation, overflow_link))
+            else:
+                comment += ("- [%s %d (%s)](%s)\n\n" % (verse.book, verse.chapter,
+                    verse.translation, overflow_link))
+
+        return comment
 
     def get_comment_footer(self):
         """ Returns the footer for the comment. """
