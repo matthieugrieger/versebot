@@ -93,6 +93,7 @@ class VerseBot:
                     try:
                         message.reply(message_response)
                         database.update_db_stats(response.verse_list)
+                        database.increment_comment_count()
                     except requests.exceptions.HTTPError as err:
                         # The bot is banned. :(
                         if str(err) == "403 Client Error: Forbidden":
@@ -190,6 +191,7 @@ class VerseBot:
                         self.log.info("%s has requested a comment deletion..." % comment.author)
                         link = reply.permalink[24:comment.permalink.find("/", 24)]
                         database.remove_invalid_statistics(reply.body, link)
+                        database.decrement_comment_count()
                         reply.delete()
                         self.log.info("%s's comment has been deleted." % comment.author)
                         try:

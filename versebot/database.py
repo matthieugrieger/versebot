@@ -213,6 +213,22 @@ def is_valid_translation(translation, testament):
             return False
 
 
+def increment_comment_count():
+    """ Increments the comment count entry whenever a new comment has been made. """
+
+    with _conn.cursor() as cur:
+        cur.execute("UPDATE comment_count SET count = count + 1;")
+    _conn.commit()
+
+
+def decrement_comment_count():
+    """ Decrements the comment count entry whenever a comment is deleted. """
+
+    with _conn.cursor() as cur:
+        cur.execute("UPDATE comment_count SET count = count - 1;")
+    _conn.commit()
+    
+
 def update_db_stats(verse_list):
     """ Iterates through all verses in verse_list and adds them to dicts
     to pass to the database update functions. """
