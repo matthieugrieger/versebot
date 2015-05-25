@@ -8,7 +8,7 @@ Copyright (c) 2015 Matthieu Grieger (MIT License)
 def get_book(name):
     """ Retrieves a standardized book name to replace the one
     provided by the user. """
-    
+
     books = {
         "genesis":"Genesis",  # Old Testament
         "gen":"Genesis",
@@ -253,18 +253,18 @@ def get_book(name):
         "belandthedragon":"Bel and the Dragon",
         "bel":"Bel and the Dragon"
     }
-    
+
     try:
         converted_name = books[name.lower().replace(" ", "")]
         return converted_name
     except KeyError:
         return None
-        
+
 def get_book_number(book_name):
     """ Find appropriate book number for book name. This is used in
     situations where local bibles are used, or to determine if a translation
     supports a book (mostly the deuterocanon). """
-    
+
     book_numbers = {
         "Genesis":1,
         "Exodus":2,
@@ -349,56 +349,9 @@ def get_book_number(book_name):
         "Susanna":81,
         "Bel and the Dragon":82
     }
-    
+
     try:
         book_number = book_numbers[book_name]
         return book_number
     except KeyError:
         return None
-        
-def get_tanakh_name(book_name):
-    """ Retrieves the book name used in TaggedTanakh URLs. """
-    
-    tanakh_names = {
-        "Genesis":"Gen",
-        "Exodus":"Exod",
-        "Leviticus":"Lev",
-        "Numbers":"Num",
-        "Deuteronomy":"Deut",
-        "Joshua":"Josh",
-        "Judges":"Judg",
-        "1 Samuel":"1%20Sam",
-        "2 Samuel":"2%20Sam",
-        "1 Kings":"1%20Kings",
-        "2 Kings":"2%20Kings",
-        "Isaiah":"Isa",
-        "Jeremiah":"Jer",
-        "Ezekiel":"Ezek",
-        "Hosea":"Hosea",
-        "Joel":"Joel",
-        "Amos":"Amos",
-        "Obadiah":"Obad",
-        "Jonah":"Jon",
-        "Micah":"Mic",
-        "Nahum":"Nah",
-        "Habakkuk":"Hab",
-        "Zephaniah":"Zeph",
-        "Haggai":"Hag",
-        "Zechariah":"Zech",
-        "Malachi":"Mal",
-        "Psalms":"Ps",
-        "Proverbs":"Prov",
-        "Job":"Job",
-        "Song of Songs":"Songs",
-        "Ruth":"Ruth",
-        "Lamentations":"Lam",
-        "Ecclesiastes":"Eccles",
-        "Esther":"Esther",
-        "Daniel":"Dan",
-        "Ezra":"Ezra",
-        "Nehemiah":"Neh",
-        "1 Chronicles":"1%20Chron",
-        "2 Chronicles":"2%20Chron"
-    }
-    
-    return tanakh_names[book_name]
