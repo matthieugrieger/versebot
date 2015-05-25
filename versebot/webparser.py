@@ -18,12 +18,14 @@ class WebParser:
     def __init__(self):
         """ Initializes translations attribute and checks if there are any new translations
         to add to the database. """
+
         self.translations = self.find_supported_translations()
         self.translations.sort(key=lambda t: len(t.abbreviation), reverse=True)
 
     def find_supported_translations(self):
         """ Retrieves a list of supported translations from BibleGateway's translation
         page. """
+
         url = "https://www.biblegateway.com/versions/"
         translations = list()
 
@@ -63,9 +65,17 @@ class WebParser:
 
         return translations
 
+    def get_web_contents(self, verse):
+        """ Determines which web service to use based on the input translation, then calls the
+        appropriate function to grab the contents of the verse. """
+
+        if verse.translation == "JPS":
+            return self.get_bible_hub_verse(verse)
+        else:
+            return self.get_bible_gateway_verse(verse)
+
     def get_bible_gateway_verse(self, verse):
         """ Retrieves the text for a user-supplied verse selection that can be found on BibleGateway. """
-        url = "https://www.biblegateway.com/passage/?search=%s+%s:%s&version=%s"
 
         if verse.verse is not None:
             url = ("https://www.biblegateway.com/passage/?search=%s+%s:%s&version=%s"
@@ -105,3 +115,39 @@ class WebParser:
             contents += re.sub(r"\[\w\]", "", text)
 
         return contents, trans_title, permalink
+
+    def get_bible_hub_verse(self, verse):
+        """ Retrieves the text for a user-supplied verse selection that can be found
+        on Bible Hub. """
+
+        url = ("http://biblehub.com/%s/%s/%d.htm"
+            % (verse.translation.lower(), verse.book.lower().replace(" ", "_"),
+            verse.chapter))
+
+        page = urlopen(url)
+        soup = BeautifulSoup(page.read())
+
+        verses = soup.find("div", {"class":"chap"})
+
+        if len(verses) < 1:
+            return None, None, None
+
+        for cur_verse in verses.findAll("b"):
+            cur_verse.decompose()
+        text = verses.get_text()
+
+        trans_title = soup.find("div", {"class":"vheading"}).get_text()
+
+        verse_list = text.splitlines()
+
+        contents = ""
+        for i, val in enumerate(verse_list):
+            verse_num = i + 1
+            if verse.start_verse == 0:
+                contents += ("[**%d**] %s " % (verse_num, val))
+            else:
+                if (verse_num >= verse.start_verse and
+                (verse.end_verse == 0 or verse_num <= verse.end_verse)):
+                    contents += ("[**%d**] %s " % (verse_num, val))
+
+        return contents, trans_title, url

@@ -62,7 +62,7 @@ class Response:
             " [^Usage](https://github.com/matthieugrieger/versebot/blob/master/README.md) ^|"
             " [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/CHANGELOG.md) ^|"
             " [^Stats](http://matthieugrieger.com/versebot) \n\n"
-            "^All ^texts ^provided ^by [^BibleGateway](http://biblegateway.com) ^and [^Mechon ^Mamre](http://mechon-mamre.org)^. \n\n"
+            "^All ^texts ^provided ^by [^BibleGateway](http://biblegateway.com) ^and [^Bible ^Hub](http://biblehub.com)^. \n\n"
             " ^Mistake? ^%(user)s ^can [^**edit**](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit+request&message={%(link)s} "
             "Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)"
             " ^or [^**delete**](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete+request&message={%(link)s} "
