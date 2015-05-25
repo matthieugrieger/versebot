@@ -1,4 +1,4 @@
-# VerseBot
+![VerseBot](http://i.imgur.com/zzFkW5g.png)
 A reddit bot that posts Bible verses when asked to.
 
 * [See the bot in action!](http://www.reddit.com/user/VerseBot)  
