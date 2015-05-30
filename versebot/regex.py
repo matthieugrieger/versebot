@@ -11,7 +11,7 @@ def find_verses(message_body):
     """ Uses regex to search comment body for verse quotations. Returns
     a list of matches if found, None otherwise. """
 
-    regex = (r"(?<=\[)(?P<book>[\d\w\s]+)(?P<chapter>\d+)\:?(?P<verse>\d+"
+    regex = (r"(?<=\[)(?P<book>[\d\w\s]+)\s(?P<chapter>\d+)\:?(?P<verse>\d+"
         r"\-?\d*)?\s*\(?(?P<translation>[\w\-\d]+)?\)?(?=\])")
 
     matches = re.findall(regex, message_body)
