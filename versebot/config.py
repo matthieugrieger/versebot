@@ -1,36 +1,16 @@
 """
-#---------------------#
-| VerseBot for reddit |
-| By Matthieu Grieger |
-#---------------------#
+VerseBot for reddit
+By Matthieu Grieger
+config.py
+Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
 from os import environ
+from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 
-
-def get_bot_username():
-	""" Returns the username of the bot, stored in the USERNAME environment
-	variable. """
-	
-	return environ['USERNAME']
-
-
-def get_bot_password():
-	""" Returns the password of the bot, stored in the PASSWORD environment
-	variable. """
-	
-	return environ['PASSWORD']
-
-	
-def get_database():
-	""" Returns the URL to the PostgreSQL database, stored in the
-	HEROKU_POSTGRESQL_ONYX_URL environment variable. """
-	
-	return environ['HEROKU_POSTGRESQL_ONYX_URL']
-
-
-def get_local_bible(translation):
-	""" Returns the .pickle file for the specified translation. """
-	
-	return 'bibles/' + translation + '.pickle'
-	
+REDDIT_USERNAME = environ["REDDIT_USERNAME"]
+REDDIT_PASSWORD = environ["REDDIT_PASSWORD"]
+DATABASE_URL = environ["DATABASE_URL"]
+VERSEBOT_ADMIN = environ["VERSEBOT_ADMIN"]
+LOG_LEVEL = INFO
+MAXIMUM_MESSAGE_LENGTH = 6000

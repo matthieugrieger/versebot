@@ -1,66 +1,67 @@
 """
-#---------------------#
-| VerseBot for reddit |
-| By Matthieu Grieger |
-#---------------------#
+VerseBot for reddit
+By Matthieu Grieger
+tests.py
+Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
 import unittest
 import sys
 import os
+import logging
 
 sys.path.append(os.path.join('..', 'versebot'))
-import helpers
 import database
-import data
+import books
+import regex
+import webparser
+import verse
+
+class TestBookRetrieval(unittest.TestCase):
+    """ Tests book retrieval and parsing functions. """
+    
+    def test_book_standardization(self):
+        """ Tests book conversion to standardized book names. """
+        self.assertTrue(books.get_book("1 Jn") == "1 John")
+        self.assertTrue(books.get_book("ti") == "Titus")
+        self.assertTrue(books.get_book("thisisntabook") == False)
+    
+    def test_book_number_retrieval(self):
+        """ Tests book number retrieval. """
+        self.assertTrue(books.get_book_number("Genesis") == 1)
+        self.assertTrue(books.get_book_number("Bel and the Dragon") == 82)
+        self.assertTrue(books.get_book_number("thisisntabook") == False)
+        
+    def test_tanakh_name_retrieval(self):
+        """ Tests TaggedTanakh URL book name retrieval. """
+        self.assertTrue(books.get_tanakh_name("Genesis") == "Gen")
+        self.assertTrue(books.get_tanakh_name("2 Chronicles") == "2%20Chron")
+        
+        
+class TestBibleGatewayParsing(unittest.TestCase):
+    """ Tests parsing of BibleGateway webpages. """
+    
+    def test_supported_translation_retrieval(self):
+        """ Tests retrieval of supported translations. """
+        parser = webparser.WebParser()
+        self.assertTrue(len(parser.translations) != 0)
+        
+    def test_bible_gateway_text_retrieval(self):
+        """ Tests the retrieval of BibleGateway verse contents. """
+        parser = webparser.WebParser()
+        database.connect(logging.getLogger("versebot"))
+        v = verse.Verse("Genesis", "1", "esv", "mgrieger", "VerseBot", verse="1")
+        self.assertTrue("In the beginning, God created the heavens and the earth." in 
+            parser.get_bible_gateway_verse(v)[0])
+        
+
+class TestRegex(unittest.TestCase):
+    """ Tests regular expressions. """
+    
+    def test_verse_regex(self):
+        self.assertTrue(regex.find_verses("Testing testing! [genesis 5:3-5 (nrsv)]") != None)
+        self.assertTrue(regex.find_verses("[genesis (nrsv)") == None)
 
 
-class TestBibleGateway(unittest.TestCase):
-	""" Tests BibleGateway related functions. """
-	
-	def test_supported_translations_retrieval(self):
-		""" Tests the retrieval of supported translations from BibleGateway. """
-		
-		helpers.find_supported_translations()
-		self.assertTrue(helpers.get_supported_translations() != 0)
-
-
-	def test_passage_retrieval(self):
-		""" Tests the retrieval of verse texts from BibleGateway. """
-		
-		self.assertTrue(helpers.get_verse_contents('Genesis', '1', '1', 'ESV') != False)
-
-
-class TestDatabase(unittest.TestCase):
-	""" Tests database related functions. """
-	
-	def test_database_connection(self):
-		""" Tests the ability for the bot to establish a database connection. """
-		
-		self.assertTrue(database.connect())
-
-
-class TestDataFunctions(unittest.TestCase):
-	""" Tests data related functions. """
-	
-	def test_get_book_number(self):
-		""" Tests retrieval of book number from a verse quotation string. """
-		
-		self.assertTrue(data.get_book_number('[1 corinthians 1:1]') == 46)
-
-
-	def test_get_book_title(self):
-		""" Tests book title retrieval from a book number. """
-		
-		self.assertTrue(data.get_book_title(46) == '1 Corinthians')
-
-
-	def test_default_translations(self):
-		""" Tests subreddit-specific default translations. """
-		
-		self.assertTrue(data.get_default_translation('Catholicism', 3) == 'DRA')
-		self.assertTrue(data.get_default_translation('Christianity', 3) == 'ESV')
-
-
-if __name__ == '__main__':
-	unittest.main()
+if __name__ == "__main__":
+    unittest.main()

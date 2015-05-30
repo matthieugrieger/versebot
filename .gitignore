@@ -1,7 +1,1 @@
-# Visual Studio
-*.sln
-*.suo
-*.pyproj
-
-# Python
 *.pyc
