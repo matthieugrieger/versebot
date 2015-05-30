@@ -12,6 +12,7 @@
 * Replaced TaggedTanakh pickle file with Bible Hub website parsing.
 * Removed NJPS translation, added JPS translation.
 * Added user translation cleaning function. Deletes user translations that haven't been used for 90 days or more.
+* Added edit link and delete link at bottom of every VerseBot comment which allows a user to edit/delete their own VerseBot response.
 
 ### March 27, 2015
 * Added default translations for [/r/TelaIgne](https://www.reddit.com/r/TelaIgne).
