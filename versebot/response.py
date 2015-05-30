@@ -94,14 +94,14 @@ class Response:
     def get_comment_footer(self):
         """ Returns the footer for the comment. """
         return ("\n***\n[^Code](https://github.com/matthieugrieger/versebot) ^|"
-            " ^/r/VerseBot ^| [^Contact ^Dev](http://www.reddit.com/message/compose/?to=mgrieger) ^|"
+            " ^/r/VerseBot ^| [^Contact ^Dev](/message/compose/?to=mgrieger) ^|"
             " [^Usage](https://github.com/matthieugrieger/versebot/blob/master/README.md) ^|"
             " [^Changelog](https://github.com/matthieugrieger/versebot/blob/master/CHANGELOG.md) ^|"
             " [^Stats](http://matthieugrieger.com/versebot) ^|"
-            " [^Set ^a ^Default ^Translation](http://matthieugrieger.com/versebot) \n\n"
+            " [^Set ^a ^Default ^Translation](http://matthieugrieger.com/versebot#defaults) \n\n"
             "^All ^texts ^provided ^by [^BibleGateway](http://biblegateway.com) ^and [^Bible ^Hub](http://biblehub.com)^. \n\n"
-            " ^Mistake? ^%(user)s ^can [^**edit**](http://www.reddit.com/message/compose/?to=%(bot)s&subject=edit+request&message={%(link)s} "
+            " ^Mistake? ^%(user)s ^can [^edit](/message/compose/?to=%(bot)s&subject=edit+request&message={%(link)s} "
             "Please+enter+your+revised+verse+quotations+below+in+the+usual+bracketed+syntax.)"
-            " ^or [^**delete**](http://www.reddit.com/message/compose/?to=%(bot)s&subject=delete+request&message={%(link)s} "
+            " ^or [^delete](/message/compose/?to=%(bot)s&subject=delete+request&message={%(link)s} "
             "This+action+cannot+be+reversed!) ^this ^comment."
             % {"user":self.message.author, "bot":REDDIT_USERNAME, "link":self.link})
