@@ -29,9 +29,9 @@ class Verse:
             self.verse = verse.replace(" ", "")
             if "-" in self.verse:
                 start_verse, end_verse = self.verse.split("-")
-                if int(start_verse) > int(end_verse):
+                if end_verse != "" and int(start_verse) > int(end_verse):
                     self.verse = None
-                elif int(start_verse) == int(end_verse):
+                elif end_verse == "" or int(start_verse) == int(end_verse):
                     self.verse = start_verse
                     end_verse = int(start_verse)
                 self.start_verse = int(start_verse)

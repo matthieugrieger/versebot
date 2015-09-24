@@ -6,6 +6,7 @@ Copyright (c) 2015 Matthieu Grieger (MIT License)
 """
 
 import praw
+import OAuth2Util
 import database
 import logging
 import books
@@ -30,8 +31,10 @@ class VerseBot:
         try:
             self.log.info("Connecting to reddit...")
             self.r = praw.Reddit(user_agent = ("VerseBot by /u/mgrieger. GitHub: https://github.com/matthieugrieger/versebot"))
-            self.r.login(username, password)
-        except:
+            self.o = OAuth2Util.OAuth2Util(self.r)
+            self.o.refresh(force=True)
+        except Exception as err:
+            self.log.critical("Exception: %s", err) 
             self.log.critical("Connection to reddit failed. Exiting...")
             exit(1)
         self.log.info("Successfully connected to reddit!")
@@ -94,10 +97,9 @@ class VerseBot:
                         message.reply(message_response)
                         database.update_db_stats(response.verse_list)
                         database.increment_comment_count()
-                    except requests.exceptions.HTTPError as err:
-                        # The bot is banned. :(
-                        if str(err) == "403 Client Error: Forbidden":
-                            self.log.warning("Banned from subreddit. Skipping message.")
+                    except praw.errors.Forbidden as err:
+                        # This message is unreachable.
+                        pass
                     except praw.errors.APIException as err:
                         if err.error_type in ("TOO_OLD", "DELETED_LINK", "DELETED_COMMENT"):
                             self.log.warning("An error occurred while replying with error_type %s." % err.error_type)
