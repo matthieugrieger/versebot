@@ -1,5 +1,10 @@
 # VerseBot Changelog
 
+### September 23, 2015
+* Migrated to OAuth2 for authentication.
+* Fixed a crash that was caused by a missing ending verse.
+* Fixed crashes related to PRAW Forbidden exception handling.
+
 ### May 29, 2015
 * Another large update!
 * VerseBot now scans its own inbox for username mentions instead of scanning every comment on reddit.
