@@ -30,7 +30,7 @@ def connect(logger):
             port = url.port)
         return True
     except:
-        log.critical("Connection to database failed. Exiting...")
+        logger.critical("Connection to database failed. Exiting...")
         exit(1)
 
 
