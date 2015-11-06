@@ -2,6 +2,8 @@
 
 **A reddit bot that posts Bible verses when asked to.**
 
+### Development on this repository has been discontinued! Please see the following repository for ongoing development: https://github.com/Team-VerseBot/versebot
+
 * [Usage](#usage)
   * [Making Verse Quotations](#making-verse-quotations)
   * [Editing/Deleting a VerseBot Comment](#editingdeleting-a-versebot-comment)
